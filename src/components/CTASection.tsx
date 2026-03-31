@@ -32,7 +32,7 @@ export default function CTASection() {
         <a href="#" className="font-instrument text-[11px] text-white/35 tracking-[1px] uppercase hover:text-white/60 transition-colors">
           Dribbble ↗
         </a>
-        <a href="#" className="font-instrument text-[11px] text-white/35 tracking-[1px] uppercase hover:text-white/60 transition-colors">
+        <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="font-instrument text-[11px] text-white/35 tracking-[1px] uppercase hover:text-white/60 transition-colors">
           Resume ↗
         </a>
       </div>

@@ -72,7 +72,9 @@ export default function HeroSection() {
                 View case studies
               </a>
               <a
-                href="#"
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="border border-stone-ink/20 text-stone-mid font-instrument text-[12px] md:text-[13px] tracking-[1px] uppercase rounded-full px-5 md:px-6 py-3 md:py-3.5 hover:border-stone-ink/40 hover:bg-stone-ink/5 transition-[border-color,background-color] duration-200 whitespace-nowrap"
               >
                 View Resume →
