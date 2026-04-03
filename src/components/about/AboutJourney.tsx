@@ -378,100 +378,117 @@ export default function AboutJourney() {
     >
       <div style={{ maxWidth: '1440px', margin: '0 auto', paddingLeft: '91px', paddingRight: '91px' }}>
 
-        {/* Header */}
-        <div style={{ marginBottom: '40px' }}>
-          <p
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 600,
-              fontSize: '11px',
-              letterSpacing: '1.98px',
-              textTransform: 'uppercase',
-              color: 'rgba(24,24,27,0.35)',
-              marginBottom: '12px',
-            }}
-          >
-            JOURNEY
-          </p>
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 500,
-              fontSize: '45.72px',
-              lineHeight: '1.08',
-              letterSpacing: '-0.46px',
-              color: '#18181b',
-              marginBottom: '28px',
-            }}
-          >
-            How I got{' '}
-            <em style={{ fontStyle: 'italic', color: '#797979' }}>here.</em>
-          </h2>
-
-          {/* Toggle */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              background: '#f4f3f0',
-              borderRadius: '50px',
-              padding: '4px',
-              border: '1px solid #e7e5e4',
-              gap: '2px',
-            }}
-          >
-            {(['experience', 'education'] as Tab[]).map((tab) => {
-              const isActive = active === tab
-              return (
-                <button
-                  key={tab}
-                  onClick={() => handleTabChange(tab)}
-                  style={{
-                    padding: '8px 20px',
-                    borderRadius: '50px',
-                    fontSize: '13px',
-                    fontFamily: "'Inter', sans-serif",
-                    fontWeight: 500,
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    background: isActive ? '#18181b' : 'transparent',
-                    color: isActive ? '#ffffff' : '#78716c',
-                    boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
-                  }}
-                >
-                  {tab === 'experience' ? 'Experience' : 'Education'}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Two-column layout */}
+        {/* Two-column layout — sticky header lives inside left column only */}
         <div style={{ display: 'flex', gap: '80px', alignItems: 'flex-start' }}>
 
-          {/* LEFT — scrolling timeline */}
-          <div style={{ flex: 1, minWidth: 0 }}>
-            {entries.map((entry, i) => (
-              <TimelineEntry
-                key={`${active}-${i}`}
-                entry={entry}
-                isLast={i === entries.length - 1}
-                isActive={activeIdx === i}
-                entryRef={(el) => {
-                  entryRefsRef.current[i] = el
+          {/* LEFT COLUMN — sticky header + timeline */}
+          <div style={{ flex: 1, minWidth: 0, position: 'relative' }}>
+
+            {/* Sticky header — scoped to this column, top-0, no shadow */}
+            <div
+              style={{
+                position: 'sticky',
+                top: '0',
+                zIndex: 20,
+                background: 'rgba(255,255,255,0.60)',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
+                borderBottom: '1px solid rgba(212,212,216,0.40)',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+                paddingTop: '20px',
+                paddingBottom: '20px',
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 600,
+                  fontSize: '11px',
+                  letterSpacing: '1.98px',
+                  textTransform: 'uppercase',
+                  color: 'rgba(24,24,27,0.35)',
+                  marginBottom: '12px',
                 }}
-              />
-            ))}
+              >
+                JOURNEY
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontWeight: 500,
+                  fontSize: '45.72px',
+                  lineHeight: '1.08',
+                  letterSpacing: '-0.46px',
+                  color: '#18181b',
+                  marginBottom: '28px',
+                }}
+              >
+                How I got{' '}
+                <em style={{ fontStyle: 'italic', color: '#797979' }}>here.</em>
+              </h2>
+
+              {/* Toggle */}
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  background: '#f4f3f0',
+                  borderRadius: '50px',
+                  padding: '4px',
+                  border: '1px solid #e7e5e4',
+                  gap: '2px',
+                }}
+              >
+                {(['experience', 'education'] as Tab[]).map((tab) => {
+                  const isActive = active === tab
+                  return (
+                    <button
+                      key={tab}
+                      onClick={() => handleTabChange(tab)}
+                      style={{
+                        padding: '8px 20px',
+                        borderRadius: '50px',
+                        fontSize: '13px',
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 500,
+                        border: 'none',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        background: isActive ? '#18181b' : 'transparent',
+                        color: isActive ? '#ffffff' : '#78716c',
+                        boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
+                      }}
+                    >
+                      {tab === 'experience' ? 'Experience' : 'Education'}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Timeline entries — padded below sticky header */}
+            <div style={{ paddingTop: '24px' }}>
+              {entries.map((entry, i) => (
+                <TimelineEntry
+                  key={`${active}-${i}`}
+                  entry={entry}
+                  isLast={i === entries.length - 1}
+                  isActive={activeIdx === i}
+                  entryRef={(el) => {
+                    entryRefsRef.current[i] = el
+                  }}
+                />
+              ))}
+            </div>
           </div>
 
-          {/* RIGHT — sticky image panel */}
+          {/* RIGHT COLUMN — image, sticky at top of viewport */}
           <div
             style={{
               width: '400px',
               flexShrink: 0,
               position: 'sticky',
-              top: '104px',
+              top: '24px',
               alignSelf: 'flex-start',
             }}
           >
