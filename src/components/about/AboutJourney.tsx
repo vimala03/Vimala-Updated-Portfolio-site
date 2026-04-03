@@ -384,19 +384,17 @@ export default function AboutJourney() {
           {/* LEFT COLUMN — sticky header + timeline */}
           <div style={{ flex: 1, minWidth: 0, position: 'relative' }}>
 
-            {/* Sticky header — scoped to this column, top-0, no shadow */}
+            {/* Sticky header — gradient fade, no solid background */}
             <div
               style={{
                 position: 'sticky',
                 top: '0',
                 zIndex: 20,
-                background: 'rgba(255,255,255,0.60)',
-                backdropFilter: 'blur(14px)',
-                WebkitBackdropFilter: 'blur(14px)',
-                borderBottom: '1px solid rgba(212,212,216,0.40)',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+                background: 'linear-gradient(to bottom, rgba(250,250,249,0.92) 0%, rgba(250,250,249,0.72) 65%, transparent 100%)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
                 paddingTop: '20px',
-                paddingBottom: '20px',
+                paddingBottom: '28px',
               }}
             >
               <p
