@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "portfolio",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "/usr/local/bin/node",
+      "runtimeArgs": ["/Users/vimala/Documents/Latest Portfolio Site Figma MCP/node_modules/.bin/vite", "--port", "5173"],
       "port": 5173
     }
   ]

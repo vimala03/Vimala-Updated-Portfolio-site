@@ -1,73 +1,76 @@
-import { useState } from 'react'
-import Container from './Container'
+import { NavLink, Link } from "react-router-dom";
+
+/* ── VB monogram mark ── */
+function VBLogo() {
+  return (
+    <Link to="/" aria-label="Vimala Banavath — Home">
+      <svg
+        width="38"
+        height="38"
+        viewBox="0 0 38 38"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="19" cy="19" r="18.5" stroke="#18181b" strokeWidth="1" />
+        {/* V stroke */}
+        <path
+          d="M10 12 L19 26 L28 12"
+          stroke="#18181b"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        />
+      </svg>
+    </Link>
+  );
+}
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
+  const linkStyle =
+    "text-sm text-gray-600 hover:text-black transition-colors";
 
-  const navLinkClass =
-    'font-instrument text-stone-mid text-[14.5px] tracking-[1px] uppercase hover:text-stone-ink transition-colors'
+  const activeStyle = "font-semibold text-black";
 
   return (
-    <header className="bg-[#faf8f5] border-b border-black/5 sticky top-0 z-50">
-      <Container className="py-5 md:py-6 flex items-center justify-between">
-        <span className="font-instrument font-medium text-stone-ink text-[13px] md:text-[14.5px] tracking-[1.16px] uppercase">
-          Vimala Banavath
-        </span>
+    <nav className="w-full flex items-center justify-between px-8 py-6 border-b border-gray-200">
+      {/* Logo */}
+      <VBLogo />
 
-        {/* Desktop / tablet nav */}
-        <ul className="hidden md:flex items-center gap-6 lg:gap-8">
-          <li>
-            <a href="#work" className={navLinkClass}>Work</a>
-          </li>
-          <li>
-            <a href="#about" className={navLinkClass}>About</a>
-          </li>
-          <li>
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="font-instrument text-stone-mid text-[14.5px] tracking-[0.87px] uppercase hover:text-stone-ink transition-colors">
-              Resume ↗
-            </a>
-          </li>
-          <li>
-            <a href="#contact" className={navLinkClass}>Contact</a>
-          </li>
-        </ul>
-
-        {/* Hamburger — mobile only */}
-        <button
-          className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"
-          onClick={() => setOpen(o => !o)}
-          aria-label="Toggle menu"
+      {/* Navigation Links */}
+      <div className="flex items-center gap-6">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `${linkStyle} ${isActive ? activeStyle : ""}`
+          }
         >
-          <span className={`block w-6 h-[1.5px] bg-stone-ink origin-center transition-all duration-200 ${open ? 'rotate-45 translate-y-[6.5px]' : ''}`} />
-          <span className={`block w-6 h-[1.5px] bg-stone-ink transition-opacity duration-200 ${open ? 'opacity-0' : ''}`} />
-          <span className={`block w-6 h-[1.5px] bg-stone-ink origin-center transition-all duration-200 ${open ? '-rotate-45 -translate-y-[6.5px]' : ''}`} />
-        </button>
-      </Container>
+          Work
+        </NavLink>
 
-      {/* Mobile dropdown menu */}
-      {open && (
-        <div className="md:hidden border-t border-black/5 bg-[#faf8f5]">
-          <Container className="py-5 flex flex-col gap-5">
-            {([
-              { href: '#work', label: 'Work' },
-              { href: '#about', label: 'About' },
-              { href: '/resume.pdf', label: 'Resume ↗', target: '_blank', rel: 'noopener noreferrer' },
-              { href: '#contact', label: 'Contact' },
-            ] as { href: string; label: string; target?: string; rel?: string }[]).map(({ href, label, target, rel }) => (
-              <a
-                key={label}
-                href={href}
-                target={target}
-                rel={rel}
-                onClick={() => setOpen(false)}
-                className="font-instrument text-stone-mid text-[14px] tracking-[1px] uppercase hover:text-stone-ink transition-colors"
-              >
-                {label}
-              </a>
-            ))}
-          </Container>
-        </div>
-      )}
-    </header>
-  )
+        <NavLink
+          to="/about"
+          className={({ isActive }) =>
+            `${linkStyle} ${isActive ? activeStyle : ""}`
+          }
+        >
+          About
+        </NavLink>
+
+        {/* Resume (external) */}
+        <a
+          href="/resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={linkStyle}
+        >
+          Resume ↗
+        </a>
+
+        <a href="#contact" className={linkStyle}>
+          Contact
+        </a>
+      </div>
+    </nav>
+  );
 }

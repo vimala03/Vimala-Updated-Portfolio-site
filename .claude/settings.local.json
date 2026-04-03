@@ -5,7 +5,12 @@
       "Bash(npx create-vite@latest . --template react-ts)",
       "Bash(npm install:*)",
       "mcp__Claude_Preview__preview_start",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Read(//usr/local/bin/**)",
+      "Read(//Users/vimala/.nvm/versions/**)",
+      "Bash(curl -s http://localhost:5192/about)",
+      "Bash(curl -s \"http://localhost:5192/src/components/about/AboutJourney.tsx\")",
+      "Bash(/usr/local/bin/node node_modules/.bin/tsc --noEmit)"
     ]
   }
 }

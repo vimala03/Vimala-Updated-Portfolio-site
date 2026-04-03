@@ -20,7 +20,12 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-warm-white text-stone-ink font-instrument;
+    font-family: "Inter", sans-serif;
+    color: #18181b;
+    background: #fafaf9;
     -webkit-font-smoothing: antialiased;
+  }
+  .heading-serif {
+    font-family: "Cormorant Garamond", serif;
   }
 }

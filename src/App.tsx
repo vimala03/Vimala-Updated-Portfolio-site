@@ -1,19 +1,18 @@
-import Navbar from './components/Navbar'
-import HeroSection from './components/HeroSection'
-import MarqueeBar from './components/MarqueeBar'
-import CaseStudiesSection from './components/CaseStudiesSection'
-import Footer from './components/Footer'
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import FloatingChat from "./components/FloatingChat";
 
-export default function App() {
+function App() {
   return (
-    <div className="min-h-screen bg-warm-white">
-      <Navbar />
-      <main>
-        <HeroSection />
-        <MarqueeBar />
-        <CaseStudiesSection />
-      </main>
-      <Footer />
-    </div>
-  )
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
+      <FloatingChat />
+    </>
+  );
 }
+
+export default App;
