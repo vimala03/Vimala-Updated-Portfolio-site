@@ -1,3 +1,5 @@
+body { padding-top: 80px; }
+body { padding-top: 80px; }
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Instrument+Sans:wght@400;500&family=Work+Sans:wght@400;600&family=Open+Sans:wght@400;600&display=swap');
 
 @tailwind base;
@@ -29,3 +31,46 @@
     font-family: "Cormorant Garamond", serif;
   }
 }
+
+/* Base nav link */
+.nav-link {
+  position: relative;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14.513px;
+  font-weight: 400;
+  line-height: 21.77px;
+  letter-spacing: 1.0159px;
+  text-transform: uppercase;
+  font-variation-settings: 'wdth' 100;
+  color: #5a5954;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+/* Hover */
+.nav-link:hover {
+  color: #000;
+  transform: translateY(-1px);
+}
+
+/* Underline */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: #000;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Active (selected page) */
+.nav-active {
+  font-weight: 600;
+  color: #000;
+}
+

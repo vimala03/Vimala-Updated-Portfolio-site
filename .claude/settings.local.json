@@ -10,7 +10,9 @@
       "Read(//Users/vimala/.nvm/versions/**)",
       "Bash(curl -s http://localhost:5192/about)",
       "Bash(curl -s \"http://localhost:5192/src/components/about/AboutJourney.tsx\")",
-      "Bash(/usr/local/bin/node node_modules/.bin/tsc --noEmit)"
+      "Bash(/usr/local/bin/node node_modules/.bin/tsc --noEmit)",
+      "Read(//private/tmp/**)",
+      "Bash(unzip -o /Users/vimala/Downloads/beliefs.zip -d beliefs_extracted)"
     ]
   }
 }

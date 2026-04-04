@@ -1,76 +1,77 @@
 import { NavLink, Link } from "react-router-dom";
 
-/* ── VB monogram mark ── */
 function VBLogo() {
   return (
-    <Link to="/" aria-label="Vimala Banavath — Home">
-      <svg
-        width="38"
-        height="38"
-        viewBox="0 0 38 38"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="19" cy="19" r="18.5" stroke="#18181b" strokeWidth="1" />
-        {/* V stroke */}
-        <path
-          d="M10 12 L19 26 L28 12"
-          stroke="#18181b"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-        />
-      </svg>
+    <Link
+      to="/"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "10px",
+        padding: "10px 18px",
+        borderRadius: "999px",
+        background: "#d6e3ff",
+      }}
+    >
+      <span style={{ fontFamily: "cursive", fontSize: "18px" }}>VB</span>
+      <span className="role">Designer</span>
     </Link>
   );
 }
 
 export default function Navbar() {
-  const linkStyle =
-    "text-sm text-gray-600 hover:text-black transition-colors";
-
-  const activeStyle = "font-semibold text-black";
-
   return (
-    <nav className="w-full flex items-center justify-between px-8 py-6 border-b border-gray-200">
-      {/* Logo */}
-      <VBLogo />
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 1000,
+        backdropFilter: "blur(10px)",
+        background: "rgba(255,255,255,0.6)",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1100px",
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "14px 24px",
+        }}
+      >
+        <VBLogo />
 
-      {/* Navigation Links */}
-      <div className="flex items-center gap-6">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            `${linkStyle} ${isActive ? activeStyle : ""}`
-          }
-        >
-          Work
-        </NavLink>
+        <div className="flex" style={{ gap: '32px', alignItems: 'center' }}>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "nav-active" : ""}`
+            }
+          >
+            Work
+          </NavLink>
 
-        <NavLink
-          to="/about"
-          className={({ isActive }) =>
-            `${linkStyle} ${isActive ? activeStyle : ""}`
-          }
-        >
-          About
-        </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "nav-active" : ""}`
+            }
+          >
+            About
+          </NavLink>
 
-        {/* Resume (external) */}
-        <a
-          href="/resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={linkStyle}
-        >
-          Resume ↗
-        </a>
+          <a href="/resume.pdf" className="nav-link">
+            Resume
+          </a>
 
-        <a href="#contact" className={linkStyle}>
-          Contact
-        </a>
+          <a href="#contact" className="nav-link">
+            Contact
+          </a>
+        </div>
       </div>
-    </nav>
+    </div>
   );
 }
