@@ -4,48 +4,67 @@ import { motion } from "framer-motion";
 const books = [
   {
     id: 1,
-    title: 'The Design of Everyday Things',
-    author: 'Don Norman',
-    spineColor: '#1e2d3d',
-    accentBand: '#4a90d9',
-    note: 'The book that made me realise good design is invisible — and bad design is everywhere. Norman gave me language for what I already felt.',
-    tag: 'Currently Reading',
+    title: 'Hooked',
+    author: 'Nir Eyal',
+    image: 'https://covers.openlibrary.org/b/isbn/9781591847786-L.jpg',
+    note: 'Habit loops through the lens of product. Changed how I think about retention and the ethics of engagement design.',
+    tag: 'Behaviour',
   },
   {
     id: 2,
-    title: 'Thinking, Fast and Slow',
-    author: 'Daniel Kahneman',
-    spineColor: '#2d1e3d',
-    accentBand: '#9b59b6',
-    note: "Two systems, one brain. This reframed how I think about every interface decision — System 1 is who you're actually designing for.",
+    title: 'The Design of Everyday Things',
+    author: 'Don Norman',
+    image: 'https://covers.openlibrary.org/b/isbn/9780465050659-L.jpg',
+    note: 'The book that made me realise good design is invisible — and bad design is everywhere. Norman gave me language for what I already felt.',
     tag: 'Foundational',
   },
   {
     id: 3,
-    title: 'Sprint',
-    author: 'Jake Knapp',
-    spineColor: '#1a3a2a',
-    accentBand: '#27ae60',
-    note: "The only structured process that never makes me feel like I'm wasting time. Five steps that bring clarity and momentum.",
-    tag: 'Process',
+    title: 'Thinking, Fast and Slow',
+    author: 'Daniel Kahneman',
+    image: 'https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg',
+    note: "Two systems, one brain. This reframed how I think about every interface decision — System 1 is who you're actually designing for.",
+    tag: 'Psychology',
   },
   {
     id: 4,
-    title: 'Hooked',
-    author: 'Nir Eyal',
-    spineColor: '#3d1e1a',
-    accentBand: '#e74c3c',
-    note: 'Habit loops through the lens of product. Changed how I think about retention and the ethics of engagement design.',
-    tag: 'Behaviour',
+    title: 'Sprint',
+    author: 'Jake Knapp',
+    image: 'https://covers.openlibrary.org/b/isbn/9781501121746-L.jpg',
+    note: "The only structured process that never makes me feel like I'm wasting time. Five steps that bring clarity and momentum.",
+    tag: 'Process',
   },
   {
     id: 5,
     title: 'The Psychology of Money',
     author: 'Morgan Housel',
-    spineColor: '#1a2a3d',
-    accentBand: '#f39c12',
+    image: 'https://covers.openlibrary.org/b/isbn/9780857197689-L.jpg',
     note: 'Nothing about money — everything about how humans make decisions under uncertainty. Every page applies to product decisions.',
     tag: 'Mental Models',
+  },
+  {
+    id: 6,
+    title: 'Prediction Machines',
+    author: 'Agrawal, Gans & Goldfarb',
+    image: 'https://covers.openlibrary.org/b/isbn/9781633695672-L.jpg',
+    note: 'AI reduces the cost of prediction. That one reframe clarified every conversation I have had about AI in product and business.',
+    tag: 'AI',
+  },
+  {
+    id: 7,
+    title: 'Inner Engineering',
+    author: 'Sadhguru',
+    image: 'https://covers.openlibrary.org/b/isbn/9780812997798-L.jpg',
+    note: "Designing well requires knowing yourself first. This book shifted how I approach clarity, focus, and the work itself.",
+    tag: 'Mindset',
+  },
+  {
+    id: 8,
+    title: 'The Alchemist',
+    author: 'Paulo Coelho',
+    image: 'https://covers.openlibrary.org/b/isbn/9780061122415-L.jpg',
+    note: "A reminder that the journey is the answer. Every designer needs a book that reconnects them with why they started.",
+    tag: 'Perspective',
   },
 ]
 
@@ -70,12 +89,9 @@ export default function AboutReading() {
               <span>Reading</span>
             </p>
             <h2 className="font-cormorant font-medium text-[48px] text-[#18181b] leading-[1.03] tracking-[-0.46px]">
-              What am I{' '}
-              <em className="italic text-[#5a5954]">reading?</em>
+              Books that shaped{' '}
+              <em className="italic text-[#5a5954]">my thinking.</em>
             </h2>
-            <p className="font-inter font-normal text-[15px] text-[rgba(24,24,27,0.45)] leading-[26px] mt-1">
-              Books that shaped my thinking.
-            </p>
           </motion.div>
 
           {/* Bookshelf */}
@@ -105,7 +121,10 @@ export default function AboutReading() {
                     width: isActive ? '260px' : '62px',
                     height: isActive ? '380px' : '340px',
                     flexShrink: 0,
-                    background: book.spineColor,
+                    background: '#1a1a1a',
+                    backgroundImage: `url(${book.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: isActive ? 'center center' : 'left center',
                     borderRadius: '8px',
                     position: 'relative',
                     overflow: 'hidden',
@@ -113,174 +132,44 @@ export default function AboutReading() {
                     opacity: isDimmed ? 0.45 : 1,
                     boxShadow: isActive
                       ? '6px 8px 32px rgba(0,0,0,0.28), 2px 2px 8px rgba(0,0,0,0.18)'
-                      : '3px 4px 14px rgba(0,0,0,0.2), 1px 1px 4px rgba(0,0,0,0.12)',
+                      : '3px 4px 14px rgba(0,0,0,0.22), 1px 1px 4px rgba(0,0,0,0.14)',
                     transition: 'width 0.45s cubic-bezier(0.22,1,0.36,1), height 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease, box-shadow 0.35s ease',
                     transformOrigin: 'bottom center',
                   }}
                 >
-                  {/* Spine pseudo-border (book binding) */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '6px',
-                      background: `linear-gradient(to right, rgba(255,255,255,0.06), transparent)`,
-                      borderRadius: '8px 0 0 8px',
-                    }}
-                  />
-
-                  {/* Accent band at top */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: isActive ? '6px' : '100%',
-                      maxHeight: isActive ? '6px' : '100%',
-                      background: isActive ? book.accentBand : 'transparent',
-                      borderRadius: '8px 8px 0 0',
-                      transition: 'height 0.45s cubic-bezier(0.22,1,0.36,1), max-height 0.45s cubic-bezier(0.22,1,0.36,1)',
-                    }}
-                  />
-
-                  {/* ── SPINE STATE: vertical title ── */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '16px 8px',
-                      opacity: isActive ? 0 : 1,
-                      transition: 'opacity 0.2s ease',
-                      pointerEvents: 'none',
-                    }}
-                  >
-                    <p
-                      style={{
-                        writingMode: 'vertical-rl',
-                        transform: 'rotate(180deg)',
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        color: 'rgba(255,255,255,0.75)',
-                        letterSpacing: '0.06em',
-                        textAlign: 'center',
-                        userSelect: 'none',
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {book.title}
-                    </p>
-                    <p
-                      style={{
-                        writingMode: 'vertical-rl',
-                        transform: 'rotate(180deg)',
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: '9px',
-                        fontWeight: 400,
-                        color: 'rgba(255,255,255,0.38)',
-                        marginTop: '12px',
-                        userSelect: 'none',
-                        letterSpacing: '0.04em',
-                      }}
-                    >
-                      {book.author}
-                    </p>
-                  </div>
-
-                  {/* ── COVER STATE: full content ── */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      padding: '28px 24px 24px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-end',
-                      gap: '10px',
-                      opacity: isActive ? 1 : 0,
-                      transition: 'opacity 0.25s ease 0.15s',
-                      pointerEvents: 'none',
-                    }}
-                  >
-                    {/* Tag */}
-                    <span
-                      style={{
-                        alignSelf: 'flex-start',
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: '9px',
-                        fontWeight: 700,
-                        color: book.accentBand,
-                        letterSpacing: '0.14em',
-                        textTransform: 'uppercase',
-                        background: 'rgba(255,255,255,0.08)',
-                        padding: '4px 10px',
-                        borderRadius: '999px',
-                        border: `1px solid ${book.accentBand}55`,
-                      }}
-                    >
-                      {book.tag}
-                    </span>
-
-                    {/* Title */}
-                    <h3
-                      style={{
-                        fontFamily: "'Cormorant Garamond', serif",
-                        fontSize: '22px',
-                        fontWeight: 500,
-                        color: '#ffffff',
-                        lineHeight: 1.2,
-                        letterSpacing: '-0.01em',
-                        margin: 0,
-                      }}
-                    >
-                      {book.title}
-                    </h3>
-
-                    {/* Author */}
-                    <p
-                      style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: '12px',
-                        fontWeight: 400,
-                        color: 'rgba(255,255,255,0.5)',
-                        letterSpacing: '0.04em',
-                        margin: 0,
-                      }}
-                    >
-                      {book.author}
-                    </p>
-
-                    {/* Separator */}
+                  {/* SPINE — closed state only: solid color + vertical title */}
+                  {!isActive && (
                     <div
                       style={{
-                        width: '32px',
-                        height: '1px',
-                        background: `${book.accentBand}66`,
-                        margin: '2px 0',
-                      }}
-                    />
-
-                    {/* Note */}
-                    <p
-                      style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: '13px',
-                        fontWeight: 400,
-                        color: 'rgba(255,255,255,0.62)',
-                        lineHeight: 1.65,
-                        margin: 0,
+                        position: 'absolute',
+                        inset: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        pointerEvents: 'none',
                       }}
                     >
-                      {book.note}
-                    </p>
-                  </div>
+                      <p
+                        style={{
+                          writingMode: 'vertical-rl',
+                          transform: 'rotate(180deg)',
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: '10px',
+                          fontWeight: 500,
+                          color: 'rgba(255,255,255,0.6)',
+                          letterSpacing: '0.05em',
+                          userSelect: 'none',
+                          margin: 0,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          maxHeight: '280px',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {book.title}
+                      </p>
+                    </div>
+                  )}
                 </motion.div>
               )
             })}
@@ -290,7 +179,8 @@ export default function AboutReading() {
           <div
             style={{
               height: '3px',
-              background: 'linear-gradient(to right, transparent, rgba(24,24,27,0.1) 10%, rgba(24,24,27,0.1) 90%, transparent)',
+              background: 'linear-gradient(to right, transparent, rgba(24,24,27,0.18) 10%, rgba(24,24,27,0.18) 90%, transparent)',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
               marginTop: '0',
               borderRadius: '999px',
             }}

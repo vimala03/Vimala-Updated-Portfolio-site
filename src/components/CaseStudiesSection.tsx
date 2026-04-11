@@ -1,11 +1,60 @@
+import { Link } from 'react-router-dom'
 import Container from './Container'
 import CaseStudyCard from './CaseStudyCard'
 import SmallCaseStudyCard from './SmallCaseStudyCard'
 import CTASection from './CTASection'
 import AnimateIn from './AnimateIn'
 
-const largeCaseStudies = [
+/* ─── Types ─── */
+type InternalStudy = {
+  type: 'internal'
+  route: string
+  title: string
+  date: string
+  description: string
+  image: string
+  imageAlt: string
+}
+
+type ExternalStudy = {
+  type: 'external'
+  figmaUrl: string
+  title: string
+  date: string
+  description: string
+  image: string
+  imageAlt: string
+}
+
+type LargeStudy = InternalStudy | ExternalStudy
+
+type SmallInternalStudy = {
+  type: 'internal'
+  route: string
+  title: string
+  category: string
+  description: string
+  image: string
+  imageAlt: string
+}
+
+type SmallExternalStudy = {
+  type: 'external'
+  figmaUrl: string
+  title: string
+  category: string
+  description: string
+  image: string
+  imageAlt: string
+}
+
+type SmallStudy = SmallInternalStudy | SmallExternalStudy
+
+/* ─── Large case study data ─── */
+const largeCaseStudies: LargeStudy[] = [
   {
+    type: 'internal',
+    route: '/work/cornerstone',
     title: 'AI-powered enterprise search redesign → enabling faster decision making at scale',
     date: 'July 2022 - May 2023',
     description:
@@ -14,6 +63,8 @@ const largeCaseStudies = [
     imageAlt: 'AI-powered enterprise search redesign',
   },
   {
+    type: 'external',
+    figmaUrl: 'PASTE_MOONRAFT_FIGMA_LINK_HERE',
     title: 'U&UST Intranet',
     date: 'July 2022 - May 2023',
     description:
@@ -22,6 +73,8 @@ const largeCaseStudies = [
     imageAlt: 'U&UST Intranet',
   },
   {
+    type: 'external',
+    figmaUrl: 'PASTE_METADATA_FIGMA_LINK_HERE',
     title: 'Content Manager Metadata Generation, Translation',
     date: 'July 2022 - May 2023',
     description:
@@ -31,8 +84,11 @@ const largeCaseStudies = [
   },
 ]
 
-const smallCaseStudies = [
+/* ─── Small case study data ─── */
+const smallCaseStudies: SmallStudy[] = [
   {
+    type: 'external',
+    figmaUrl: 'PASTE_APTIA_FIGMA_LINK_HERE',
     title: 'Aptia Website',
     category: 'Employee Pension and Health Benefits Administration',
     description:
@@ -41,6 +97,8 @@ const smallCaseStudies = [
     imageAlt: 'Aptia Website',
   },
   {
+    type: 'external',
+    figmaUrl: 'PASTE_FLYIN_FIGMA_LINK_HERE',
     title: 'Flyin Travel & Tourism',
     category: 'Website & App',
     description:
@@ -49,6 +107,8 @@ const smallCaseStudies = [
     imageAlt: 'Flyin Travel & Tourism',
   },
   {
+    type: 'external',
+    figmaUrl: 'PASTE_CIVTECH_FIGMA_LINK_HERE',
     title: 'CivTech Menopause care',
     category: 'Concept Generation',
     description:
@@ -57,6 +117,8 @@ const smallCaseStudies = [
     imageAlt: 'CivTech Menopause care',
   },
   {
+    type: 'external',
+    figmaUrl: 'PASTE_VET_FIGMA_LINK_HERE',
     title: 'Vet & Rider Wellness Platform',
     category: 'Website and App design',
     description:
@@ -65,6 +127,43 @@ const smallCaseStudies = [
     imageAlt: 'Vet & Rider Wellness Platform',
   },
 ]
+
+/* ─── Wrapper helpers ─── */
+function LargeCardWrapper({ study, children }: { study: LargeStudy; children: React.ReactNode }) {
+  if (study.type === 'internal') {
+    return (
+      <Link to={study.route} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
+        {children}
+      </Link>
+    )
+  }
+  return (
+    <div
+      onClick={() => window.open(study.figmaUrl, '_blank')}
+      style={{ cursor: 'pointer' }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function SmallCardWrapper({ study, children }: { study: SmallStudy; children: React.ReactNode }) {
+  if (study.type === 'internal') {
+    return (
+      <Link to={study.route} style={{ display: 'block', textDecoration: 'none', color: 'inherit', height: '100%' }}>
+        {children}
+      </Link>
+    )
+  }
+  return (
+    <div
+      onClick={() => window.open(study.figmaUrl, '_blank')}
+      style={{ cursor: 'pointer', height: '100%' }}
+    >
+      {children}
+    </div>
+  )
+}
 
 export default function CaseStudiesSection() {
   return (
@@ -87,7 +186,15 @@ export default function CaseStudiesSection() {
         <div className="flex flex-col gap-14 md:gap-16 xl:gap-20">
           {largeCaseStudies.map((study, i) => (
             <AnimateIn key={study.title} delay={i * 75}>
-              <CaseStudyCard {...study} />
+              <LargeCardWrapper study={study}>
+                <CaseStudyCard
+                  title={study.title}
+                  date={study.date}
+                  description={study.description}
+                  image={study.image}
+                  imageAlt={study.imageAlt}
+                />
+              </LargeCardWrapper>
             </AnimateIn>
           ))}
         </div>
@@ -105,7 +212,15 @@ export default function CaseStudiesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-12 gap-y-12 md:gap-y-16">
           {smallCaseStudies.map((study, i) => (
             <AnimateIn key={study.title} className="h-full" delay={i * 75}>
-              <SmallCaseStudyCard {...study} />
+              <SmallCardWrapper study={study}>
+                <SmallCaseStudyCard
+                  title={study.title}
+                  category={study.category}
+                  description={study.description}
+                  image={study.image}
+                  imageAlt={study.imageAlt}
+                />
+              </SmallCardWrapper>
             </AnimateIn>
           ))}
         </div>

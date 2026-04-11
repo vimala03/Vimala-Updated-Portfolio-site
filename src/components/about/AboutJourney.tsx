@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 // ── Figma assets ─────────────────────────────────────────────
 const IMG_EXP = 'https://www.figma.com/api/mcp/asset/60e8b3b3-69b6-4eae-9d96-082367a3196c'
@@ -14,6 +14,7 @@ interface Entry {
   description?: string
   bullets?: string[]
   tags: string[]
+  image?: string
 }
 
 // ── Data ─────────────────────────────────────────────────────
@@ -25,6 +26,7 @@ const experienceEntries: Entry[] = [
     description:
       'Led AI-driven product design for enterprise LMS. Integrated Apollo AI for metadata generation, multilingual translation, and session continuity across 4,000+ admin pages. Reduced support cases by 15K annually and cut admin time by 91%.',
     tags: ['AI/ML UX', 'ENTERPRISE SAAS', 'DESIGN SYSTEMS', 'LMS/LXP/Galaxy AI'],
+    image: '/images/cornerstone.jpeg',
   },
   {
     date: 'OCT 2022 – JULY 2024 · BANGALORE',
@@ -37,6 +39,7 @@ const experienceEntries: Entry[] = [
       'Partnered with stakeholders on IA, interactions, and system-level patterns.',
     ],
     tags: ['ENTERPRISE SAAS', 'FINTECH', 'DESIGN OPS', 'DESIGN SYSTEMS', 'HEALTH TECH', 'AGILE', 'AI'],
+    image: '/images/moonraft.jpeg',
   },
   {
     date: '2022 – PRESENT · HYDERABAD',
@@ -45,6 +48,7 @@ const experienceEntries: Entry[] = [
     description:
       'Built an eco-friendly laundry service with an emphasis on customer satisfaction, operational clarity, and repeatable experience design. Pioneered sustainable practices and cutting-edge technologies to revolutionise the sector.',
     tags: ['ENTREPRENEURSHIP', 'OPERATIONS', 'Brand/UX', 'SUSTAINABILITY'],
+    image: '/images/youclean.jpg',
   },
   {
     date: '2020 – 2022 · HYDERABAD',
@@ -53,6 +57,7 @@ const experienceEntries: Entry[] = [
     description:
       'Orchestrated creation of user centered digital solutions and improved end-to-end patient experience. Designed intuitive interfaces adhering to healthcare regulatory requirements.',
     tags: ['HEALTHCARE UX', 'PATIENT EXPERIENCE', 'Visual Design'],
+    image: '/images/chandamama.jpg',
   },
   {
     date: '2016 – 2018 · HYDERABAD',
@@ -61,6 +66,7 @@ const experienceEntries: Entry[] = [
     description:
       'Led redesign of search and discovery with AI-powered intent prediction. Reduced search abandonment by 35%, increased booking conversion by 28%, and drove App Store rating from 3.2★ to 4.4★.',
     tags: ['TRAVEL TECH', 'AI SEARCH', 'MOBILE UX'],
+    image: '/images/flyin.jpeg',
   },
   {
     date: 'Aug 2015 – Jul 2016 · HYDERABAD',
@@ -69,6 +75,7 @@ const experienceEntries: Entry[] = [
     description:
       'Designed player-centric UI/UX, optimising gameplay flows to enhance engagement, usability, and overall user experience.',
     tags: ['Gaming TECH', 'Visual design', 'MOBILE UX'],
+    image: '/images/cybergaming.jpeg',
   },
   {
     date: 'Jun 2015 – Dec 2015 · Gurgaon',
@@ -76,6 +83,7 @@ const experienceEntries: Entry[] = [
     role: 'UX Design Trainee',
     description: 'Translated business needs into clear visual and functional requirements.',
     tags: ['Brand/Graphic Design', 'Construction UX'],
+    image: '/images/buildzar.jpeg',
   },
 ]
 
@@ -90,6 +98,7 @@ const educationEntries: Entry[] = [
       'Worked on real-world projects and simulations to design performance-driven campaigns, improving conversion, engagement, and measurable business outcomes.',
     ],
     tags: ['Business Thinking', 'AI Relevance', 'Execution Ability'],
+    image: '/images/isb.jpeg',
   },
   {
     date: '2022 – 2024 · HYDERABAD',
@@ -101,6 +110,7 @@ const educationEntries: Entry[] = [
       'Bridging psychology with product design to create systems that are not only functional but also empathetic, persuasive, and aligned with real user needs.',
     ],
     tags: ['Behavioral Psychology', 'Decision Making', 'Cognitive Load', 'Mental Models', 'Persuasive Design'],
+    image: '/images/drbraou.jpeg',
   },
   {
     date: '2013 – 2015 · New Delhi',
@@ -112,6 +122,7 @@ const educationEntries: Entry[] = [
       'Built the ability to design for complex systems by balancing functionality, usability, and real-world constraints.',
     ],
     tags: ['Industrial Design', 'Design Thinking', 'Prototyping', 'Human-Centered Design', 'Interaction Design'],
+    image: '/images/iitdelhi.jpeg',
   },
   {
     date: '2020 – 2022 · HYDERABAD',
@@ -123,6 +134,7 @@ const educationEntries: Entry[] = [
       'Gained discipline in precision, technical rigor, and logical thinking — now applied to designing scalable product systems.',
     ],
     tags: ['Engineering Fundamentals', 'Problem Solving', 'Analytical Thinking'],
+    image: '/images/iare.jpeg',
   },
 ]
 
@@ -163,7 +175,7 @@ function TimelineEntry({ entry, isLast, entryRef, isActive }: TimelineEntryProps
   return (
     <div
       ref={entryRef}
-      className="relative"
+      className="relative experience-item"
       style={{ paddingLeft: '32px', paddingBottom: isLast ? 0 : '52px' }}
     >
       {/* Dot */}
@@ -291,75 +303,66 @@ function TimelineEntry({ entry, isLast, entryRef, isActive }: TimelineEntryProps
 }
 
 // ── Main Component ────────────────────────────────────────────
+const getObjectPosition = (company: string) => {
+  switch (company) {
+    case 'Cornerstone OnDemand':             return 'center 20%'
+    case 'Moonraft – UST Global':            return 'center 30%'
+    case 'Flyin':                            return 'center 25%'
+    case 'Cyber Gaming Software Technologies': return 'center 20%'
+    case 'Chandamama Group':                 return 'center center'
+    case 'Youclean Laundry':                 return 'center 30%'
+    case 'Buildzar':                         return 'center 35%'
+    case 'IIT Delhi':                        return 'center 30%'
+    case 'Indian School of Business (ISB)':  return 'center 30%'
+    case 'IARE, JNTU':                       return 'center center'
+    case 'Dr. B.R. Ambedkar Open University (BRAOU)': return 'center center'
+    default:                                 return 'center center'
+  }
+}
+
 export default function AboutJourney() {
   const [active, setActive] = useState<Tab>('experience')
-  const [activeIdx, setActiveIdx] = useState(0)
-  const [imgSrc, setImgSrc] = useState(IMG_EXP)
-  const [imgOpacity, setImgOpacity] = useState(1)
-
+  const [activeIndex, setActiveIndex] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
   const entryRefsRef = useRef<(HTMLDivElement | null)[]>([])
-  const observerRef = useRef<IntersectionObserver | null>(null)
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const activeTabRef = useRef<Tab>('experience')
 
   const entries = active === 'experience' ? experienceEntries : educationEntries
 
-  // ── Image crossfade ──────────────────────────────────────────
-  const updateImage = useCallback((newSrc: string) => {
-    setImgOpacity(0)
-    setTimeout(() => {
-      setImgSrc(newSrc)
-      setImgOpacity(1)
-    }, 220)
-  }, [])
-
-  // ── IntersectionObserver ─────────────────────────────────────
+  // ── Scroll-based detection via itemRefs ───────────────────────
   useEffect(() => {
-    if (observerRef.current) observerRef.current.disconnect()
+    const handleScroll = () => {
+      let closestIndex = 0
+      let minDistance = Infinity
 
-    const currentEntries = activeTabRef.current === 'experience' ? experienceEntries : educationEntries
-    entryRefsRef.current = entryRefsRef.current.slice(0, currentEntries.length)
+      itemRefs.current.forEach((el, index) => {
+        if (!el) return
 
-    observerRef.current = new IntersectionObserver(
-      (observations) => {
-        const intersecting = observations
-          .filter((o) => o.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+        const rect = el.getBoundingClientRect()
+        const distance = Math.abs(rect.top - window.innerHeight * 0.4)
 
-        if (intersecting.length > 0) {
-          const idx = entryRefsRef.current.indexOf(intersecting[0].target as HTMLDivElement)
-          if (idx !== -1) {
-            setActiveIdx((prev) => {
-              if (prev !== idx) return idx
-              return prev
-            })
-          }
+        if (distance < minDistance) {
+          minDistance = distance
+          closestIndex = index
         }
-      },
-      { rootMargin: '-80px 0px -40% 0px', threshold: 0.1 }
-    )
+      })
 
-    entryRefsRef.current.forEach((el) => {
-      if (el) observerRef.current!.observe(el)
-    })
+      setActiveIndex(closestIndex)
+    }
 
-    return () => observerRef.current?.disconnect()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active])
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
 
-  // ── Sync image with activeIdx ────────────────────────────────
-  useEffect(() => {
-    // Only show one image per tab (the Figma panel image)
-    // The image stays consistent per tab
-  }, [activeIdx])
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // ── Tab change ───────────────────────────────────────────────
   const handleTabChange = (tab: Tab) => {
     if (tab === active) return
     activeTabRef.current = tab
     setActive(tab)
-    setActiveIdx(0)
-    updateImage(tab === 'experience' ? IMG_EXP : IMG_EDU)
+    setActiveIndex(0)
 
     requestAnimationFrame(() => {
       if (sectionRef.current) {
@@ -369,12 +372,12 @@ export default function AboutJourney() {
     })
   }
 
-  const currentEntry = entries[activeIdx] ?? entries[0]
+  const currentEntry = entries[activeIndex] ?? entries[0]
 
   return (
     <section
       ref={sectionRef}
-      style={{ background: '#fafaf9', paddingTop: '80px', paddingBottom: '96px' }}
+      style={{ background: '#fafaf9', paddingTop: '80px', paddingBottom: '96px', scrollMarginTop: '80px' }}
     >
       <div style={{ maxWidth: '1440px', margin: '0 auto', paddingLeft: '91px', paddingRight: '91px' }}>
 
@@ -421,6 +424,7 @@ export default function AboutJourney() {
                   marginBottom: '28px',
                 }}
               >
+                <div style={{ paddingTop: "40px" }}></div>
                 How I got{' '}
                 <em style={{ fontStyle: 'italic', color: '#797979' }}>here.</em>
               </h2>
@@ -471,9 +475,10 @@ export default function AboutJourney() {
                   key={`${active}-${i}`}
                   entry={entry}
                   isLast={i === entries.length - 1}
-                  isActive={activeIdx === i}
+                  isActive={activeIndex === i}
                   entryRef={(el) => {
                     entryRefsRef.current[i] = el
+                    itemRefs.current[i] = el
                   }}
                 />
               ))}
@@ -486,7 +491,7 @@ export default function AboutJourney() {
               width: '400px',
               flexShrink: 0,
               position: 'sticky',
-              top: '24px',
+              top: '200px',
               alignSelf: 'flex-start',
             }}
           >
@@ -503,14 +508,14 @@ export default function AboutJourney() {
               }}
             >
               <img
-                src={imgSrc}
-                alt={currentEntry.company}
+                key={`${active}-${activeIndex}`}
+                src={entries[activeIndex]?.image}
+                alt={entries[activeIndex]?.company}
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  opacity: imgOpacity,
-                  transition: 'opacity 0.35s ease',
+                  objectPosition: getObjectPosition(entries[activeIndex]?.company),
                 }}
               />
               {/* Overlay label */}
@@ -565,7 +570,7 @@ export default function AboutJourney() {
                 letterSpacing: '0.5px',
               }}
             >
-              {activeIdx + 1} / {entries.length}
+              {activeIndex + 1} / {entries.length}
             </p>
           </div>
 

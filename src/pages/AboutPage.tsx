@@ -10,7 +10,6 @@ import AboutBeliefs from "../components/about/AboutBeliefs";
 import AboutGallery from "../components/about/AboutGallery";
 import AboutReading from "../components/about/AboutReading";
 import AboutTestimonials from "../components/about/AboutTestimonials";
-import AboutToolkit from "../components/about/AboutToolkit";
 
 export default function AboutPage() {
   return (
@@ -25,7 +24,6 @@ export default function AboutPage() {
       <AboutGallery />
       <AboutReading />
       <AboutTestimonials />
-      <AboutToolkit />
       <PlayfulBottom />
       <Footer />
     </div>

@@ -3,46 +3,46 @@ import AnimateIn from '../AnimateIn'
 
 const photos = [
   {
-    src: 'https://www.figma.com/api/mcp/asset/fef32f0b-dac8-4a85-9291-6a3a2f2b0eb2',
-    alt: 'Family',
-    category: 'FAMILY',
-    caption: 'Where I am rooted. Everything I build, I build for people like these.',
-  },
-  {
-    src: 'https://www.figma.com/api/mcp/asset/17679e06-a98e-48f4-a901-67df20c6f293',
-    alt: 'Art & meditation',
-    category: 'ART',
-    caption: 'Meditation in motion. I draw when I need silence — and when words aren\'t enough.',
-  },
-  {
-    src: 'https://www.figma.com/api/mcp/asset/d15761da-67c9-404d-856a-59d6a2e2b79b',
+    src: '/images/travel.jpeg',
     alt: 'Travel',
-    category: 'TRAVEL',
-    caption: 'I travel to find new perspectives, not just places. Water calms the noise.',
+    category: 'EXPLORATION',
+    caption: 'Being in nature resets my thinking, it reminds me design should feel effortless.',
   },
   {
-    src: 'https://www.figma.com/api/mcp/asset/2b96b8d3-81f7-449e-95d4-b03dfcd5ee93',
-    alt: 'Solitude',
-    category: 'SOLITUDE',
-    caption: 'Some of my best thinking happens in quiet, unhurried moments like this.',
+    src: '/images/meditation.jpeg',
+    alt: 'Meditation',
+    category: 'STILLNESS',
+    caption: 'In quiet moments, I find clarity, where ideas simplify and intention becomes sharper.',
   },
   {
-    src: 'https://www.figma.com/api/mcp/asset/a9fad70f-c7ba-4ac9-a6db-763070c6dc07',
-    alt: 'Nature',
-    category: 'NATURE',
-    caption: 'I find patterns outdoors that I bring back indoors — into systems and design.',
+    src: '/images/tea.jpeg',
+    alt: 'Tea',
+    category: 'SLOW MOMENTS',
+    caption: 'I value pauses as much as progress, they\'re where thoughts settle into meaningful ideas.',
   },
   {
-    src: 'https://www.figma.com/api/mcp/asset/9c470813-40ad-4886-bf6e-4dbfef4e0c3f',
-    alt: 'Everyday',
+    src: '/images/biking.jpeg',
+    alt: 'Biking',
+    category: 'RIDING',
+    caption: 'On the road, I think in flows, balance, control, and moving with intent.',
+  },
+  {
+    src: '/images/dance.jpeg',
+    alt: 'Dance',
+    category: 'EXPRESSION',
+    caption: 'Dance taught me rhythm and presence, how movement and emotion shape experience.',
+  },
+  {
+    src: '/images/photography.jpeg',
+    alt: 'Photography',
     category: 'EVERYDAY',
-    caption: 'Grounded in the ordinary. The everyday is where most of life actually happens.',
+    caption: 'Simple moments reveal patterns, timing, precision, and quiet observation.',
   },
   {
-    src: 'https://www.figma.com/api/mcp/asset/ef760c85-fa3b-4795-85c9-5320101a000b',
-    alt: 'Freedom',
-    category: 'FREEDOM',
-    caption: 'Momentum. On two wheels or on a blank canvas — I move best when I\'m moving.',
+    src: '/images/carroms.jpeg',
+    alt: 'Carroms',
+    category: 'PERSPECTIVE',
+    caption: 'Stepping into new places expands how I see, context shapes every experience we design.',
   },
 ]
 
@@ -158,6 +158,22 @@ export default function AboutGallery() {
                       boxShadow: isCenter
                         ? '0 16px 48px rgba(0,0,0,0.12)'
                         : '0 4px 16px rgba(0,0,0,0.06)',
+                    }}
+                    onMouseOver={(e) => {
+                      if (!isCenter) {
+                        const el = e.currentTarget
+                        el.style.transform = `translateX(${xBase}px) rotate(${rotation}deg) scale(1.04) translateY(-4px)`
+                        el.style.boxShadow = '0 12px 32px rgba(0,0,0,0.14)'
+                        el.style.transition = 'transform 280ms ease, box-shadow 280ms ease'
+                      }
+                    }}
+                    onMouseOut={(e) => {
+                      if (!isCenter) {
+                        const el = e.currentTarget
+                        el.style.transform = `translateX(${xBase}px) rotate(${rotation}deg)`
+                        el.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'
+                        el.style.transition = 'all 0.45s cubic-bezier(0.22, 1, 0.36, 1)'
+                      }
                     }}
                   >
                     <img
