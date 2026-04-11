@@ -1,17 +1,10 @@
 import { useEffect } from 'react'
+import Navbar from '../components/Navbar'
 import './cornerstone.css'
 
 const html = `
 <div id="progress"></div>
 
-<nav>
-  <a class="logo" href="#">VB — Portfolio</a>
-  <div class="nav-r">
-    <a href="#">← All work</a>
-    <a href="#">About</a>
-    <a href="#" class="nav-btn">Resume ↗</a>
-  </div>
-</nav>
 
 <!-- ═══ HERO ═══ -->
 <div class="hero">
@@ -1385,5 +1378,10 @@ export default function CornerstonePage() {
     }
   }, [])
 
-  return <div dangerouslySetInnerHTML={{ __html: html }} />
+  return (
+    <>
+      <Navbar />
+      <div dangerouslySetInnerHTML={{ __html: html }} />
+    </>
+  )
 }
