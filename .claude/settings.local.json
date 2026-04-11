@@ -12,7 +12,13 @@
       "Bash(curl -s \"http://localhost:5192/src/components/about/AboutJourney.tsx\")",
       "Bash(/usr/local/bin/node node_modules/.bin/tsc --noEmit)",
       "Read(//private/tmp/**)",
-      "Bash(unzip -o /Users/vimala/Downloads/beliefs.zip -d beliefs_extracted)"
+      "Bash(unzip -o /Users/vimala/Downloads/beliefs.zip -d beliefs_extracted)",
+      "Bash(npx tsc:*)",
+      "Bash(/usr/local/bin/npx tsc:*)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(ls ~/.nvm/versions/node/*/bin/node)",
+      "Read(//usr/bin/**)",
+      "Read(//Users/vimala/**)"
     ]
   }
 }
