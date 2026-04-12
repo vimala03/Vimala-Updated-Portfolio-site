@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Container from './Container'
 import CaseStudyCard from './CaseStudyCard'
 import SmallCaseStudyCard from './SmallCaseStudyCard'
 import CTASection from './CTASection'
 import AnimateIn from './AnimateIn'
+import PasswordModal from './PasswordModal'
 
 /* ─── Types ─── */
 type InternalStudy = {
@@ -64,7 +66,7 @@ const largeCaseStudies: LargeStudy[] = [
   },
   {
     type: 'external',
-    figmaUrl: 'PASTE_MOONRAFT_FIGMA_LINK_HERE',
+    figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=187%3A16344&node-id=187-19899&viewport=552%2C1569%2C0.11&t=7p323AFE3PhinXty-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=187%3A19899',
     title: 'U&UST Intranet',
     date: 'July 2022 - May 2023',
     description:
@@ -88,7 +90,7 @@ const largeCaseStudies: LargeStudy[] = [
 const smallCaseStudies: SmallStudy[] = [
   {
     type: 'external',
-    figmaUrl: 'PASTE_APTIA_FIGMA_LINK_HERE',
+    figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2072&node-id=69-909&viewport=1542%2C13%2C0.07&t=gKJll47Zv6TSyzbl-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=69%3A909',
     title: 'Aptia Website',
     category: 'Employee Pension and Health Benefits Administration',
     description:
@@ -98,7 +100,7 @@ const smallCaseStudies: SmallStudy[] = [
   },
   {
     type: 'external',
-    figmaUrl: 'PASTE_FLYIN_FIGMA_LINK_HERE',
+    figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2075&type=design&node-id=83-29753&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width',
     title: 'Flyin Travel & Tourism',
     category: 'Website & App',
     description:
@@ -108,7 +110,7 @@ const smallCaseStudies: SmallStudy[] = [
   },
   {
     type: 'external',
-    figmaUrl: 'PASTE_CIVTECH_FIGMA_LINK_HERE',
+    figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2073&type=design&node-id=50-2077&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width&starting-point-node-id=50%3A2077',
     title: 'CivTech Menopause care',
     category: 'Concept Generation',
     description:
@@ -129,7 +131,7 @@ const smallCaseStudies: SmallStudy[] = [
 ]
 
 /* ─── Wrapper helpers ─── */
-function LargeCardWrapper({ study, children }: { study: LargeStudy; children: React.ReactNode }) {
+function LargeCardWrapper({ study, children, onOpenModal }: { study: LargeStudy; children: React.ReactNode; onOpenModal: (label: string, figmaUrl: string) => void }) {
   if (study.type === 'internal') {
     return (
       <Link to={study.route} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
@@ -139,7 +141,7 @@ function LargeCardWrapper({ study, children }: { study: LargeStudy; children: Re
   }
   return (
     <div
-      onClick={() => window.open(study.figmaUrl, '_blank')}
+      onClick={() => onOpenModal(study.title, study.figmaUrl)}
       style={{ cursor: 'pointer' }}
     >
       {children}
@@ -147,7 +149,7 @@ function LargeCardWrapper({ study, children }: { study: LargeStudy; children: Re
   )
 }
 
-function SmallCardWrapper({ study, children }: { study: SmallStudy; children: React.ReactNode }) {
+function SmallCardWrapper({ study, children, onOpenModal }: { study: SmallStudy; children: React.ReactNode; onOpenModal: (label: string, figmaUrl: string) => void }) {
   if (study.type === 'internal') {
     return (
       <Link to={study.route} style={{ display: 'block', textDecoration: 'none', color: 'inherit', height: '100%' }}>
@@ -157,7 +159,7 @@ function SmallCardWrapper({ study, children }: { study: SmallStudy; children: Re
   }
   return (
     <div
-      onClick={() => window.open(study.figmaUrl, '_blank')}
+      onClick={() => onOpenModal(study.title, study.figmaUrl)}
       style={{ cursor: 'pointer', height: '100%' }}
     >
       {children}
@@ -166,8 +168,14 @@ function SmallCardWrapper({ study, children }: { study: SmallStudy; children: Re
 }
 
 export default function CaseStudiesSection() {
+  const [modal, setModal] = useState<{ label: string; figmaUrl: string } | null>(null)
+
+  const openModal = (label: string, figmaUrl: string) => setModal({ label, figmaUrl })
+  const closeModal = () => setModal(null)
+
   return (
     <section id="work" className="border-t border-black/5 pt-14 md:pt-20 xl:pt-24 pb-10 md:pb-14 xl:pb-16">
+      {modal && <PasswordModal label={modal.label} figmaUrl={modal.figmaUrl} onClose={closeModal} />}
       <Container className="flex flex-col gap-12 md:gap-16 xl:gap-20">
 
         {/* Section heading */}
@@ -186,7 +194,7 @@ export default function CaseStudiesSection() {
         <div className="flex flex-col gap-14 md:gap-16 xl:gap-20">
           {largeCaseStudies.map((study, i) => (
             <AnimateIn key={study.title} delay={i * 75}>
-              <LargeCardWrapper study={study}>
+              <LargeCardWrapper study={study} onOpenModal={openModal}>
                 <CaseStudyCard
                   title={study.title}
                   date={study.date}
@@ -212,7 +220,7 @@ export default function CaseStudiesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-12 gap-y-12 md:gap-y-16">
           {smallCaseStudies.map((study, i) => (
             <AnimateIn key={study.title} className="h-full" delay={i * 75}>
-              <SmallCardWrapper study={study}>
+              <SmallCardWrapper study={study} onOpenModal={openModal}>
                 <SmallCaseStudyCard
                   title={study.title}
                   category={study.category}

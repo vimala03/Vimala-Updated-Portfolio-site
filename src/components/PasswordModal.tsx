@@ -1,28 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
 
+const PASSWORD = 'design123'
+
 interface PasswordModalProps {
-  project: 'buildzar' | 'moonraft'
+  label: string
+  figmaUrl: string
   onClose: () => void
 }
 
-const config: Record<string, { label: string; password: string; figmaUrl: string }> = {
-  buildzar: {
-    label: 'Buildzar',
-    password: 'buildzar123',
-    figmaUrl: 'https://www.figma.com/proto/buildzar-placeholder',
-  },
-  moonraft: {
-    label: 'Moonraft – UST Global',
-    password: 'moonraft123',
-    figmaUrl: 'https://www.figma.com/proto/moonraft-placeholder',
-  },
-}
-
-export default function PasswordModal({ project, onClose }: PasswordModalProps) {
+export default function PasswordModal({ label, figmaUrl, onClose }: PasswordModalProps) {
   const [value, setValue] = useState('')
   const [error, setError] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const { label, password, figmaUrl } = config[project]
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -33,7 +22,7 @@ export default function PasswordModal({ project, onClose }: PasswordModalProps) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (value === password) {
+    if (value === PASSWORD) {
       window.open(figmaUrl, '_blank')
       onClose()
     } else {
