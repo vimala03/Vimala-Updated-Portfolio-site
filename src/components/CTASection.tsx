@@ -1,6 +1,6 @@
 export default function CTASection() {
   return (
-    <div id="contact" className="bg-stone-ink rounded-[16px] md:rounded-[20px] px-6 md:px-12 xl:px-16 py-12 md:py-16 xl:py-20 flex flex-col items-center gap-5 md:gap-6 text-center">
+    <div className="bg-stone-ink rounded-[16px] md:rounded-[20px] px-6 md:px-12 xl:px-16 py-12 md:py-16 xl:py-20 flex flex-col items-center gap-5 md:gap-6 text-center">
       {/* Heading */}
       <div className="flex flex-col leading-[1.15]">
         <p className="font-cormorant font-medium text-[28px] md:text-[34px] xl:text-[40px] text-[#faf8f5] tracking-[-0.8px]">
@@ -26,11 +26,11 @@ export default function CTASection() {
 
       {/* Social links */}
       <div className="flex items-center gap-5 md:gap-8 mt-2">
-        <a href="#" className="font-instrument text-[11px] text-white/35 tracking-[1px] uppercase hover:text-white/60 transition-colors">
+        <a href="https://www.linkedin.com/in/vimalabanavath/" target="_blank" rel="noopener noreferrer" className="font-instrument text-[11px] text-white/35 tracking-[1px] uppercase hover:text-white/60 transition-colors">
           LinkedIn ↗
         </a>
-        <a href="#" className="font-instrument text-[11px] text-white/35 tracking-[1px] uppercase hover:text-white/60 transition-colors">
-          Dribbble ↗
+        <a href="https://medium.com/@vimalamdes13" target="_blank" rel="noopener noreferrer" className="font-instrument text-[11px] text-white/35 tracking-[1px] uppercase hover:text-white/60 transition-colors">
+          Medium ↗
         </a>
         <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="font-instrument text-[11px] text-white/35 tracking-[1px] uppercase hover:text-white/60 transition-colors">
           Resume ↗

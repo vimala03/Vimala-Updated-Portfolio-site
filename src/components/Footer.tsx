@@ -1,8 +1,10 @@
+import { Link, useLocation } from 'react-router-dom'
 import Container from './Container'
 
 export default function Footer() {
+  const { pathname } = useLocation()
   return (
-    <footer className="border-t border-black/8">
+    <footer id="contact" className="border-t border-black/8">
       <Container className="py-6 md:py-7 flex flex-col md:flex-row items-center md:justify-between gap-4 md:gap-6">
         <span className="font-instrument text-stone-muted text-[11.5px]">
           © 2026 Vimala Banavath
@@ -11,13 +13,15 @@ export default function Footer() {
           <a href="#work" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
             Work
           </a>
-          <a href="#about" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
-            About
-          </a>
-          <a href="#" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
+          {pathname !== '/about' && (
+            <Link to="/about" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
+              About
+            </Link>
+          )}
+          <a href="https://www.linkedin.com/in/vimalabanavath/" target="_blank" rel="noopener noreferrer" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
             LinkedIn ↗
           </a>
-          <a href="https://medium.com/@yourusername" target="_blank" rel="noreferrer" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
+          <a href="https://medium.com/@vimalamdes13" target="_blank" rel="noreferrer" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
             Medium ↗
           </a>
         </div>

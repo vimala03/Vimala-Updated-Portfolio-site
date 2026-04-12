@@ -1264,7 +1264,7 @@ const html = `
 
 <footer>
   <div class="fl">Let's build something meaningful.<span>vimala@design.io</span></div>
-  <div class="fr"><a href="/">← All work</a><a href="#">LinkedIn ↗</a><a href="#">Resume ↗</a></div>
+  <div class="fr"><a href="/">← All work</a><a href="https://www.linkedin.com/in/vimalabanavath/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="#">Resume ↗</a></div>
 </footer>
 `
 
