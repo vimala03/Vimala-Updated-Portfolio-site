@@ -1,5 +1,1 @@
-{
-  "routes": [
-    { "src": "/images/(.*)", "dest": "/images/$1" }
-  ]
-}
+{ "routes": [{ "src": "/images/(.*)", "dest": "/images/$1" }] }
