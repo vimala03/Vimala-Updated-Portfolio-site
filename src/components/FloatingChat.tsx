@@ -13,7 +13,7 @@ const CHATBASE_BOT_ID = 'YOUR_CHATBOT_ID' // ← replace this
 export default function FloatingChat() {
   const injected = useRef(false)
   const [open, setOpen] = useState(false)
-  const [ready, setReady] = useState(false)
+  // removed unused ready state
 
   useEffect(() => {
     // Only inject the real Chatbase script when a real ID is provided

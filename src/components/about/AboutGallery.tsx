@@ -89,7 +89,7 @@ export default function AboutGallery() {
     if (transitionTimer.current) clearTimeout(transitionTimer.current)
   }, [])
 
-  const activePhoto = photos[activeIdx]
+  // removed unused activePhoto
 
   return (
     <section className="bg-[#fafaf9] pt-[80px] pb-[96px]">

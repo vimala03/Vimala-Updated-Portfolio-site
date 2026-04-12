@@ -1,9 +1,9 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 
 /* ─── Rotating badge text ─── */
 function RotatingBadge() {
   const text = 'Available for work · Open to opportunities · Let\'s connect · '
-  const chars = text.split('')
+  // removed unused chars
   const radius = 56
 
   return (

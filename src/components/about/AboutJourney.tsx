@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 
 // ── Figma assets ─────────────────────────────────────────────
-const IMG_EXP = 'https://www.figma.com/api/mcp/asset/60e8b3b3-69b6-4eae-9d96-082367a3196c'
-const IMG_EDU = 'https://www.figma.com/api/mcp/asset/cc9279ac-1cc2-4fad-89e0-eb051d32fa4c'
+// removed unused IMG_EXP
+// removed unused IMG_EDU
 
 // ── Types ────────────────────────────────────────────────────
 type Tab = 'experience' | 'education'
