@@ -1298,7 +1298,7 @@ export default function CornerstonePage() {
       const prev = document.getElementById('sb-prev') as HTMLElement
       if (prev) prev.style.opacity = n === 0 ? '0.3' : '1'
       const next = document.getElementById('sb-next')
-      if (next) next.textContent = n === totalScenes - 1 ? 'Read the full story' : 'Next scene →'
+      if (next) next.textContent = n === totalScenes - 1 ? 'End of story' : 'Next scene →'
     }
     ;(window as any).nextScene = () => { if (currentScene < totalScenes - 1) (window as any).goScene(currentScene + 1) }
     ;(window as any).prevScene = () => { if (currentScene > 0) (window as any).goScene(currentScene - 1) }
