@@ -17,6 +17,9 @@ export default function Footer() {
           <a href="#" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
             LinkedIn ↗
           </a>
+          <a href="https://medium.com/@yourusername" target="_blank" rel="noreferrer" className="font-instrument text-stone-muted text-[10.9px] tracking-[0.76px] uppercase hover:text-stone-mid transition-colors">
+            Medium ↗
+          </a>
         </div>
       </Container>
     </footer>
