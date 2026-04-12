@@ -18,7 +18,6 @@ export default function FloatingChat() {
   useEffect(() => {
     // Only inject the real Chatbase script when a real ID is provided
     if (CHATBASE_BOT_ID === 'YOUR_CHATBOT_ID') {
-      setReady(true) // show custom fallback UI
       return
     }
 
