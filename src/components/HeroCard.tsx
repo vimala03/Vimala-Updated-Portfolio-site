@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const imgFeatured = 'https://www.figma.com/api/mcp/asset/644e80ca-196a-4ba4-95ea-d20c2302b5f3'
 
 export default function HeroCard() {
@@ -27,11 +29,11 @@ export default function HeroCard() {
 
       {/* CTA */}
       <div className="flex items-center justify-center">
-        <button className="border border-stone-ink/30 rounded-full px-4 md:px-5 py-[9px] md:py-[11px] flex items-center gap-2 hover:border-stone-ink/60 hover:bg-stone-ink/5 transition-[border-color,background-color] duration-200">
+        <Link to="/work/cornerstone" className="border border-stone-ink/30 rounded-full px-4 md:px-5 py-[9px] md:py-[11px] flex items-center gap-2 hover:border-stone-ink/60 hover:bg-stone-ink/5 transition-[border-color,background-color] duration-200" style={{ textDecoration: 'none' }}>
           <span className="font-instrument font-bold text-stone-mid text-[11px] md:text-[12.2px] tracking-[0.73px] uppercase whitespace-nowrap">
             View Case study →
           </span>
-        </button>
+        </Link>
       </div>
     </div>
   )
