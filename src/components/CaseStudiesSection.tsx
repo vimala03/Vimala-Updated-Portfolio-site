@@ -61,7 +61,7 @@ const largeCaseStudies: LargeStudy[] = [
     date: 'July 2022 - May 2023',
     description:
       'Improved task efficiency across 4000+ pages by redesigning navigation with AI-powered, persona-based search and contextual pinning, reducing friction and enabling faster, action-oriented workflows.',
-    image: 'https://www.figma.com/api/mcp/asset/8f726510-85a4-4c7e-a721-a874b4f434fc',
+    image: '/images/csx-ai.jpeg',
     imageAlt: 'AI-powered enterprise search redesign',
   },
   {
@@ -71,7 +71,7 @@ const largeCaseStudies: LargeStudy[] = [
     date: 'July 2022 - May 2023',
     description:
       "Unified UST's fragmented intranet into a single, intuitive platform, eliminating silos and improving employee efficiency through research-driven workflows and seamless tool access.",
-    image: 'https://www.figma.com/api/mcp/asset/ec3b4a15-c4e6-4db1-98e3-925b630b19d1',
+    image: '/images/ust.jpeg',
     imageAlt: 'U&UST Intranet',
   },
   {
@@ -81,7 +81,7 @@ const largeCaseStudies: LargeStudy[] = [
     date: 'July 2022 - May 2023',
     description:
       'Improved search accuracy and content discoverability by introducing AI-powered metadata generation, strengthening taxonomy and information architecture across the platform.',
-    image: 'https://www.figma.com/api/mcp/asset/50fbbeec-5dbd-4d1d-92fb-db1676ff6837',
+    image: '/images/contentmanager.jpeg',
     imageAlt: 'Content Manager Metadata Generation',
   },
 ]
@@ -95,7 +95,7 @@ const smallCaseStudies: SmallStudy[] = [
     category: 'Employee Pension and Health Benefits Administration',
     description:
       "Designed Aptia Group's website to deliver a seamless, intuitive experience, improving navigation clarity and driving stronger user engagement.",
-    image: 'https://www.figma.com/api/mcp/asset/41b378de-9847-4be4-a542-97827e20b61d',
+    image: '/images/aptia.jpeg',
     imageAlt: 'Aptia Website',
   },
   {
@@ -105,7 +105,7 @@ const smallCaseStudies: SmallStudy[] = [
     category: 'Website & App',
     description:
       "Revamped Flyin Travel's platform into a unified, user-centric experience. Improved usability and streamlined key user flows. Enabled seamless, personalized trip planning.",
-    image: 'https://www.figma.com/api/mcp/asset/82481d23-1c0c-4925-b045-28fe2f8e0cc6',
+    image: '/images/flyin.jpeg',
     imageAlt: 'Flyin Travel & Tourism',
   },
   {
@@ -115,7 +115,7 @@ const smallCaseStudies: SmallStudy[] = [
     category: 'Concept Generation',
     description:
       'Built a comprehensive digital platform for menopause, offering personalized resources and community support for a more guided, user-centric experience.',
-    image: 'https://www.figma.com/api/mcp/asset/16d7377f-f6b8-4ab5-89db-271aa2253a91',
+    image: '/images/civtech.jpeg',
     imageAlt: 'CivTech Menopause care',
   },
   {
@@ -125,7 +125,7 @@ const smallCaseStudies: SmallStudy[] = [
     category: 'Website and App design',
     description:
       'Built a platform connecting veterinarians and horse riders through data-driven insights and remote healthcare, enabling smarter, more accessible care.',
-    image: 'https://www.figma.com/api/mcp/asset/6ab04822-f8c4-4739-8b76-a29b9c2d226f',
+    image: '/images/vet-rider.jpeg',
     imageAlt: 'Vet & Rider Wellness Platform',
   },
 ]
