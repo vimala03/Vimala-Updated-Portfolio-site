@@ -27,7 +27,7 @@ export default function SmallCaseStudyCard({ title, category, description, image
 
       {/* Image — 24px internal padding, no edge bleed, object-contain */}
       <div
-        className="w-full bg-[#f5f4f2] overflow-hidden p-6 shrink-0"
+        className="w-full bg-[#f5f4f2] overflow-hidden p-4 md:p-6 shrink-0"
         style={{ aspectRatio: '498 / 246' }}
       >
         <img src={image} alt={imageAlt} className="w-full h-full object-contain transition-transform duration-[220ms] ease-out hover:scale-[1.02]" />

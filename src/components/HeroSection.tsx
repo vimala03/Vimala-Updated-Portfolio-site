@@ -56,7 +56,7 @@ export default function HeroSection() {
             </p>
 
             {/* Stats — mobile: vertical stack, tablet: 2×2 grid, desktop: horizontal row */}
-            <div className="mt-[60px] flex flex-col items-start gap-5 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-5 xl:flex xl:flex-row xl:items-end xl:gap-0">
+            <div className="mt-10 md:mt-[60px] flex flex-col items-start gap-5 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-5 xl:flex xl:flex-row xl:items-end xl:gap-0">
               <StatItem value="8+" label="Years Exp." />
               <StatItem value="40+" label="Products Shipped" />
               <StatItem value="6+" label="Cross industry solutions" />
@@ -64,7 +64,7 @@ export default function HeroSection() {
             </div>
 
             {/* CTAs */}
-            <div className="mt-[60px] mb-[112px] flex items-center gap-4">
+            <div className="mt-10 md:mt-[60px] mb-14 md:mb-[112px] flex flex-wrap items-center gap-4">
               <a
                 href="#work"
                 className="bg-stone-ink text-white font-instrument text-[12px] md:text-[13px] tracking-[1px] uppercase rounded-full px-5 md:px-6 py-3 md:py-3.5 hover:opacity-80 transition-opacity duration-200 whitespace-nowrap"
