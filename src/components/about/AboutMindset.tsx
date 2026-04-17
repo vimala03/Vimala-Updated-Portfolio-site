@@ -96,9 +96,9 @@ export default function AboutMindset() {
   const content = active === 'builder' ? builderContent : humanContent
 
   return (
-    <section className="bg-lavender pt-[80px] pb-[80px]">
-      <div className="max-w-[1440px] mx-auto px-[60px]">
-        <div className="px-[91px]">
+    <section className="bg-lavender pt-12 pb-12 md:pt-[80px] md:pb-[80px]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
+        <div className="px-0 lg:px-[91px]">
 
           {/* Header row */}
           <AnimateIn delay={0}>
@@ -127,11 +127,11 @@ export default function AboutMindset() {
           </AnimateIn>
 
           {/* Content row */}
-          <div className="flex items-start gap-[132px]">
+          <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-[132px]">
 
             {/* Left — heading + body */}
-            <AnimateIn delay={50} className="flex flex-col gap-9 max-w-[535px] shrink-0">
-              <h2 className="font-cormorant font-medium text-[34px] text-[#18181b] leading-[1.14] tracking-[-0.34px]">
+            <AnimateIn delay={50} className="flex flex-col gap-9 w-full lg:max-w-[535px] lg:shrink-0">
+              <h2 className="font-cormorant font-medium text-[26px] md:text-[30px] lg:text-[34px] text-[#18181b] leading-[1.14] tracking-[-0.34px]">
                 {content.heading}
               </h2>
               <div className="flex flex-col gap-0 font-inter font-normal text-[16px] text-[rgba(24,24,27,0.58)] leading-[28px]">

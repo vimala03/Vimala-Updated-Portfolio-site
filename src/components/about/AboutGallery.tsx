@@ -92,9 +92,9 @@ export default function AboutGallery() {
   // removed unused activePhoto
 
   return (
-    <section className="bg-[#fafaf9] pt-[80px] pb-[96px]">
-      <div className="max-w-[1440px] mx-auto px-[60px]">
-        <div className="px-[91px]">
+    <section className="bg-[#fafaf9] pt-12 pb-14 md:pt-[80px] md:pb-[96px]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
+        <div className="px-0 lg:px-[91px]">
 
           {/* Header */}
           <AnimateIn delay={0}>
@@ -193,7 +193,7 @@ export default function AboutGallery() {
           </div>
 
           {/* Caption area — fixed height container, all captions stacked, CSS crossfade */}
-          <div className="flex flex-col items-center gap-3 mt-10 px-[91px]">
+          <div className="flex flex-col items-center gap-3 mt-10 px-0 lg:px-[91px]">
             {/* Fixed height wrapper so layout doesn't shift */}
             <div className="relative w-full flex justify-center" style={{ height: '72px' }}>
               {photos.map((photo, i) => (

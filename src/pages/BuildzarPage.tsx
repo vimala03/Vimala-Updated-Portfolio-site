@@ -6,8 +6,8 @@ export default function BuildzarPage() {
   return (
     <div>
       <Navbar />
-      <div style={{ minHeight: "60vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "24px", padding: "120px 60px" }}>
-        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "48px", fontWeight: 500, color: "#18181b" }}>
+      <div style={{ minHeight: "60vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "24px", padding: "120px 24px", textAlign: "center" }}>
+        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(28px, 6vw, 48px)", fontWeight: 500, color: "#18181b" }}>
           Buildzar
         </h1>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "16px", color: "rgba(24,24,27,0.5)" }}>

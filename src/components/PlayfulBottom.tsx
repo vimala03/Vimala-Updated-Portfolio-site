@@ -221,8 +221,8 @@ export default function PlayfulBottom() {
         </div>
       ))}
 
-      <div className="max-w-[1440px] mx-auto px-[60px]">
-        <div className="px-[91px]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
+        <div className="px-0 lg:px-[91px]">
 
           {/* Top row: rotating badge + subtitle */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '32px', marginBottom: '48px' }}>

@@ -72,9 +72,9 @@ export default function AboutReading() {
   const [activeId, setActiveId] = useState<number | null>(null)
 
   return (
-    <section className="bg-[#fafaf9] pt-[80px] pb-[96px]">
-      <div className="max-w-[1440px] mx-auto px-[60px]">
-        <div className="px-[91px]">
+    <section className="bg-[#fafaf9] pt-12 pb-14 md:pt-[80px] md:pb-[96px]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
+        <div className="px-0 lg:px-[91px]">
 
           {/* Header */}
           <motion.div
@@ -94,14 +94,15 @@ export default function AboutReading() {
             </h2>
           </motion.div>
 
-          {/* Bookshelf */}
+          {/* Bookshelf — horizontally scrollable on mobile */}
+          <div className="overflow-x-auto -mx-4 sm:-mx-6 lg:mx-0 px-4 sm:px-6 lg:px-0" style={{ WebkitOverflowScrolling: 'touch' }}>
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             className="flex items-end gap-3"
-            style={{ height: '380px' }}
+            style={{ height: '380px', minWidth: 'max-content' }}
             onMouseLeave={() => setActiveId(null)}
           >
             {books.map((book, i) => {
@@ -174,6 +175,7 @@ export default function AboutReading() {
               )
             })}
           </motion.div>
+          </div>
 
           {/* Shelf surface */}
           <div

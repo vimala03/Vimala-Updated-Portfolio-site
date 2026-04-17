@@ -379,13 +379,13 @@ export default function AboutJourney() {
       ref={sectionRef}
       style={{ background: '#fafaf9', paddingTop: '80px', paddingBottom: '96px', scrollMarginTop: '80px' }}
     >
-      <div style={{ maxWidth: '1440px', margin: '0 auto', paddingLeft: '91px', paddingRight: '91px' }}>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[91px]">
 
-        {/* Two-column layout — sticky header lives inside left column only */}
-        <div style={{ display: 'flex', gap: '80px', alignItems: 'flex-start' }}>
+        {/* Two-column layout — stacks on mobile, side-by-side on lg+ */}
+        <div className="flex flex-col lg:flex-row lg:gap-[80px] lg:items-start">
 
           {/* LEFT COLUMN — sticky header + timeline */}
-          <div style={{ flex: 1, minWidth: 0, position: 'relative' }}>
+          <div className="flex-1 min-w-0 relative">
 
             {/* Sticky header — gradient fade, no solid background */}
             <div
@@ -417,7 +417,7 @@ export default function AboutJourney() {
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
                   fontWeight: 500,
-                  fontSize: '45.72px',
+                  fontSize: 'clamp(30px, 5vw, 45.72px)',
                   lineHeight: '1.08',
                   letterSpacing: '-0.46px',
                   color: '#18181b',
@@ -485,8 +485,9 @@ export default function AboutJourney() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN — image, sticky at top of viewport */}
+          {/* RIGHT COLUMN — image, sticky at top of viewport (hidden on mobile) */}
           <div
+            className="hidden lg:block"
             style={{
               width: '400px',
               flexShrink: 0,

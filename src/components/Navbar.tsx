@@ -50,6 +50,8 @@ function VBLogo() {
 }
 
 export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <div
       style={{
@@ -63,7 +65,7 @@ export default function Navbar() {
       }}
     >
       <div
-        className="max-w-[1280px] mx-auto px-6 w-full"
+        className="max-w-[1280px] mx-auto px-4 sm:px-6 w-full"
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -74,34 +76,71 @@ export default function Navbar() {
       >
         <VBLogo />
 
-        <div className="flex" style={{ gap: '32px', alignItems: 'center' }}>
+        {/* Desktop links — hidden below md */}
+        <div className="hidden md:flex" style={{ gap: '32px', alignItems: 'center' }}>
           <NavLink
             to="/"
-            className={({ isActive }) =>
-              `nav-link ${isActive ? "nav-active" : ""}`
-            }
+            className={({ isActive }) => `nav-link ${isActive ? "nav-active" : ""}`}
           >
             Work
           </NavLink>
-
           <NavLink
             to="/about"
-            className={({ isActive }) =>
-              `nav-link ${isActive ? "nav-active" : ""}`
-            }
+            className={({ isActive }) => `nav-link ${isActive ? "nav-active" : ""}`}
           >
             About
           </NavLink>
+          <a href="/resume.pdf" className="nav-link">Resume</a>
+          <a href="#contact" className="nav-link">Contact</a>
+        </div>
 
-          <a href="/resume.pdf" className="nav-link">
+        {/* Hamburger button — visible below md */}
+        <button
+          className="md:hidden flex flex-col justify-center gap-[5px] p-2 -mr-2"
+          onClick={() => setMobileOpen(prev => !prev)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileOpen}
+        >
+          <span
+            className="block w-5 h-[1.5px] bg-[#18181b] origin-center transition-transform duration-200"
+            style={{ transform: mobileOpen ? 'translateY(6.5px) rotate(45deg)' : undefined }}
+          />
+          <span
+            className="block w-5 h-[1.5px] bg-[#18181b] transition-opacity duration-200"
+            style={{ opacity: mobileOpen ? 0 : 1 }}
+          />
+          <span
+            className="block w-5 h-[1.5px] bg-[#18181b] origin-center transition-transform duration-200"
+            style={{ transform: mobileOpen ? 'translateY(-6.5px) rotate(-45deg)' : undefined }}
+          />
+        </button>
+      </div>
+
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-black/5 bg-[rgba(250,250,249,0.97)] px-6 py-5 flex flex-col gap-5">
+          <NavLink
+            to="/"
+            onClick={() => setMobileOpen(false)}
+            className={({ isActive }) => `nav-link ${isActive ? "nav-active" : ""}`}
+          >
+            Work
+          </NavLink>
+          <NavLink
+            to="/about"
+            onClick={() => setMobileOpen(false)}
+            className={({ isActive }) => `nav-link ${isActive ? "nav-active" : ""}`}
+          >
+            About
+          </NavLink>
+          <a href="/resume.pdf" onClick={() => setMobileOpen(false)} className="nav-link">
             Resume
           </a>
-
-          <a href="#contact" className="nav-link">
+          <a href="#contact" onClick={() => setMobileOpen(false)} className="nav-link">
             Contact
           </a>
         </div>
-      </div>
+      )}
     </div>
   );
 }

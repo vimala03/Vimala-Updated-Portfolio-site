@@ -163,9 +163,9 @@ function ToolGroup({
 
 export default function AboutToolkit() {
   return (
-    <section className="bg-[#fafaf9] pt-[80px] pb-[96px]">
-      <div className="max-w-[1440px] mx-auto px-[60px]">
-        <div className="px-[91px]">
+    <section className="bg-[#fafaf9] pt-12 pb-14 md:pt-[80px] md:pb-[96px]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
+        <div className="px-0 lg:px-[91px]">
 
           {/* Header */}
           <motion.div

@@ -97,8 +97,8 @@ export default function AboutTestimonials() {
         }}
       />
 
-      <div className="max-w-[1440px] mx-auto px-[60px] relative z-10">
-        <div className="px-[91px]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px] relative z-10">
+        <div className="px-0 lg:px-[91px]">
 
           {/* Header */}
           <motion.div

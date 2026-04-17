@@ -283,9 +283,9 @@ function SkillCard({ skill, index }: { skill: (typeof skills)[0]; index: number 
 
 export default function AboutSkills() {
   return (
-    <section className="bg-[#fafaf9]" style={{ paddingTop: '96px', paddingBottom: '96px' }}>
-      <div className="max-w-[1440px] mx-auto px-[60px]">
-        <div className="px-[91px]">
+    <section className="bg-[#fafaf9]" style={{ paddingTop: 'clamp(56px,8vw,96px)', paddingBottom: 'clamp(56px,8vw,96px)' }}>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
+        <div className="px-0 lg:px-[91px]">
 
           {/* Header */}
           <div
