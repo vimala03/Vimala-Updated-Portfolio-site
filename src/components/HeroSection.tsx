@@ -2,7 +2,7 @@ import Container from './Container'
 import StatItem from './StatItem'
 import HeroCard from './HeroCard'
 
-const imgProfile = 'https://www.figma.com/api/mcp/asset/cfc58b8e-5413-4628-a233-23c867c11e90'
+const imgProfile = 'https://www.figma.com/api/mcp/asset/ab51de14-d22a-4608-9b66-dec0476bb1b4'
 
 export default function HeroSection() {
   return (
