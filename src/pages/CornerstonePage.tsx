@@ -1,6 +1,14 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import './cornerstone.css'
+
+/* ─── Case study order (used by next-proj click handler) ─── */
+const caseStudyOrder = [
+  { slug: 'cornerstone', title: 'Cornerstone OnDemand · AI Workflows' },
+  { slug: 'buildzar',    title: 'Buildzar' },
+  { slug: 'moonraft',   title: 'Moonraft – UST Global' },
+]
 
 const html = `
 <div id="progress"></div>
@@ -1254,10 +1262,10 @@ const html = `
 
 </div><!-- end ch-wrap -->
 
-<div class="next-proj">
+<div class="next-proj" role="link" aria-label="Go to next case study: Buildzar" style="cursor:pointer;">
   <div>
     <div style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.5rem;">Next case study →</div>
-    <div style="font-family:var(--serif);font-size:1.6rem;letter-spacing:-0.02em;">AI Search &amp; Engagement Optimisation · Flyin Travel</div>
+    <div style="font-family:var(--serif);font-size:1.6rem;letter-spacing:-0.02em;">Buildzar</div>
   </div>
   <div style="font-size:1.5rem;color:var(--ink3);">→</div>
 </div>
@@ -1269,7 +1277,17 @@ const html = `
 `
 
 export default function CornerstonePage() {
+  const navigate = useNavigate()
+
   useEffect(() => {
+    // Next case study click handler
+    const currentSlug = 'cornerstone'
+    const currentIdx = caseStudyOrder.findIndex((c) => c.slug === currentSlug)
+    const nextCase = caseStudyOrder[(currentIdx + 1) % caseStudyOrder.length]
+    const nextProjEl = document.querySelector('.next-proj') as HTMLElement | null
+    const handleNextClick = () => navigate(`/work/${nextCase.slug}`)
+    if (nextProjEl) nextProjEl.addEventListener('click', handleNextClick)
+
     // Progress bar
     const handleScroll = () => {
       const h = document.documentElement
@@ -1367,6 +1385,7 @@ export default function CornerstonePage() {
     if (tldr) counterObs.observe(tldr)
 
     return () => {
+      if (nextProjEl) nextProjEl.removeEventListener('click', handleNextClick)
       window.removeEventListener('scroll', handleScroll)
       obs.disconnect()
       counterObs.disconnect()
@@ -1376,7 +1395,7 @@ export default function CornerstonePage() {
       delete (window as any).switchTab
       delete (window as any).showPP
     }
-  }, [])
+  }, [navigate])
 
   return (
     <>
