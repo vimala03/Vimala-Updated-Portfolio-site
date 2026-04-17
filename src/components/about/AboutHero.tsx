@@ -1,6 +1,6 @@
 import AnimateIn from '../AnimateIn'
 
-const imgHero = 'https://www.figma.com/api/mcp/asset/9c4697af-fa4f-4b20-849b-b59837d9244b'
+const imgHero = '/images/heroimage.jpeg'
 
 const chips = [
   { label: 'Product Designer', color: '#6366f1' },
