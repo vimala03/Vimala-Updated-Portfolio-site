@@ -66,7 +66,7 @@ const experienceEntries: Entry[] = [
     description:
       'Led redesign of search and discovery with AI-powered intent prediction. Reduced search abandonment by 35%, increased booking conversion by 28%, and drove App Store rating from 3.2★ to 4.4★.',
     tags: ['TRAVEL TECH', 'AI SEARCH', 'MOBILE UX'],
-    image: '/images/case-studies/flyin.jpeg',
+    image: '/images/flyin.jpeg',
   },
   {
     date: 'Aug 2015 – Jul 2016 · HYDERABAD',
