@@ -31,6 +31,16 @@ interface Snap {
 }
 
 /* ─── Helpers ────────────────────────────────────────────────── */
+/** Dynamic pill label based on current page */
+function getTriggerLabel(pathname: string): string {
+  if (pathname.includes('/work/cornerstone')) return 'Ask about this project'
+  if (pathname.includes('/work/buildzar'))    return 'Ask about this project'
+  if (pathname.includes('/work/moonraft'))    return 'Ask about this project'
+  if (pathname === '/about')                  return 'Ask about Vimala'
+  if (pathname === '/')                       return 'Understand my work'
+  return 'Ask my AI'
+}
+
 function getPageLabel(pathname: string): string {
   if (pathname === '/')                        return 'Home'
   if (pathname === '/about')                   return 'About'
@@ -47,6 +57,34 @@ function buildMessage(text: string, page: string): string {
     hour: '2-digit', minute: '2-digit',
   })
   return `Hi Vimala, I came from [${page}] on ${ts}.\n\n${text.trim() || '...'}`
+}
+
+/* ─── LLM helpers ───────────────────────────────────────────── */
+
+/** Returns an internal case-study link when the topic is a known project */
+function getCaseStudyLink(topic: string): MsgLink | undefined {
+  const t = topic.toLowerCase()
+  if (t.includes('cornerstone')) return { label: 'View full case study →', to: '/work/cornerstone', isInternal: true }
+  if (t.includes('buildzar'))    return { label: 'View full case study →', to: '/work/buildzar',    isInternal: true }
+  if (t.includes('moonraft'))    return { label: 'View full case study →', to: '/work/moonraft',    isInternal: true }
+  return undefined
+}
+
+/** Returns contextual follow-up suggestions based on what was just discussed */
+const FOLLOWUP_MAP: Array<{ match: RegExp; chips: string[] }> = [
+  { match: /cornerstone/i, chips: ['What were the measurable outcomes?',   'Tell me about Buildzar',   'How do you design for AI?']           },
+  { match: /buildzar/i,    chips: ['How did you research B2B procurement?', 'Tell me about Moonraft',   'What are your measurable outcomes?']  },
+  { match: /moonraft|ust/i,chips: ['What was the research process?',        'Tell me about Cornerstone','See all project outcomes']            },
+  { match: /flyin|travel/i,chips: ['Tell me about Cornerstone',             'What are your outcomes?',  'How do you handle mobile UX?']        },
+  { match: /process|jtbd/i,chips: ['Tell me about Cornerstone OnDemand',    'What tools do you use?',   'What are your measurable outcomes?']  },
+  { match: /outcome|metric|impact/i, chips: ['Tell me about Cornerstone',   'Tell me about Buildzar',   'How do you approach UX research?']    },
+]
+
+function getFollowups(topic: string): string[] {
+  for (const { match, chips } of FOLLOWUP_MAP) {
+    if (match.test(topic)) return chips
+  }
+  return ['Tell me about Cornerstone OnDemand', 'What are the measurable outcomes?', 'How do you approach UX research?']
 }
 
 const GREETING_MSG: Msg = {
@@ -256,14 +294,56 @@ const CSS = `
     from { opacity:0; transform:translateY(7px); }
     to   { opacity:1; transform:translateY(0); }
   }
+  @keyframes fcFadeUp {
+    from { opacity:0; transform:translateY(5px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
   @keyframes fcBounce {
     0%,80%,100% { transform:translateY(0); opacity:.35; }
     40%          { transform:translateY(-5px); opacity:1; }
   }
-  .fc-panel  { animation: fcUp 0.26s cubic-bezier(0.22,1,0.36,1) both; }
-  .fc-in     { animation: fcIn 0.22s cubic-bezier(0.22,1,0.36,1) both; }
-  .fc-dot    { animation: fcBounce 1.1s ease-in-out infinite; }
+  @keyframes fcGlow {
+    0%, 75%, 100% { box-shadow: 0 6px 22px rgba(0,0,0,0.28); }
+    82%           { box-shadow: 0 6px 22px rgba(0,0,0,0.28),
+                                0 0 0 3px rgba(255,255,255,0.13),
+                                0 0 28px rgba(255,255,255,0.07); }
+  }
+  .fc-panel       { animation: fcUp     0.26s cubic-bezier(0.22,1,0.36,1) both; }
+  .fc-in          { animation: fcIn     0.22s cubic-bezier(0.22,1,0.36,1) both; }
+  .fc-dot         { animation: fcBounce 1.1s  ease-in-out infinite; }
+  .fc-pill        { animation: fcGlow   7s    ease-in-out infinite 2.5s; }
+  .fc-tooltip     { animation: fcFadeUp 0.14s cubic-bezier(0.22,1,0.36,1) both; }
   .fc-textarea:focus { outline: none; }
+
+  /* ── Scrollbar styling for messages area ── */
+  .fc-messages::-webkit-scrollbar        { width: 3px; }
+  .fc-messages::-webkit-scrollbar-track  { background: transparent; }
+  .fc-messages::-webkit-scrollbar-thumb  { background: rgba(24,24,27,0.12); border-radius: 99px; }
+
+  /* ── Input area: scrollable when content grows tall (ai-answer + chips) ── */
+  .fc-input-area { overflow-y: auto; }
+  .fc-input-area::-webkit-scrollbar       { width: 2px; }
+  .fc-input-area::-webkit-scrollbar-thumb { background: rgba(24,24,27,0.08); border-radius: 99px; }
+
+  /* ── Mobile: bottom sheet ── */
+  @media (max-width: 640px) {
+    .fc-panel-wrap {
+      bottom: 0 !important;
+      right:  0 !important;
+      left:   0 !important;
+      width:  100% !important;
+    }
+    .fc-panel {
+      width:         100% !important;
+      max-height:    90dvh !important;
+      border-radius: 20px 20px 0 0 !important;
+      border-bottom: none !important;
+    }
+    .fc-trigger-wrap {
+      right:  16px !important;
+      bottom: 16px !important;
+    }
+  }
 `
 
 /* ─── Main Component ─────────────────────────────────────────── */
@@ -271,11 +351,16 @@ export default function FloatingChat() {
   const { pathname } = useLocation()
   const navigate     = useNavigate()
 
-  const [open,    setOpen]    = useState(false)
-  const [step,    setStep]    = useState<Step>('greeting')
-  const [msgs,    setMsgs]    = useState<Msg[]>([GREETING_MSG])
-  const [draft,   setDraft]   = useState('')
-  const [history, setHistory] = useState<Snap[]>([])
+  const [open,           setOpen]           = useState(false)
+  const [step,           setStep]           = useState<Step>('greeting')
+  const [msgs,           setMsgs]           = useState<Msg[]>([GREETING_MSG])
+  const [draft,          setDraft]          = useState('')
+  const [history,        setHistory]        = useState<Snap[]>([])
+  const [triggerHovered, setTriggerHovered] = useState(false)
+  /* LLM conversation history (passed to API for multi-turn context) */
+  const [llmHistory,     setLlmHistory]     = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([])
+  /* Follow-up suggestion chips shown after an AI answer */
+  const [followups,      setFollowups]      = useState<string[]>([])
   const bottomRef             = useRef<HTMLDivElement>(null)
   let   nextId                = useRef(1)
 
@@ -318,7 +403,46 @@ export default function FloatingChat() {
     setMsgs([GREETING_MSG])
     setDraft('')
     setHistory([])
+    setLlmHistory([])
+    setFollowups([])
     nextId.current = 1
+  }, [])
+
+  /**
+   * Calls the LLM API, falls back to local keyword matching if the API
+   * is unreachable (e.g. running `npm run dev` without `vercel dev`).
+   */
+  const callAssistant = useCallback(
+    async (userMsg: string): Promise<{ reply: string }> => {
+      try {
+        const res = await fetch('/api/assistant', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ message: userMsg, history: llmHistory }),
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const data = await res.json() as { reply: string }
+        return { reply: data.reply }
+      } catch {
+        /* Fallback: local keyword matching (works offline / without vercel dev) */
+        const local = matchQuery(userMsg)
+        if (local) return { reply: local.response }
+        return {
+          reply:
+            "I'm having trouble connecting right now — but Vimala can answer directly. Use the buttons below to reach her.",
+        }
+      }
+    },
+    [llmHistory],
+  )
+
+  /** Append a user+assistant exchange to the multi-turn LLM history */
+  const appendLlmHistory = useCallback((userMsg: string, assistantReply: string) => {
+    setLlmHistory(h => [
+      ...h.slice(-10), // keep last 5 turns (10 messages) to control token cost
+      { role: 'user',      content: userMsg         },
+      { role: 'assistant', content: assistantReply  },
+    ])
   }, [])
 
   const handleToggle = useCallback(() => setOpen(o => !o), [])
@@ -366,9 +490,9 @@ export default function FloatingChat() {
     [botReply, takeSnap],
   )
 
-  /* ── Explore sub-options ── */
+  /* ── Explore sub-options (LLM-powered) ── */
   const handleExplore = useCallback(
-    (opt: 'cornerstone' | 'buildzar' | 'moonraft' | 'process' | 'outcomes' | 'freeask') => {
+    async (opt: 'cornerstone' | 'buildzar' | 'moonraft' | 'process' | 'outcomes' | 'freeask') => {
       takeSnap()
 
       if (opt === 'freeask') {
@@ -376,73 +500,70 @@ export default function FloatingChat() {
         return
       }
 
-      const map = {
-        cornerstone: {
-          label:    '📐 Cornerstone OnDemand',
-          text:     `I redesigned Cornerstone's Content Manager with three AI-first features:\n\n· AI metadata generation — auto-fills title, description, keywords & skills\n· Bulk multilingual translation — 40-click workflow → 1 click\n· Smart session continuity — progress saved automatically\n\n📊 1,700+ admin mins/month saved · 4,000+ pages via AI-powered search`,
-          link:     { label: 'View case study: Cornerstone →', to: '/work/cornerstone', isInternal: true },
-          next:     'ai-answer' as Step,
-        },
-        buildzar: {
-          label:    '🏗 Buildzar',
-          text:     `Buildzar is a B2B construction materials marketplace:\n\n· Redesigned supplier discovery and bulk product browsing\n· Streamlined multi-line procurement and quote-request flows\n· Built to handle a large SKU catalogue without overwhelming buyers\n\n📊 Reduced procurement steps · Improved supplier–buyer matching`,
-          link:     { label: 'View case study: Buildzar →', to: '/work/buildzar', isInternal: true },
-          next:     'ai-answer' as Step,
-        },
-        moonraft: {
-          label:    '🌐 Moonraft – UST Global',
-          text:     `For UST Global, I led the UX redesign of their internal intranet:\n\n· Consolidated 40+ fragmented internal tools into one coherent experience\n· Research-led process — employee interviews, card sorting, JTBD mapping\n· Improved global navigation, unified search, cross-team task flows\n\n📊 Faster information access · Measurably reduced navigation steps`,
-          link:     { label: 'View case study: Moonraft →', to: '/work/moonraft', isInternal: true },
-          next:     'ai-answer' as Step,
-        },
-        process: {
-          label:    '🔄 UX process',
-          text:     `My UX process is research-first, always:\n\n1. Deep user interviews & JTBD framework\n2. Competitive benchmarking & heuristic analysis\n3. Lo-fi sketches → rapid wireframe iteration\n4. Prototype testing with real users\n5. Dev-ready handoff with annotated edge cases\n\nEvery project starts with "why does this matter to the user?" before touching Figma.`,
-          link:     undefined,
-          next:     'ai-answer' as Step,
-        },
-        outcomes: {
-          label:    '📊 Project outcomes',
-          text:     `Measurable impact across key projects:\n\n· 1,700+ admin mins/month saved — Cornerstone OnDemand\n· 40-click workflow → 1 click — Cornerstone\n· 4,000+ pages navigated via AI-powered search\n· Booking conversion improved — Flyin Travel\n· Cross-team collaboration increased — UST Global intranet`,
-          link:     undefined,
-          next:     'ai-answer' as Step,
-        },
+      const labelMap = {
+        cornerstone: '📐 Cornerstone OnDemand',
+        buildzar:    '🏗 Buildzar',
+        moonraft:    '🌐 Moonraft – UST Global',
+        process:     '🔄 UX process',
+        outcomes:    '📊 Project outcomes',
+      }
+      const promptMap = {
+        cornerstone: 'Tell me about the Cornerstone OnDemand case study. Cover the problem, approach, and key outcomes.',
+        buildzar:    'Tell me about the Buildzar B2B marketplace case study. Cover the problem, approach, and key outcomes.',
+        moonraft:    'Tell me about the Moonraft UST Global intranet redesign case study. Cover the problem, approach, and outcomes.',
+        process:     "Explain Vimala's UX design process step by step.",
+        outcomes:    "What are the key measurable outcomes and metrics from Vimala's main projects?",
       }
 
-      const { label, text, link, next } = map[opt]
-      botReply(label, text, next, link)
+      const label  = labelMap[opt]
+      const prompt = promptMap[opt]
+
+      addMsg('user', label)
+      setStep('typing')
+
+      const { reply } = await callAssistant(prompt)
+      const link = (opt !== 'process' && opt !== 'outcomes') ? getCaseStudyLink(opt) : undefined
+
+      appendLlmHistory(prompt, reply)
+      addMsg('bot', reply, link)
+      setFollowups(getFollowups(opt))
+      setStep('ai-answer')
     },
-    [botReply, takeSnap],
+    [botReply, takeSnap, addMsg, callAssistant, appendLlmHistory],
   )
 
-  /* ── AI free-text query submit ── */
-  const handleAskSubmit = useCallback(() => {
+  /* ── AI free-text query submit (LLM-powered) ── */
+  const handleAskSubmit = useCallback(async () => {
     const q = draft.trim()
     if (!q) return
     takeSnap()
     addMsg('user', q)
     setDraft('')
     setStep('typing')
-    setTimeout(() => {
-      const result = matchQuery(q)
-      if (result) {
-        const link: MsgLink | undefined = result.linkTo
-          ? {
-              label:      result.linkLabel ?? 'View →',
-              to:         result.linkTo,
-              isInternal: result.isInternal ?? false,
-            }
-          : undefined
-        addMsg('bot', `Got it — here's what I found:\n\n${result.response}`, link)
-      } else {
-        addMsg(
-          'bot',
-          "I didn't find an exact match — but Vimala would love to answer this directly.\n\nReach out below and she'll get back to you.",
-        )
-      }
-      setStep('ai-answer')
-    }, BOT_DELAY)
-  }, [draft, addMsg, takeSnap])
+
+    const { reply } = await callAssistant(q)
+    const link = getCaseStudyLink(q)
+
+    appendLlmHistory(q, reply)
+    addMsg('bot', reply, link)
+    setFollowups(getFollowups(q))
+    setStep('ai-answer')
+  }, [draft, addMsg, takeSnap, callAssistant, appendLlmHistory])
+
+  /** Inline follow-up: user clicks a suggestion chip after an AI answer */
+  const handleFollowup = useCallback(async (suggestion: string) => {
+    takeSnap()
+    addMsg('user', suggestion)
+    setStep('typing')
+
+    const { reply } = await callAssistant(suggestion)
+    const link = getCaseStudyLink(suggestion)
+
+    appendLlmHistory(suggestion, reply)
+    addMsg('bot', reply, link)
+    setFollowups(getFollowups(suggestion))
+    setStep('ai-answer')
+  }, [takeSnap, addMsg, callAssistant, appendLlmHistory])
 
   /* ── Transition from ai-answer → compose ── */
   const handleAiReachOut = useCallback(() => {
@@ -502,24 +623,27 @@ export default function FloatingChat() {
 
       {/* ── Panel ── */}
       {open && (
+        /* ── Positioning wrapper (moves on mobile via .fc-panel-wrap) ── */
+        <div
+          className="fc-panel-wrap"
+          style={{ position: 'fixed', bottom: '88px', right: '24px', zIndex: 9999 }}
+        >
         <div
           role="dialog"
           aria-label="Portfolio Assistant"
           aria-modal="true"
           className="fc-panel"
           style={{
-            position:      'fixed',
-            bottom:        '88px',
-            right:         '24px',
-            width:         'min(348px, calc(100vw - 32px))',
-            maxHeight:     '560px',
+            width:         'min(360px, calc(100vw - 32px))',
+            /* Grow up to 80vh; on mobile overridden to 90dvh via media query */
+            maxHeight:     'min(80vh, 740px)',
             display:       'flex',
             flexDirection: 'column',
             background:    '#ffffff',
             border:        '1px solid rgba(24,24,27,0.09)',
             borderRadius:  '20px',
             boxShadow:     '0 24px 64px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.05)',
-            zIndex:        9999,
+            /* overflow:hidden kept for border-radius clipping, but flex children scroll internally */
             overflow:      'hidden',
             fontFamily:    "'Inter', sans-serif",
           }}
@@ -571,12 +695,21 @@ export default function FloatingChat() {
             </button>
           </div>
 
-          {/* ── Messages ── */}
-          <div style={{
-            flex: 1, overflowY: 'auto',
-            padding: '14px 14px 6px',
-            display: 'flex', flexDirection: 'column', gap: '8px',
-          }}>
+          {/* ── Messages (scrollable) ── */}
+          <div
+            className="fc-messages"
+            style={{
+              flex:           1,
+              overflowY:      'auto',
+              /* Floor: always show at least 2 messages before the input area takes over */
+              minHeight:      '160px',
+              padding:        '16px 14px 8px',
+              display:        'flex',
+              flexDirection:  'column',
+              gap:            '10px',
+              scrollBehavior: 'smooth',
+            }}
+          >
             {msgs.map(msg => (
               <Bubble
                 key={msg.id}
@@ -586,15 +719,23 @@ export default function FloatingChat() {
               />
             ))}
             {step === 'typing' && <TypingDots />}
-            <div ref={bottomRef} />
+            {/* Scroll anchor — always kept in view */}
+            <div ref={bottomRef} style={{ height: '1px', flexShrink: 0 }} />
           </div>
 
-          {/* ── Input area ── */}
-          <div style={{
-            padding:    '10px 14px 16px',
-            borderTop:  '1px solid rgba(24,24,27,0.06)',
-            flexShrink: 0,
-          }}>
+          {/* ── Input + CTAs (fixed bottom, scrollable when tall) ── */}
+          <div
+            className="fc-input-area"
+            style={{
+              /* Cap input area at 55% of panel so messages always get room */
+              maxHeight:  '55%',
+              padding:    '10px 14px 16px',
+              borderTop:  '1px solid rgba(24,24,27,0.06)',
+              flexShrink: 0,
+              /* Safe-area padding for iOS home-bar */
+              paddingBottom: 'max(16px, env(safe-area-inset-bottom, 16px))',
+            }}
+          >
 
             {/* GREETING — 3 intent choices */}
             {step === 'greeting' && (
@@ -699,9 +840,27 @@ export default function FloatingChat() {
               </div>
             )}
 
-            {/* AI-ANSWER — offer to reach out */}
+            {/* AI-ANSWER — follow-up chips + reach-out CTA */}
             {step === 'ai-answer' && (
               <div className="fc-in" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+
+                {/* Contextual follow-up suggestion chips */}
+                {followups.length > 0 && (
+                  <>
+                    <p style={{
+                      fontSize: '10px', fontWeight: 600, letterSpacing: '0.08em',
+                      textTransform: 'uppercase', color: 'rgba(24,24,27,0.32)',
+                      margin: '2px 0 0', fontFamily: "'Inter', sans-serif",
+                    }}>
+                      You might also ask
+                    </p>
+                    {followups.map(s => (
+                      <ChoiceBtn key={s} label={s} onClick={() => handleFollowup(s)} />
+                    ))}
+                    <div style={{ borderTop: '1px solid rgba(24,24,27,0.06)', margin: '4px 0 2px' }} />
+                  </>
+                )}
+
                 <ChoiceBtn
                   label="✉️ Reach out about this"
                   sublabel="Send Vimala a message via WhatsApp or email"
@@ -709,7 +868,7 @@ export default function FloatingChat() {
                 />
                 <ChoiceBtn
                   label="🤖 Ask something else"
-                  sublabel="Ask another question"
+                  sublabel="Type a new question"
                   onClick={() => { takeSnap(); setStep('ask'); setDraft('') }}
                 />
               </div>
@@ -915,46 +1074,141 @@ export default function FloatingChat() {
             )}
           </div>
         </div>
+        {/* close fc-panel-wrap */}
+        </div>
       )}
 
       {/* ── Floating trigger ── */}
-      <button
-        onClick={handleToggle}
-        aria-label={open ? 'Close portfolio assistant' : 'Open portfolio assistant'}
+      <div
+        className="fc-trigger-wrap"
         style={{
-          position:       'fixed',
-          bottom:         '24px',
-          right:          '24px',
-          width:          '52px',
-          height:         '52px',
-          borderRadius:   '50%',
-          background:     '#18181b',
-          border:         '1px solid rgba(255,255,255,0.1)',
-          boxShadow:      '0 8px 24px rgba(0,0,0,0.2)',
-          cursor:         'pointer',
-          zIndex:         9999,
-          display:        'flex',
-          alignItems:     'center',
-          justifyContent: 'center',
-          transition:     'transform 0.2s ease, box-shadow 0.2s ease',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.transform = 'scale(1.07)'
-          e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.26)'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.transform = 'scale(1)'
-          e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)'
+          position: 'fixed',
+          bottom:   '24px',
+          right:    '24px',
+          zIndex:   9999,
+          display:  'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: '8px',
         }}
       >
-        {open ? (
-          <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-            <path d="M2 2l10 10M12 2L2 12" stroke="white" strokeWidth="1.6" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <IcChat />
+        {/* Tooltip — shown on hover when panel is closed */}
+        {!open && triggerHovered && (
+          <div
+            className="fc-tooltip"
+            style={{
+              background:    '#18181b',
+              color:         'rgba(255,255,255,0.72)',
+              fontSize:      '11.5px',
+              lineHeight:    1.5,
+              padding:       '7px 12px',
+              borderRadius:  '10px',
+              border:        '1px solid rgba(255,255,255,0.08)',
+              whiteSpace:    'nowrap',
+              pointerEvents: 'none',
+              letterSpacing: '0.01em',
+              fontFamily:    "'Inter', sans-serif",
+              position:      'relative',
+            }}
+          >
+            I explain case studies, decisions &amp; outcomes
+            {/* Arrow */}
+            <span style={{
+              position:    'absolute',
+              top:         '100%',
+              right:       '22px',
+              width:       0,
+              height:      0,
+              borderLeft:  '5px solid transparent',
+              borderRight: '5px solid transparent',
+              borderTop:   '5px solid #18181b',
+            }} />
+          </div>
         )}
-      </button>
+
+        {/* Pill — closed state */}
+        {!open && (
+          <button
+            onClick={handleToggle}
+            onMouseEnter={() => setTriggerHovered(true)}
+            onMouseLeave={() => setTriggerHovered(false)}
+            aria-label="Open AI portfolio assistant"
+            className="fc-pill"
+            style={{
+              display:        'flex',
+              alignItems:     'center',
+              gap:            '7px',
+              padding:        '11px 20px',
+              borderRadius:   '999px',
+              background:     '#18181b',
+              border:         '1px solid rgba(255,255,255,0.1)',
+              color:          'white',
+              fontSize:       '13.5px',
+              fontWeight:     600,
+              fontFamily:     "'Inter', sans-serif",
+              letterSpacing:  '-0.01em',
+              cursor:         'pointer',
+              transform:      triggerHovered ? 'scale(1.045) translateY(-1px)' : 'scale(1)',
+              transition:     'transform 0.2s cubic-bezier(0.22,1,0.36,1)',
+              whiteSpace:     'nowrap',
+            }}
+          >
+            {/* Sparkle */}
+            <span style={{ fontSize: '13px', lineHeight: 1 }}>✨</span>
+
+            {/* Dynamic label */}
+            <span>{getTriggerLabel(pathname)}</span>
+
+            {/* Live dot */}
+            <span style={{
+              width:        '6px',
+              height:       '6px',
+              borderRadius: '50%',
+              background:   '#4ade80',
+              flexShrink:   0,
+              marginLeft:   '1px',
+            }} />
+          </button>
+        )}
+
+        {/* Close pill — open state */}
+        {open && (
+          <button
+            onClick={handleToggle}
+            aria-label="Close portfolio assistant"
+            style={{
+              display:        'flex',
+              alignItems:     'center',
+              gap:            '6px',
+              padding:        '10px 18px',
+              borderRadius:   '999px',
+              background:     '#18181b',
+              border:         '1px solid rgba(255,255,255,0.1)',
+              boxShadow:      '0 6px 22px rgba(0,0,0,0.28)',
+              color:          'rgba(255,255,255,0.65)',
+              fontSize:       '12.5px',
+              fontWeight:     500,
+              fontFamily:     "'Inter', sans-serif",
+              letterSpacing:  '0.01em',
+              cursor:         'pointer',
+              transition:     'all 0.18s ease',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.color   = 'white'
+              e.currentTarget.style.transform = 'scale(1.04)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.color   = 'rgba(255,255,255,0.65)'
+              e.currentTarget.style.transform = 'scale(1)'
+            }}
+          >
+            <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
+              <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+            Close
+          </button>
+        )}
+      </div>
     </>
   )
 }
