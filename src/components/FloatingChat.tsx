@@ -128,17 +128,7 @@ const IcPhone = () => (
   </svg>
 )
 
-const IcChat = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-    <path
-      d="M9 2C5.5 2 2.5 4.46 2.5 7.75c0 1.1.3 2.12.83 2.97L2.5 15l4.05-.84A6.6 6.6 0 009 14.5c3.5 0 6.5-2.46 6.5-6.75S12.5 2 9 2z"
-      stroke="white" strokeWidth="1.4" strokeLinejoin="round"
-    />
-    <circle cx="6.5" cy="8" r="1" fill="white" />
-    <circle cx="9"   cy="8" r="1" fill="white" />
-    <circle cx="11.5" cy="8" r="1" fill="white" />
-  </svg>
-)
+
 
 /* ─── Sub-components ─────────────────────────────────────────── */
 
