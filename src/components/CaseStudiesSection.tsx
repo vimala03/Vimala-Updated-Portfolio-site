@@ -9,79 +9,78 @@ import PasswordModal from './PasswordModal'
 
 /* ─── Types ─── */
 type InternalStudy = {
-  type: 'internal'
-  route: string
-  title: string
-  date: string
+  type:      'internal'
+  route:     string
+  /** When set, clicking opens the password modal → Figma prototype instead of navigating internally */
+  figmaUrl?: string
+  password?: string   // required when figmaUrl is set
+  title:     string
+  date:      string
   description: string
-  image: string
-  imageAlt: string
+  image:     string
+  imageAlt:  string
 }
 
 type ExternalStudy = {
-  type: 'external'
+  type:     'external'
   figmaUrl: string
-  title: string
-  date: string
+  password: string   // every external study needs a password
+  title:    string
+  date:     string
   description: string
-  image: string
+  image:    string
   imageAlt: string
 }
 
 type LargeStudy = InternalStudy | ExternalStudy
 
-type SmallInternalStudy = {
-  type: 'internal'
-  route: string
-  title: string
-  category: string
-  description: string
-  image: string
-  imageAlt: string
-}
-
 type SmallExternalStudy = {
-  type: 'external'
+  type:     'external'
   figmaUrl: string
-  title: string
+  password: string
+  title:    string
   category: string
   description: string
-  image: string
+  image:    string
   imageAlt: string
 }
 
-type SmallStudy = SmallInternalStudy | SmallExternalStudy
+type SmallStudy = SmallExternalStudy
 
 /* ─── Large case study data ─── */
 const largeCaseStudies: LargeStudy[] = [
   {
-    type: 'internal',
-    route: '/work/cornerstone',
-    title: 'AI-powered enterprise search redesign → enabling faster decision making at scale',
-    date: 'July 2022 - May 2023',
+    type:     'internal',
+    route:    '/work/cornerstone',               // fallback navigation if figmaUrl is removed
+    figmaUrl: 'PASTE_CORNERSTONE_FIGMA_URL_HERE', // ← replace with real Figma prototype link
+    password: 'design123',
+    title:    'AI-powered enterprise search redesign → enabling faster decision making at scale',
+    date:     'July 2022 - May 2023',
     description:
       'Improved task efficiency across 4000+ pages by redesigning navigation with AI-powered, persona-based search and contextual pinning, reducing friction and enabling faster, action-oriented workflows.',
-    image: 'https://www.figma.com/api/mcp/asset/ffba970a-d029-4636-8336-63e4042892cb',
+    image:    'https://www.figma.com/api/mcp/asset/ffba970a-d029-4636-8336-63e4042892cb',
     imageAlt: 'AI-powered enterprise search redesign',
   },
   {
-    type: 'external',
+    type:     'external',
     figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=187%3A16344&node-id=187-19899&viewport=552%2C1569%2C0.11&t=7p323AFE3PhinXty-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=187%3A19899',
-    title: 'U&UST Intranet',
-    date: 'July 2022 - May 2023',
+    password: 'design123',
+    title:    'U&UST Intranet',
+    date:     'July 2022 - May 2023',
     description:
       "Unified UST's fragmented intranet into a single, intuitive platform, eliminating silos and improving employee efficiency through research-driven workflows and seamless tool access.",
-    image: 'https://www.figma.com/api/mcp/asset/ca0563c4-80b2-40b2-9d64-f7cdb7ae2ab2',
+    image:    'https://www.figma.com/api/mcp/asset/ca0563c4-80b2-40b2-9d64-f7cdb7ae2ab2',
     imageAlt: 'U&UST Intranet',
   },
   {
-    type: 'external',
-    figmaUrl: 'PASTE_METADATA_FIGMA_LINK_HERE',
-    title: 'Content Manager Metadata Generation, Translation',
-    date: 'July 2022 - May 2023',
+    type:     'external',
+    figmaUrl: 'PASTE_METADATA_FIGMA_LINK_HERE',  // ← replace with real Figma prototype link
+    password: 'design123',
+    title:    'Content Manager Metadata Generation, Translation',
+    date:     'July 2022 - May 2023',
     description:
       'Improved search accuracy and content discoverability by introducing AI-powered metadata generation, strengthening taxonomy and information architecture across the platform.',
-    image: 'https://www.figma.com/api/mcp/asset/8fedfefe-ebcf-4f20-a4f4-35d8762f0d0a',
+    image:    'https://www.figma.com/api/mcp/asset/8fedfefe-ebcf-4f20-a4f4-35d8762f0d0a',
     imageAlt: 'Content Manager Metadata Generation',
   },
 ]
@@ -89,49 +88,70 @@ const largeCaseStudies: LargeStudy[] = [
 /* ─── Small case study data ─── */
 const smallCaseStudies: SmallStudy[] = [
   {
-    type: 'external',
+    type:     'external',
     figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2072&node-id=69-909&viewport=1542%2C13%2C0.07&t=gKJll47Zv6TSyzbl-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=69%3A909',
-    title: 'Aptia Website',
+    password: 'design123',
+    title:    'Aptia Website',
     category: 'Employee Pension and Health Benefits Administration',
     description:
       "Designed Aptia Group's website to deliver a seamless, intuitive experience, improving navigation clarity and driving stronger user engagement.",
-    image: 'https://www.figma.com/api/mcp/asset/40770304-9e43-4dab-baf6-091bd0a588ae',
+    image:    'https://www.figma.com/api/mcp/asset/40770304-9e43-4dab-baf6-091bd0a588ae',
     imageAlt: 'Aptia Website',
   },
   {
-    type: 'external',
+    type:     'external',
     figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2075&type=design&node-id=83-29753&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width',
-    title: 'Flyin Travel & Tourism',
+    password: 'design123',
+    title:    'Flyin Travel & Tourism',
     category: 'Website & App',
     description:
       "Revamped Flyin Travel's platform into a unified, user-centric experience. Improved usability and streamlined key user flows. Enabled seamless, personalized trip planning.",
-    image: 'https://www.figma.com/api/mcp/asset/ca51e43b-bc71-4234-93b8-28e0ba08d1c5',
+    image:    'https://www.figma.com/api/mcp/asset/ca51e43b-bc71-4234-93b8-28e0ba08d1c5',
     imageAlt: 'Flyin Travel & Tourism',
   },
   {
-    type: 'external',
+    type:     'external',
     figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2073&type=design&node-id=50-2077&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width&starting-point-node-id=50%3A2077',
-    title: 'CivTech Menopause care',
+    password: 'design123',
+    title:    'CivTech Menopause care',
     category: 'Concept Generation',
     description:
       'Built a comprehensive digital platform for menopause, offering personalized resources and community support for a more guided, user-centric experience.',
-    image: 'https://www.figma.com/api/mcp/asset/a5faf91a-c522-4a43-8894-4c9eb1d42a0a',
+    image:    'https://www.figma.com/api/mcp/asset/a5faf91a-c522-4a43-8894-4c9eb1d42a0a',
     imageAlt: 'CivTech Menopause care',
   },
   {
-    type: 'external',
-    figmaUrl: 'PASTE_VET_FIGMA_LINK_HERE',
-    title: 'Vet & Rider Wellness Platform',
+    type:     'external',
+    figmaUrl: 'PASTE_VET_FIGMA_LINK_HERE',        // ← replace with real Figma prototype link
+    password: 'design123',
+    title:    'Vet & Rider Wellness Platform',
     category: 'Website and App design',
     description:
       'Built a platform connecting veterinarians and horse riders through data-driven insights and remote healthcare, enabling smarter, more accessible care.',
-    image: 'https://www.figma.com/api/mcp/asset/f81cf3d1-45c5-4800-be59-a1776457c47d',
+    image:    'https://www.figma.com/api/mcp/asset/f81cf3d1-45c5-4800-be59-a1776457c47d',
     imageAlt: 'Vet & Rider Wellness Platform',
   },
 ]
 
 /* ─── Wrapper helpers ─── */
-function LargeCardWrapper({ study, children, onOpenModal }: { study: LargeStudy; children: React.ReactNode; onOpenModal: (label: string, figmaUrl: string) => void }) {
+type ModalPayload = { label: string; figmaUrl: string; password: string }
+type OpenModal = (payload: ModalPayload) => void
+
+function LargeCardWrapper({
+  study, children, onOpenModal,
+}: { study: LargeStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
+  // Internal study WITH a Figma URL → password modal → Figma prototype
+  if (study.type === 'internal' && study.figmaUrl) {
+    return (
+      <div
+        onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl!, password: study.password ?? '' })}
+        style={{ cursor: 'pointer' }}
+      >
+        {children}
+      </div>
+    )
+  }
+  // Internal study WITHOUT a Figma URL → direct internal navigation (fallback)
   if (study.type === 'internal') {
     return (
       <Link to={study.route} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
@@ -139,9 +159,10 @@ function LargeCardWrapper({ study, children, onOpenModal }: { study: LargeStudy;
       </Link>
     )
   }
+  // External study → password modal → Figma prototype
   return (
     <div
-      onClick={() => onOpenModal(study.title, study.figmaUrl)}
+      onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl, password: study.password })}
       style={{ cursor: 'pointer' }}
     >
       {children}
@@ -149,17 +170,12 @@ function LargeCardWrapper({ study, children, onOpenModal }: { study: LargeStudy;
   )
 }
 
-function SmallCardWrapper({ study, children, onOpenModal }: { study: SmallStudy; children: React.ReactNode; onOpenModal: (label: string, figmaUrl: string) => void }) {
-  if (study.type === 'internal') {
-    return (
-      <Link to={study.route} style={{ display: 'block', textDecoration: 'none', color: 'inherit', height: '100%' }}>
-        {children}
-      </Link>
-    )
-  }
+function SmallCardWrapper({
+  study, children, onOpenModal,
+}: { study: SmallStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
   return (
     <div
-      onClick={() => onOpenModal(study.title, study.figmaUrl)}
+      onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl, password: study.password })}
       style={{ cursor: 'pointer', height: '100%' }}
     >
       {children}
@@ -167,15 +183,25 @@ function SmallCardWrapper({ study, children, onOpenModal }: { study: SmallStudy;
   )
 }
 
+/* ─── Section ─── */
 export default function CaseStudiesSection() {
-  const [modal, setModal] = useState<{ label: string; figmaUrl: string } | null>(null)
+  const [modal, setModal] = useState<ModalPayload | null>(null)
 
-  const openModal = (label: string, figmaUrl: string) => setModal({ label, figmaUrl })
+  const openModal  = (payload: ModalPayload) => setModal(payload)
   const closeModal = () => setModal(null)
 
   return (
     <section id="work" className="border-t border-black/5 pt-14 md:pt-20 xl:pt-24 pb-10 md:pb-14 xl:pb-16">
-      {modal && <PasswordModal label={modal.label} figmaUrl={modal.figmaUrl} onClose={closeModal} />}
+
+      {modal && (
+        <PasswordModal
+          label={modal.label}
+          figmaUrl={modal.figmaUrl}
+          password={modal.password}
+          onClose={closeModal}
+        />
+      )}
+
       <Container className="flex flex-col gap-12 md:gap-16 xl:gap-20">
 
         {/* Section heading */}
@@ -216,7 +242,7 @@ export default function CaseStudiesSection() {
           </div>
         </AnimateIn>
 
-        {/* Small cards 2×2 grid — 1 col mobile, 2 col md+ */}
+        {/* Small cards 2×2 grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-12 gap-y-12 md:gap-y-16">
           {smallCaseStudies.map((study, i) => (
             <AnimateIn key={study.title} className="h-full" delay={i * 75}>
@@ -237,6 +263,7 @@ export default function CaseStudiesSection() {
         <AnimateIn>
           <CTASection />
         </AnimateIn>
+
       </Container>
     </section>
   )

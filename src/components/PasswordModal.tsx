@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 
-const PASSWORD = 'design123'
-
 interface PasswordModalProps {
-  label: string
+  label:    string
   figmaUrl: string
-  onClose: () => void
+  password: string   // per-study password passed from parent
+  onClose:  () => void
 }
 
-export default function PasswordModal({ label, figmaUrl, onClose }: PasswordModalProps) {
-  const [value, setValue] = useState('')
-  const [error, setError] = useState(false)
+export default function PasswordModal({ label, figmaUrl, password, onClose }: PasswordModalProps) {
+  const [value,   setValue]   = useState('')
+  const [error,   setError]   = useState(false)
+  const [loading, setLoading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -22,15 +22,23 @@ export default function PasswordModal({ label, figmaUrl, onClose }: PasswordModa
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (value === PASSWORD) {
-      window.open(figmaUrl, '_blank')
-      onClose()
+    if (!value.trim()) return
+
+    if (value.trim() === password.trim()) {
+      setLoading(true)
+      setTimeout(() => {
+        window.open(figmaUrl, '_blank', 'noopener,noreferrer')
+        onClose()
+      }, 150)
     } else {
       setError(true)
       setValue('')
       inputRef.current?.focus()
     }
   }
+
+  const isEmpty = !value.trim()
+  const isDisabled = isEmpty || loading
 
   return (
     <div
@@ -62,24 +70,14 @@ export default function PasswordModal({ label, figmaUrl, onClose }: PasswordModa
         {/* Close */}
         <button
           onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '16px',
-            right: '16px',
-            width: '32px',
-            height: '32px',
-            border: 'none',
-            background: 'transparent',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'rgba(24,24,27,0.4)',
-            fontSize: '20px',
-            lineHeight: 1,
-            padding: 0,
-          }}
           aria-label="Close"
+          style={{
+            position: 'absolute', top: '16px', right: '16px',
+            width: '32px', height: '32px',
+            border: 'none', background: 'transparent', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'rgba(24,24,27,0.4)', fontSize: '20px', lineHeight: 1, padding: 0,
+          }}
         >
           ×
         </button>
@@ -103,6 +101,7 @@ export default function PasswordModal({ label, figmaUrl, onClose }: PasswordModa
             value={value}
             onChange={(e) => { setValue(e.target.value); setError(false) }}
             placeholder="Password"
+            disabled={loading}
             style={{
               width: '100%',
               padding: '12px 14px',
@@ -114,31 +113,36 @@ export default function PasswordModal({ label, figmaUrl, onClose }: PasswordModa
               outline: 'none',
               boxSizing: 'border-box',
               transition: 'border-color 0.2s ease',
+              opacity: loading ? 0.6 : 1,
             }}
           />
+
           {error && (
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: '#e74c3c', margin: 0 }}>
               Incorrect password. Please try again.
             </p>
           )}
+
           <button
             type="submit"
+            disabled={isDisabled}
             style={{
               padding: '12px',
               borderRadius: '8px',
               border: 'none',
-              background: '#18181b',
-              color: '#ffffff',
+              background: isDisabled ? 'rgba(24,24,27,0.10)' : '#18181b',
+              color: isDisabled ? 'rgba(24,24,27,0.32)' : '#ffffff',
               fontFamily: "'Inter', sans-serif",
               fontSize: '13px',
               fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'background 0.2s ease',
+              cursor: isDisabled ? 'default' : 'pointer',
+              letterSpacing: '-0.01em',
+              transition: 'background 0.2s ease, color 0.2s ease',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = '#2d2d30' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = '#18181b' }}
+            onMouseEnter={(e) => { if (!isDisabled) e.currentTarget.style.background = '#2d2d30' }}
+            onMouseLeave={(e) => { if (!isDisabled) e.currentTarget.style.background = '#18181b' }}
           >
-            View case study →
+            {loading ? 'Opening…' : 'View case study →'}
           </button>
         </form>
       </div>
