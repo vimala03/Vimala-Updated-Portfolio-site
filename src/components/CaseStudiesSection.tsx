@@ -7,13 +7,20 @@ import CTASection from './CTASection'
 import AnimateIn from './AnimateIn'
 import PasswordModal from './PasswordModal'
 
+/* ─── Global password ─── */
+const GLOBAL_PASSWORD = 'designedbyvimala'
+
+/* ─── Contact info (used in NDA mailto / WhatsApp) ─── */
+const CONTACT_EMAIL    = 'vimalabanavath.design@gmail.com'
+const CONTACT_WHATSAPP = '918886090063'
+
 /* ─── Types ─── */
 type InternalStudy = {
   type:      'internal'
   route:     string
-  /** When set, clicking opens the password modal → Figma prototype instead of navigating internally */
-  figmaUrl?: string
-  password?: string   // required when figmaUrl is set
+  figmaUrl?: string   // when set → password modal instead of Link
+  password?: string   // required when figmaUrl is set; defaults to GLOBAL_PASSWORD
+  nda?:      boolean  // when true → bypass modal, show request-access overlay
   title:     string
   date:      string
   description: string
@@ -24,7 +31,8 @@ type InternalStudy = {
 type ExternalStudy = {
   type:     'external'
   figmaUrl: string
-  password: string   // every external study needs a password
+  password: string
+  nda?:     boolean   // when true → bypass modal, show request-access overlay
   title:    string
   date:     string
   description: string
@@ -38,6 +46,7 @@ type SmallExternalStudy = {
   type:     'external'
   figmaUrl: string
   password: string
+  nda?:     boolean
   title:    string
   category: string
   description: string
@@ -51,9 +60,10 @@ type SmallStudy = SmallExternalStudy
 const largeCaseStudies: LargeStudy[] = [
   {
     type:     'internal',
-    route:    '/work/cornerstone',               // fallback navigation if figmaUrl is removed
+    route:    '/work/cornerstone',
     figmaUrl: 'PASTE_CORNERSTONE_FIGMA_URL_HERE', // ← replace with real Figma prototype link
-    password: 'design123',
+    password: GLOBAL_PASSWORD,
+    nda:      true,
     title:    'AI-powered enterprise search redesign → enabling faster decision making at scale',
     date:     'July 2022 - May 2023',
     description:
@@ -64,7 +74,7 @@ const largeCaseStudies: LargeStudy[] = [
   {
     type:     'external',
     figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=187%3A16344&node-id=187-19899&viewport=552%2C1569%2C0.11&t=7p323AFE3PhinXty-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=187%3A19899',
-    password: 'design123',
+    password: GLOBAL_PASSWORD,
     title:    'U&UST Intranet',
     date:     'July 2022 - May 2023',
     description:
@@ -74,8 +84,9 @@ const largeCaseStudies: LargeStudy[] = [
   },
   {
     type:     'external',
-    figmaUrl: 'PASTE_METADATA_FIGMA_LINK_HERE',  // ← replace with real Figma prototype link
-    password: 'design123',
+    figmaUrl: 'PASTE_METADATA_FIGMA_LINK_HERE',
+    password: GLOBAL_PASSWORD,
+    nda:      true,   // ← NDA: bypass modal, show request-access overlay
     title:    'Content Manager Metadata Generation, Translation',
     date:     'July 2022 - May 2023',
     description:
@@ -90,7 +101,7 @@ const smallCaseStudies: SmallStudy[] = [
   {
     type:     'external',
     figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2072&node-id=69-909&viewport=1542%2C13%2C0.07&t=gKJll47Zv6TSyzbl-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=69%3A909',
-    password: 'design123',
+    password: GLOBAL_PASSWORD,
     title:    'Aptia Website',
     category: 'Employee Pension and Health Benefits Administration',
     description:
@@ -101,7 +112,7 @@ const smallCaseStudies: SmallStudy[] = [
   {
     type:     'external',
     figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2075&type=design&node-id=83-29753&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width',
-    password: 'design123',
+    password: GLOBAL_PASSWORD,
     title:    'Flyin Travel & Tourism',
     category: 'Website & App',
     description:
@@ -112,7 +123,7 @@ const smallCaseStudies: SmallStudy[] = [
   {
     type:     'external',
     figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2073&type=design&node-id=50-2077&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width&starting-point-node-id=50%3A2077',
-    password: 'design123',
+    password: GLOBAL_PASSWORD,
     title:    'CivTech Menopause care',
     category: 'Concept Generation',
     description:
@@ -122,8 +133,9 @@ const smallCaseStudies: SmallStudy[] = [
   },
   {
     type:     'external',
-    figmaUrl: 'PASTE_VET_FIGMA_LINK_HERE',        // ← replace with real Figma prototype link
-    password: 'design123',
+    figmaUrl: 'PASTE_VET_FIGMA_LINK_HERE', // ← replace with real Figma prototype link
+    password: GLOBAL_PASSWORD,
+    nda:      true,
     title:    'Vet & Rider Wellness Platform',
     category: 'Website and App design',
     description:
@@ -133,25 +145,157 @@ const smallCaseStudies: SmallStudy[] = [
   },
 ]
 
-/* ─── Wrapper helpers ─── */
+/* ─── NDA hover overlay ────────────────────────────────────────
+   Rendered inside a `group relative` wrapper. Invisible by
+   default; fades in on hover while the card content fades out.
+   Pointer-events are disabled until hover so the card beneath
+   can still be scrolled past normally.
+─────────────────────────────────────────────────────────────── */
+function NdaHoverOverlay({ title }: { title: string }) {
+  const requestUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    `Case Study Access Request — ${title}`,
+  )}&body=${encodeURIComponent(
+    `Hi Vimala,\n\nI'd like to view your NDA-protected case study: "${title}".\n\nLooking forward to connecting.`,
+  )}`
+
+  const whatsappUrl = `https://wa.me/${CONTACT_WHATSAPP}?text=${encodeURIComponent(
+    `Hi Vimala, I'd like to view your NDA case study: "${title}"`,
+  )}`
+
+  return (
+    <div
+      style={{
+        display:        'flex',
+        flexDirection:  'column',
+        alignItems:     'center',
+        justifyContent: 'center',
+        gap:            '14px',
+        padding:        '32px 24px',
+        textAlign:      'center',
+      }}
+    >
+      {/* Lock icon */}
+      <span style={{ fontSize: '22px', lineHeight: 1 }} aria-hidden>🔒</span>
+
+      {/* NDA notice */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <p style={{
+          fontFamily:    "'Inter', sans-serif",
+          fontSize:      '14px',
+          fontWeight:    600,
+          color:         '#18181b',
+          margin:        0,
+          letterSpacing: '-0.01em',
+        }}>
+          Case study available on request
+        </p>
+        <p style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize:   '12px',
+          color:      'rgba(24,24,27,0.48)',
+          margin:     0,
+        }}>
+          Due to NDA, access is restricted
+        </p>
+      </div>
+
+      {/* CTAs */}
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '4px' }}>
+        <a
+          href={requestUrl}
+          style={{
+            padding:        '9px 18px',
+            borderRadius:   '6px',
+            background:     '#18181b',
+            color:          '#ffffff',
+            fontFamily:     "'Inter', sans-serif",
+            fontSize:       '12px',
+            fontWeight:     500,
+            cursor:         'pointer',
+            letterSpacing:  '-0.01em',
+            textDecoration: 'none',
+            display:        'inline-block',
+            transition:     'opacity 0.15s',
+            border:         'none',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+        >
+          Request access →
+        </a>
+
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            padding:        '9px 18px',
+            borderRadius:   '6px',
+            border:         '1px solid rgba(24,24,27,0.16)',
+            background:     'transparent',
+            color:          'rgba(24,24,27,0.58)',
+            fontFamily:     "'Inter', sans-serif",
+            fontSize:       '12px',
+            fontWeight:     500,
+            cursor:         'pointer',
+            letterSpacing:  '-0.01em',
+            textDecoration: 'none',
+            display:        'inline-block',
+            transition:     'all 0.15s',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = 'rgba(24,24,27,0.30)'
+            e.currentTarget.style.color       = '#18181b'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = 'rgba(24,24,27,0.16)'
+            e.currentTarget.style.color       = 'rgba(24,24,27,0.58)'
+          }}
+        >
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Click wrappers ─────────────────────────────────────────── */
 type ModalPayload = { label: string; figmaUrl: string; password: string }
-type OpenModal = (payload: ModalPayload) => void
+type OpenModal    = (payload: ModalPayload) => void
 
 function LargeCardWrapper({
   study, children, onOpenModal,
 }: { study: LargeStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
-  // Internal study WITH a Figma URL → password modal → Figma prototype
+  // NDA: show card normally; fade + reveal CTA overlay on hover; no click action
+  if (study.nda) {
+    return (
+      <div className="group relative" style={{ cursor: 'default' }}>
+        {/* Card fades on hover */}
+        <div style={{ transition: 'opacity 300ms ease' }} className="group-hover:opacity-20">
+          {children}
+        </div>
+        {/* Overlay: invisible + inert by default, visible + interactive on hover */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
+          style={{ transition: 'opacity 300ms ease', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <NdaHoverOverlay title={study.title} />
+        </div>
+      </div>
+    )
+  }
+  // Internal + figmaUrl → password modal → Figma prototype
   if (study.type === 'internal' && study.figmaUrl) {
     return (
       <div
-        onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl!, password: study.password ?? '' })}
+        onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl!, password: study.password ?? GLOBAL_PASSWORD })}
         style={{ cursor: 'pointer' }}
       >
         {children}
       </div>
     )
   }
-  // Internal study WITHOUT a Figma URL → direct internal navigation (fallback)
+  // Internal, no figmaUrl → direct navigation (fallback)
   if (study.type === 'internal') {
     return (
       <Link to={study.route} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
@@ -159,7 +303,7 @@ function LargeCardWrapper({
       </Link>
     )
   }
-  // External study → password modal → Figma prototype
+  // External → password modal → Figma prototype
   return (
     <div
       onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl, password: study.password })}
@@ -173,6 +317,22 @@ function LargeCardWrapper({
 function SmallCardWrapper({
   study, children, onOpenModal,
 }: { study: SmallStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
+  // NDA: hover reveals CTA overlay, no click action
+  if (study.nda) {
+    return (
+      <div className="group relative h-full" style={{ cursor: 'default' }}>
+        <div style={{ transition: 'opacity 300ms ease', height: '100%' }} className="group-hover:opacity-20">
+          {children}
+        </div>
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
+          style={{ transition: 'opacity 300ms ease', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <NdaHoverOverlay title={study.title} />
+        </div>
+      </div>
+    )
+  }
   return (
     <div
       onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl, password: study.password })}
