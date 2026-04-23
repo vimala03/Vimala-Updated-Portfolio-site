@@ -112,7 +112,7 @@ export default function AboutTestimonials() {
               <span>—</span>
               <span>Voices</span>
             </p>
-            <h2 className="font-cormorant font-medium text-[48px] text-white leading-[1.03] tracking-[-0.46px]">
+            <h2 className="font-cormorant font-medium text-[28px] sm:text-[38px] lg:text-[48px] text-white leading-[1.03] tracking-[-0.46px]">
               People who've{' '}
               <em className="italic text-[#797979]">worked with me.</em>
             </h2>
@@ -155,7 +155,7 @@ export default function AboutTestimonials() {
               {/* Quote text — layered CSS crossfade */}
               <div
                 className="relative"
-                style={{ minHeight: '140px' }}
+                style={{ minHeight: 'clamp(80px, 20vw, 140px)' }}
               >
                 {testimonials.map((t, i) => (
                   <p
@@ -166,7 +166,7 @@ export default function AboutTestimonials() {
                       left: i === 0 ? undefined : 0,
                       right: i === 0 ? undefined : 0,
                       fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: '28px',
+                      fontSize: 'clamp(17px, 3vw, 28px)',
                       fontWeight: 400,
                       lineHeight: 1.45,
                       color: 'rgba(255,255,255,0.82)',
@@ -196,7 +196,7 @@ export default function AboutTestimonials() {
                 }}
               >
                 {/* Person info */}
-                <div style={{ position: 'relative', height: '48px', minWidth: '260px' }}>
+                <div style={{ position: 'relative', height: '48px', minWidth: 'min(260px, 100%)' }}>
                   {testimonials.map((t, i) => (
                     <div
                       key={t.name}
@@ -300,10 +300,10 @@ export default function AboutTestimonials() {
               }}
             />
 
-            {/* All four compact names — always visible */}
+            {/* Compact name grid — hidden on mobile (dot nav is sufficient), 7-col on md+ */}
             <div
+              className="hidden md:grid"
               style={{
-                display: 'grid',
                 gridTemplateColumns: 'repeat(7, 1fr)',
                 gap: '1px',
                 marginTop: '0',

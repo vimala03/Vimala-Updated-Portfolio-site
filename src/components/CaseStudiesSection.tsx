@@ -145,22 +145,94 @@ const smallCaseStudies: SmallStudy[] = [
   },
 ]
 
-/* ─── NDA hover overlay ────────────────────────────────────────
-   Rendered inside a `group relative` wrapper. Invisible by
-   default; fades in on hover while the card content fades out.
-   Pointer-events are disabled until hover so the card beneath
-   can still be scrolled past normally.
-─────────────────────────────────────────────────────────────── */
-function NdaHoverOverlay({ title }: { title: string }) {
+/* ─── Shared URL builder ─── */
+function ndaUrls(title: string) {
   const requestUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
     `Case Study Access Request — ${title}`,
   )}&body=${encodeURIComponent(
     `Hi Vimala,\n\nI'd like to view your NDA-protected case study: "${title}".\n\nLooking forward to connecting.`,
   )}`
-
   const whatsappUrl = `https://wa.me/${CONTACT_WHATSAPP}?text=${encodeURIComponent(
     `Hi Vimala, I'd like to view your NDA case study: "${title}"`,
   )}`
+  return { requestUrl, whatsappUrl }
+}
+
+/* ─── Mobile-only NDA strip (always visible, below card) ───────
+   Shown only on screens < md. Desktop gets the hover overlay.
+─────────────────────────────────────────────────────────────── */
+function MobileNdaStrip({ title }: { title: string }) {
+  const { requestUrl, whatsappUrl } = ndaUrls(title)
+  return (
+    <div
+      className="flex md:hidden items-center justify-between flex-wrap gap-3 mt-3 px-4 py-3 rounded-lg"
+      style={{
+        background: 'rgba(24,24,27,0.03)',
+        border: '1px solid rgba(24,24,27,0.07)',
+      }}
+    >
+      <div className="flex items-center gap-2 min-w-0">
+        <span aria-hidden style={{ fontSize: '13px', flexShrink: 0 }}>🔒</span>
+        <span
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '12px',
+            color: 'rgba(24,24,27,0.48)',
+            lineHeight: 1.4,
+          }}
+        >
+          Case study available on request
+        </span>
+      </div>
+      <div className="flex items-center gap-2 shrink-0">
+        <a
+          href={requestUrl}
+          style={{
+            fontFamily:     "'Inter', sans-serif",
+            fontSize:       '12px',
+            fontWeight:     500,
+            color:          '#ffffff',
+            textDecoration: 'none',
+            padding:        '6px 14px',
+            borderRadius:   '5px',
+            background:     '#18181b',
+            display:        'inline-block',
+            whiteSpace:     'nowrap',
+          }}
+        >
+          Request →
+        </a>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontFamily:     "'Inter', sans-serif",
+            fontSize:       '12px',
+            fontWeight:     500,
+            color:          'rgba(24,24,27,0.55)',
+            textDecoration: 'none',
+            padding:        '6px 14px',
+            borderRadius:   '5px',
+            border:         '1px solid rgba(24,24,27,0.14)',
+            display:        'inline-block',
+            whiteSpace:     'nowrap',
+          }}
+        >
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  )
+}
+
+/* ─── NDA hover overlay ────────────────────────────────────────
+   Rendered inside a `group relative` wrapper. Invisible by
+   default; fades in on hover while the card content fades out.
+   Only rendered on md+ (hidden on mobile via wrapper class).
+─────────────────────────────────────────────────────────────── */
+function NdaHoverOverlay({ title }: { title: string }) {
+  const { requestUrl, whatsappUrl } = ndaUrls(title)
 
   return (
     <div
@@ -266,21 +338,25 @@ type OpenModal    = (payload: ModalPayload) => void
 function LargeCardWrapper({
   study, children, onOpenModal,
 }: { study: LargeStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
-  // NDA: show card normally; fade + reveal CTA overlay on hover; no click action
+  // NDA: mobile → always-visible strip below card; desktop → hover overlay
   if (study.nda) {
     return (
-      <div className="group relative" style={{ cursor: 'default' }}>
-        {/* Card fades on hover */}
-        <div style={{ transition: 'opacity 300ms ease' }} className="group-hover:opacity-20">
-          {children}
+      <div>
+        <div className="group relative" style={{ cursor: 'default' }}>
+          {/* Card fades on md+ hover only — stays full opacity on mobile */}
+          <div style={{ transition: 'opacity 300ms ease' }} className="md:group-hover:opacity-20">
+            {children}
+          </div>
+          {/* Overlay: hidden on mobile, hover-triggered on md+ */}
+          <div
+            className="hidden md:flex absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto items-center justify-center"
+            style={{ transition: 'opacity 300ms ease' }}
+          >
+            <NdaHoverOverlay title={study.title} />
+          </div>
         </div>
-        {/* Overlay: invisible + inert by default, visible + interactive on hover */}
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
-          style={{ transition: 'opacity 300ms ease', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          <NdaHoverOverlay title={study.title} />
-        </div>
+        {/* Mobile-only always-visible CTA strip */}
+        <MobileNdaStrip title={study.title} />
       </div>
     )
   }
@@ -317,19 +393,25 @@ function LargeCardWrapper({
 function SmallCardWrapper({
   study, children, onOpenModal,
 }: { study: SmallStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
-  // NDA: hover reveals CTA overlay, no click action
+  // NDA: mobile → always-visible strip below card; desktop → hover overlay
   if (study.nda) {
     return (
-      <div className="group relative h-full" style={{ cursor: 'default' }}>
-        <div style={{ transition: 'opacity 300ms ease', height: '100%' }} className="group-hover:opacity-20">
-          {children}
+      <div className="h-full flex flex-col">
+        <div className="group relative flex-1" style={{ cursor: 'default' }}>
+          {/* Card fades on md+ hover only */}
+          <div style={{ transition: 'opacity 300ms ease', height: '100%' }} className="md:group-hover:opacity-20">
+            {children}
+          </div>
+          {/* Overlay: hidden on mobile, hover-triggered on md+ */}
+          <div
+            className="hidden md:flex absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto items-center justify-center"
+            style={{ transition: 'opacity 300ms ease' }}
+          >
+            <NdaHoverOverlay title={study.title} />
+          </div>
         </div>
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
-          style={{ transition: 'opacity 300ms ease', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          <NdaHoverOverlay title={study.title} />
-        </div>
+        {/* Mobile-only always-visible CTA strip */}
+        <MobileNdaStrip title={study.title} />
       </div>
     )
   }

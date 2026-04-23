@@ -88,7 +88,7 @@ export default function AboutReading() {
               <span>—</span>
               <span>Reading</span>
             </p>
-            <h2 className="font-cormorant font-medium text-[48px] text-[#18181b] leading-[1.03] tracking-[-0.46px]">
+            <h2 className="font-cormorant font-medium text-[28px] sm:text-[38px] lg:text-[48px] text-[#18181b] leading-[1.03] tracking-[-0.46px]">
               Books that shaped{' '}
               <em className="italic text-[#5a5954]">my thinking.</em>
             </h2>
@@ -114,6 +114,7 @@ export default function AboutReading() {
                 <motion.div
                   key={book.id}
                   onMouseEnter={() => setActiveId(book.id)}
+                  onClick={() => setActiveId(activeId === book.id ? null : book.id)}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -129,7 +130,7 @@ export default function AboutReading() {
                     borderRadius: '8px',
                     position: 'relative',
                     overflow: 'hidden',
-                    cursor: 'default',
+                    cursor: 'pointer',
                     opacity: isDimmed ? 0.45 : 1,
                     boxShadow: isActive
                       ? '6px 8px 32px rgba(0,0,0,0.28), 2px 2px 8px rgba(0,0,0,0.18)'
@@ -193,7 +194,9 @@ export default function AboutReading() {
             className="font-inter text-[10px] text-[rgba(24,24,27,0.28)] tracking-[0.08em] mt-4 text-center"
             style={{ userSelect: 'none' }}
           >
-            hover to open
+            <span className="hidden md:inline">hover</span>
+            <span className="inline md:hidden">tap</span>
+            <span> to open</span>
           </p>
 
         </div>

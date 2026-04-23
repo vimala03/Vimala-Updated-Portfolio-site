@@ -186,8 +186,8 @@ export default function PlayfulBottom() {
     <section
       className="bg-[#fafaf9]"
       style={{
-        paddingTop: '96px',
-        paddingBottom: '96px',
+        paddingTop: 'clamp(56px, 8vw, 96px)',
+        paddingBottom: 'clamp(56px, 8vw, 96px)',
         borderTop: '1px solid rgba(24,24,27,0.06)',
         position: 'relative',
         overflow: 'hidden',
@@ -224,8 +224,8 @@ export default function PlayfulBottom() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[60px]">
         <div className="px-0 lg:px-[91px]">
 
-          {/* Top row: rotating badge + subtitle */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '32px', marginBottom: '48px' }}>
+          {/* Top row: rotating badge + subtitle — stacks on mobile */}
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '24px', marginBottom: '48px' }}>
             <RotatingBadge />
             <p
               style={{
