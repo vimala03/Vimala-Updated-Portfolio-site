@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import PasswordModal from '../components/PasswordModal'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['UX Designer', 'Employee Benefits', 'B2B Web', 'IA Redesign', '2022–2023']
@@ -32,9 +34,21 @@ const decisions = [
   },
 ]
 
+const FIGMA_URL = 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2072&node-id=69-909&viewport=1542%2C13%2C0.07&t=gKJll47Zv6TSyzbl-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=69%3A909'
+const PASSWORD = 'designedbyvimala'
+
 export default function AptiaPage() {
+  const [showModal, setShowModal] = useState(false)
   return (
     <div style={{ background: 'radial-gradient(ellipse at 80% 0%, rgba(90,45,138,0.06) 0%, transparent 55%), radial-gradient(ellipse at 20% 75%, rgba(90,45,138,0.035) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
+      {showModal && (
+        <PasswordModal
+          label="Aptia Website"
+          figmaUrl={FIGMA_URL}
+          password={PASSWORD}
+          onClose={() => setShowModal(false)}
+        />
+      )}
       <ProgressBar color="#5a2d8a" />
       <Navbar />
 
@@ -199,15 +213,13 @@ export default function AptiaPage() {
                 View the full Figma prototype.
               </div>
             </div>
-            <a
-              href="https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2072&node-id=69-909&viewport=1542%2C13%2C0.07&t=gKJll47Zv6TSyzbl-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=69%3A909"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setShowModal(true)}
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >
               View prototype →
-            </a>
+            </button>
           </div>
         </div>
       </ScrollReveal>

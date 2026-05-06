@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import PasswordModal from '../components/PasswordModal'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['Lead UX Designer', 'Enterprise Intranet', 'Web & Mobile', 'Information Architecture', '2022–2023']
@@ -32,9 +34,21 @@ const decisions = [
   },
 ]
 
+const FIGMA_URL = 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=187%3A16344&node-id=187-19899&viewport=552%2C1569%2C0.11&t=7p323AFE3PhinXty-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=187%3A19899'
+const PASSWORD = 'designedbyvimala'
+
 export default function USTPage() {
+  const [showModal, setShowModal] = useState(false)
   return (
     <div style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(45,45,43,0.06) 0%, transparent 55%), radial-gradient(ellipse at 80% 75%, rgba(45,45,43,0.03) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
+      {showModal && (
+        <PasswordModal
+          label="U&UST Intranet"
+          figmaUrl={FIGMA_URL}
+          password={PASSWORD}
+          onClose={() => setShowModal(false)}
+        />
+      )}
       <ProgressBar color="#2d2d2b" />
       <Navbar />
 
@@ -201,15 +215,13 @@ export default function USTPage() {
                 View the full Figma prototype.
               </div>
             </div>
-            <a
-              href="https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=187%3A16344&node-id=187-19899&viewport=552%2C1569%2C0.11&t=7p323AFE3PhinXty-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=187%3A19899"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setShowModal(true)}
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >
               View prototype →
-            </a>
+            </button>
           </div>
         </div>
       </ScrollReveal>

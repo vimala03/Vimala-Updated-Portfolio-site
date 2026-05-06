@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import PasswordModal from '../components/PasswordModal'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['UX Designer', 'Social Impact', 'Health Tech', 'Design Sprint', '2023']
@@ -32,9 +34,21 @@ const decisions = [
   },
 ]
 
+const FIGMA_URL = 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2073&type=design&node-id=50-2077&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width&starting-point-node-id=50%3A2077'
+const PASSWORD = 'designedbyvimala'
+
 export default function CivtechPage() {
+  const [showModal, setShowModal] = useState(false)
   return (
     <div style={{ background: 'radial-gradient(ellipse at 25% 0%, rgba(138,90,26,0.07) 0%, transparent 55%), radial-gradient(ellipse at 75% 80%, rgba(138,90,26,0.04) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
+      {showModal && (
+        <PasswordModal
+          label="CivTech Menopause Care"
+          figmaUrl={FIGMA_URL}
+          password={PASSWORD}
+          onClose={() => setShowModal(false)}
+        />
+      )}
       <ProgressBar color="#8a5a1a" />
       <Navbar />
 
@@ -199,15 +213,13 @@ export default function CivtechPage() {
                 View the full Figma prototype.
               </div>
             </div>
-            <a
-              href="https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2073&type=design&node-id=50-2077&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width&starting-point-node-id=50%3A2077"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setShowModal(true)}
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >
               View prototype →
-            </a>
+            </button>
           </div>
         </div>
       </ScrollReveal>

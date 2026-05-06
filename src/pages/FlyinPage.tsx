@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import PasswordModal from '../components/PasswordModal'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['UX Lead', 'Travel Tech', 'Mobile & Web', 'AI Search', '2016–2018']
@@ -32,9 +34,21 @@ const decisions = [
   },
 ]
 
+const FIGMA_URL = 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2075&type=design&node-id=83-29753&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width'
+const PASSWORD = 'designedbyvimala'
+
 export default function FlyinPage() {
+  const [showModal, setShowModal] = useState(false)
   return (
     <div style={{ background: 'radial-gradient(ellipse at 15% 0%, rgba(26,102,64,0.07) 0%, transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(26,102,64,0.04) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
+      {showModal && (
+        <PasswordModal
+          label="Flyin Travel & Tourism"
+          figmaUrl={FIGMA_URL}
+          password={PASSWORD}
+          onClose={() => setShowModal(false)}
+        />
+      )}
       <ProgressBar color="#1a6640" />
       <Navbar />
 
@@ -199,15 +213,13 @@ export default function FlyinPage() {
                 View the full Figma prototype.
               </div>
             </div>
-            <a
-              href="https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2075&type=design&node-id=83-29753&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setShowModal(true)}
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >
               View prototype →
-            </a>
+            </button>
           </div>
         </div>
       </ScrollReveal>

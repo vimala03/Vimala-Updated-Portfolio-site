@@ -231,3 +231,37 @@ html {
 
 /* Card image background utility (used inline via CSS var) */
 .cs-card-bg { background: var(--cs-card-bg, #f5f4f2); }
+
+/* ─── VB logo badge ─── */
+.vb-badge {
+  font-family: cursive;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #1a1a1a;
+  flex-shrink: 0;
+
+  padding: 5px 10px;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #e8bfaf 0%,
+    #d97757 45%,
+    #c2410c 100%
+  );
+
+  box-shadow:
+    0 4px 14px rgba(194, 65, 12, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vb-badge:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 22px rgba(194, 65, 12, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
