@@ -11,12 +11,6 @@ interface AnimateInProps {
   distance?: number
 }
 
-const OFFSET: Record<NonNullable<AnimateInProps['from']>, { x?: number; y?: number }> = {
-  up:    { y: 18 },
-  left:  { x: -18 },
-  right: { x: 18 },
-  none:  {},
-}
 
 export default function AnimateIn({
   children,
@@ -28,7 +22,7 @@ export default function AnimateIn({
   const ref     = useRef<HTMLDivElement>(null)
   const inView  = useInView(ref, { once: true, margin: '0px 0px -10% 0px' })
 
-  const offset = OFFSET[from]
+//   const offset = OFFSET[from]
   const scaledOffset = from === 'up'    ? { y: distance }
                      : from === 'left'  ? { x: -distance }
                      : from === 'right' ? { x: distance }

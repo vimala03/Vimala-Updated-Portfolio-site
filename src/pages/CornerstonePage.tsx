@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -7,11 +6,6 @@ import { ProgressBar, NextProjectCTA } from '../components/case-study'
 import './cornerstone.css'
 
 /* ─── Case study order (used by next-proj click handler) ─── */
-const caseStudyOrder = [
-  { slug: 'cornerstone', title: 'Cornerstone OnDemand · AI Workflows' },
-  { slug: 'buildzar',    title: 'Buildzar' },
-  { slug: 'moonraft',   title: 'Moonraft – UST Global' },
-]
 
 const html = `
 <!-- ═══ HERO ═══ -->
@@ -1424,7 +1418,6 @@ const heroSvg = `<svg viewBox="0 0 960 300" xmlns="http://www.w3.org/2000/svg" s
 </svg>`
 
 export default function CornerstonePage() {
-  const navigate = useNavigate()
   const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const heroVisY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])

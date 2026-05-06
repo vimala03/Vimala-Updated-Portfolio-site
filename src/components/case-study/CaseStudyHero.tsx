@@ -30,7 +30,7 @@ const TAG_STYLES: Record<NonNullable<Tag['variant']>, React.CSSProperties> = {
 
 export default function CaseStudyHero({
   tags, title, titleEm, subtitle, meta, image, imageAlt,
-  accentColor = '#1a4f8a',
+//   accentColor = '#1a4f8a',
 }: CaseStudyHeroProps) {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
