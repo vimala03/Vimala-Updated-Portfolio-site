@@ -39,10 +39,9 @@ function VBLogo() {
         fontSize: "17px",
         flexShrink: 0,
         color: "#111110",
-        background: "linear-gradient(135deg, #f5d0c5 0%, #f0b49a 100%)",
-        padding: "3px 8px",
-        borderRadius: "8px",
-        fontWeight: 600,
+        background: "rgba(191, 104, 83, 0.10)",
+        padding: "2px 6px",
+        borderRadius: "6px",
       }}>VB</span>
       <span
         style={{
