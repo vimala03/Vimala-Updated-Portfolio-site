@@ -28,15 +28,15 @@ export default function AboutHero() {
                     </span>
                   </div>
 
-                  {/* Heading */}
-                  <h1 className="font-cormorant font-medium text-[32px] sm:text-[40px] lg:text-[48px] text-[#18181b] leading-[1.05] tracking-[-0.63px]">
+                  {/* Heading — Playfair Display for editorial weight */}
+                  <h1 className="type-display text-[#18181b]">
                     Designing products.{' '}
                     <em className="italic text-[#5a5954]">Building systems.</em>{' '}
                     Solving real problems.
                   </h1>
 
                   {/* Paragraph */}
-                  <p className="font-inter font-normal text-[15px] md:text-[17px] text-[rgba(24,24,27,0.55)] leading-[1.7] md:leading-[28.9px] tracking-[-0.085px] max-w-full lg:max-w-[506px]">
+                  <p className="type-body text-[rgba(24,24,27,0.55)] max-w-full lg:max-w-[506px]">
                     A Product Designer with a background in Psychology and design from IIT Delhi, blending data, intuition, and execution to create scalable digital experiences.
                   </p>
                 </div>

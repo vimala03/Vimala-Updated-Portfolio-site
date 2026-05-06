@@ -3,39 +3,39 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
-const tags = ['UX Designer', 'PropTech', 'Mobile & Web', 'Design System', '2021–2022']
+const tags = ['UX Designer', 'Employee Benefits', 'B2B Web', 'IA Redesign', '2022–2023']
 
 const decisions = [
   {
     number: '01',
-    decision: 'Mapped the end-to-end property buyer journey before touching the UI',
-    why: 'First-time buyers and experienced investors had entirely different mental models of the purchase funnel. Journey mapping across both segments revealed 3 critical drop-off points that informed the IA overhaul.',
-    outcome: 'Reduced checkout abandonment by ~35% in post-launch analysis',
+    decision: 'Led with information architecture before any visual design',
+    why: 'Aptia\'s legacy site had grown organically — pension, health, and payroll content was scattered across inconsistent navigation. Card sorting with 12 HR managers revealed their actual mental model of benefit categories, which differed significantly from the existing structure.',
+    outcome: 'Navigation task success rate improved from 54% → 91% in usability testing',
     tag: 'Research-Led',
     tagColor: 'green' as const,
   },
   {
     number: '02',
-    decision: 'Introduced a unified property listing component that scaled across web and mobile',
-    why: 'The existing web and app designs had diverged significantly. Designing a single responsive component with shared tokens eliminated duplication and allowed both surfaces to ship in tandem.',
-    outcome: 'Cut cross-platform QA effort by ~40%',
+    decision: 'Designed for two distinct user types on a single platform',
+    why: 'HR administrators and employees had fundamentally different goals on the same site. Created a clear entry-point split with adaptive navigation — admin paths surfaced compliance tools, employee paths surfaced self-service benefits — without requiring separate platforms.',
+    outcome: 'Support ticket volume reduced by ~30% post-launch',
     tag: 'Systems Thinking',
     tagColor: 'blue' as const,
   },
   {
     number: '03',
-    decision: 'Prioritised trust signals over feature density on the listing detail page',
-    why: 'Usability testing revealed that users hesitated not because of missing features but because of low confidence in listing authenticity. Reordered content hierarchy to surface verification badges, agent credentials, and neighbourhood context above the fold.',
-    outcome: 'Increased "Contact agent" tap rate by 22%',
+    decision: 'Positioned trust and compliance clarity above feature marketing',
+    why: 'Pension and health benefits administration is high-stakes and heavily regulated. User research showed that confusion about compliance caused drop-off. Reordered the content hierarchy to surface regulatory credentials, security certifications, and clear process flows ahead of product features.',
+    outcome: 'Demo request conversion increased significantly post-launch',
     tag: 'Strategic Framing',
     tagColor: 'amber' as const,
   },
 ]
 
-export default function BuildzarPage() {
+export default function AptiaPage() {
   return (
-    <div style={{ background: '#faf8f5', minHeight: '100vh' }}>
-      <ProgressBar color="#111110" />
+    <div style={{ background: 'radial-gradient(ellipse at 80% 0%, rgba(90,45,138,0.06) 0%, transparent 55%), radial-gradient(ellipse at 20% 75%, rgba(90,45,138,0.035) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
+      <ProgressBar color="#5a2d8a" />
       <Navbar />
 
       {/* Hero */}
@@ -84,9 +84,9 @@ export default function BuildzarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
         >
-          Designing the{' '}
-          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>property-buying experience</em>
-          {' '}from the ground up.
+          Making employee benefits{' '}
+          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>clear, trusted,</em>
+          {' '}and easy to navigate.
         </motion.h1>
 
         <motion.p
@@ -102,7 +102,7 @@ export default function BuildzarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.24, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          UX design for Buildzar, a PropTech platform connecting buyers, sellers, and agents across residential and commercial real estate. Full case study in preparation.
+          Redesigning Aptia Group's website to deliver a seamless experience for HR administrators and employees — improving navigation clarity and building trust in a compliance-critical space.
         </motion.p>
 
         {/* Meta strip */}
@@ -123,10 +123,10 @@ export default function BuildzarPage() {
           transition={{ delay: 0.32, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           {[
-            { label: 'Company',  value: 'Buildzar' },
+            { label: 'Company',  value: 'Aptia Group' },
             { label: 'My role',  value: 'UX Designer' },
-            { label: 'Timeline', value: '2021 – 2022' },
-            { label: 'Platform', value: 'Web & Mobile' },
+            { label: 'Timeline', value: '2022 – 2023' },
+            { label: 'Platform', value: 'B2B Web' },
           ].map((item, i, arr) => (
             <div key={i} style={{
               background: '#fff',
@@ -177,16 +177,12 @@ export default function BuildzarPage() {
         </div>
       </div>
 
-      {/* Coming soon note */}
+      {/* Figma CTA */}
       <ScrollReveal>
-        <div style={{
-          maxWidth: '1040px',
-          margin: '0 auto 5rem',
-          padding: '0 4rem',
-        }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto 5rem', padding: '0 4rem' }}>
           <div style={{
-            background: '#f2efe9',
-            border: '0.5px solid rgba(17,17,16,0.08)',
+            background: '#f2eef8',
+            border: '0.5px solid rgba(90,45,138,0.12)',
             borderRadius: '14px',
             padding: '2.5rem 3rem',
             display: 'flex',
@@ -196,19 +192,21 @@ export default function BuildzarPage() {
             flexWrap: 'wrap',
           }}>
             <div>
-              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a09d97', marginBottom: '0.5rem' }}>
-                Full case study
+              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#5a2d8a', opacity: 0.7, marginBottom: '0.5rem' }}>
+                Interactive prototype
               </div>
               <div style={{ fontFamily: '"Playfair Display", serif', fontSize: '1.3rem', color: '#111110', letterSpacing: '-0.02em' }}>
-                In preparation — available on request.
+                View the full Figma prototype.
               </div>
             </div>
             <a
-              href="mailto:vimalabanavath.design@gmail.com?subject=Buildzar Case Study Request"
+              href="https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2072&node-id=69-909&viewport=1542%2C13%2C0.07&t=gKJll47Zv6TSyzbl-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=69%3A909"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >
-              Request access →
+              View prototype →
             </a>
           </div>
         </div>
@@ -216,10 +214,9 @@ export default function BuildzarPage() {
 
       <NextProjectCTA
         label="Next case study →"
-        title="Moonraft – UST Global · Enterprise SaaS"
-        href="/work/moonraft"
+        title="CivTech · Social Impact Design Sprint"
+        href="/work/civtech"
       />
-
       <Footer />
     </div>
   )

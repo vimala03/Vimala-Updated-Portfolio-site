@@ -3,39 +3,39 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
-const tags = ['UX Designer', 'PropTech', 'Mobile & Web', 'Design System', '2021–2022']
+const tags = ['Lead UX Designer', 'Health Tech', 'Mobile & Web', 'Cross-Platform', '2022–2023']
 
 const decisions = [
   {
     number: '01',
-    decision: 'Mapped the end-to-end property buyer journey before touching the UI',
-    why: 'First-time buyers and experienced investors had entirely different mental models of the purchase funnel. Journey mapping across both segments revealed 3 critical drop-off points that informed the IA overhaul.',
-    outcome: 'Reduced checkout abandonment by ~35% in post-launch analysis',
+    decision: 'Ran dual-track research for two radically different user types',
+    why: 'Veterinarians and equine riders have completely different workflows, vocabularies, and trust models. Rather than design for a blended persona, ran parallel research tracks — contextual inquiry with vets in clinic settings, diary studies with competitive riders — before finding the shared access patterns that informed the IA.',
+    outcome: 'MVP shipped in 14 weeks with 0 major post-launch IA changes',
     tag: 'Research-Led',
     tagColor: 'green' as const,
   },
   {
     number: '02',
-    decision: 'Introduced a unified property listing component that scaled across web and mobile',
-    why: 'The existing web and app designs had diverged significantly. Designing a single responsive component with shared tokens eliminated duplication and allowed both surfaces to ship in tandem.',
-    outcome: 'Cut cross-platform QA effort by ~40%',
+    decision: 'Designed a single data model that served two different interfaces',
+    why: 'Horse health data needed to be entered by vets and read by riders — but in very different contexts. Designed a shared data layer with two distinct interface skins: a clinical-grade entry flow for vets and a simplified health dashboard for riders, reducing development effort and eliminating data silos.',
+    outcome: 'Reduced build complexity by ~35% vs. separate app approach',
     tag: 'Systems Thinking',
     tagColor: 'blue' as const,
   },
   {
     number: '03',
-    decision: 'Prioritised trust signals over feature density on the listing detail page',
-    why: 'Usability testing revealed that users hesitated not because of missing features but because of low confidence in listing authenticity. Reordered content hierarchy to surface verification badges, agent credentials, and neighbourhood context above the fold.',
-    outcome: 'Increased "Contact agent" tap rate by 22%',
+    decision: 'Framed remote care as a trust product, not just a feature',
+    why: 'Riders were sceptical of remote vet consultations — concerned about misdiagnosis and liability. Designed the remote care flow around transparency: clear session boundaries, recorded consultation summaries, and an explicit "in-person referral" CTA when the vet determined remote was insufficient.',
+    outcome: 'Remote consultation adoption exceeded projections by 40% in beta',
     tag: 'Strategic Framing',
     tagColor: 'amber' as const,
   },
 ]
 
-export default function BuildzarPage() {
+export default function VetRiderPage() {
   return (
-    <div style={{ background: '#faf8f5', minHeight: '100vh' }}>
-      <ProgressBar color="#111110" />
+    <div style={{ background: 'radial-gradient(ellipse at 70% 0%, rgba(26,90,138,0.065) 0%, transparent 55%), radial-gradient(ellipse at 15% 70%, rgba(26,90,138,0.035) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
+      <ProgressBar color="#1a5a8a" />
       <Navbar />
 
       {/* Hero */}
@@ -84,9 +84,9 @@ export default function BuildzarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
         >
-          Designing the{' '}
-          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>property-buying experience</em>
-          {' '}from the ground up.
+          Connecting vets and riders through{' '}
+          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>data-driven</em>
+          {' '}equine health.
         </motion.h1>
 
         <motion.p
@@ -102,7 +102,7 @@ export default function BuildzarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.24, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          UX design for Buildzar, a PropTech platform connecting buyers, sellers, and agents across residential and commercial real estate. Full case study in preparation.
+          End-to-end UX for Continental's Vet & Rider wellness platform — a cross-platform product connecting equine veterinarians and horse riders through smarter, more accessible remote healthcare.
         </motion.p>
 
         {/* Meta strip */}
@@ -123,10 +123,10 @@ export default function BuildzarPage() {
           transition={{ delay: 0.32, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           {[
-            { label: 'Company',  value: 'Buildzar' },
-            { label: 'My role',  value: 'UX Designer' },
-            { label: 'Timeline', value: '2021 – 2022' },
-            { label: 'Platform', value: 'Web & Mobile' },
+            { label: 'Client',    value: 'Continental · via Moonraft' },
+            { label: 'My role',   value: 'Lead UX Designer' },
+            { label: 'Timeline',  value: '2022 – 2023' },
+            { label: 'Platform',  value: 'Web & Mobile' },
           ].map((item, i, arr) => (
             <div key={i} style={{
               background: '#fff',
@@ -177,16 +177,12 @@ export default function BuildzarPage() {
         </div>
       </div>
 
-      {/* Coming soon note */}
+      {/* NDA note */}
       <ScrollReveal>
-        <div style={{
-          maxWidth: '1040px',
-          margin: '0 auto 5rem',
-          padding: '0 4rem',
-        }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto 5rem', padding: '0 4rem' }}>
           <div style={{
-            background: '#f2efe9',
-            border: '0.5px solid rgba(17,17,16,0.08)',
+            background: '#edf4f8',
+            border: '0.5px solid rgba(26,90,138,0.12)',
             borderRadius: '14px',
             padding: '2.5rem 3rem',
             display: 'flex',
@@ -196,15 +192,15 @@ export default function BuildzarPage() {
             flexWrap: 'wrap',
           }}>
             <div>
-              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a09d97', marginBottom: '0.5rem' }}>
+              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a5a8a', opacity: 0.7, marginBottom: '0.5rem' }}>
                 Full case study
               </div>
               <div style={{ fontFamily: '"Playfair Display", serif', fontSize: '1.3rem', color: '#111110', letterSpacing: '-0.02em' }}>
-                In preparation — available on request.
+                NDA-protected — available on request.
               </div>
             </div>
             <a
-              href="mailto:vimalabanavath.design@gmail.com?subject=Buildzar Case Study Request"
+              href="mailto:vimalabanavath.design@gmail.com?subject=Vet %26 Rider Case Study Request"
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >
@@ -216,10 +212,9 @@ export default function BuildzarPage() {
 
       <NextProjectCTA
         label="Next case study →"
-        title="Moonraft – UST Global · Enterprise SaaS"
-        href="/work/moonraft"
+        title="Cornerstone OnDemand · AI Workflows"
+        href="/work/cornerstone"
       />
-
       <Footer />
     </div>
   )

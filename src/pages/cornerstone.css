@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --serif:'Cormorant Garamond',serif;
+  --serif:'Playfair Display',serif;
   --sans:'Instrument Sans',sans-serif;
   --ink:#111110;--ink2:#5a5954;--ink3:#a09d97;--ink4:#d0cdc7;
   --bg:#faf8f5;--bg2:#f2efe9;--bg3:#e8e4dc;
@@ -213,14 +214,24 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.1rem
 .wf.p .wf-hz{color:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.1);}
 
 /* ── SCROLL REVEAL ── */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
 .reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-delay-1{transition-delay:0.1s;}
-.reveal-delay-2{transition-delay:0.2s;}
-.reveal-delay-3{transition-delay:0.3s;}
+.reveal-delay-1{transition-delay:0.08s;}
+.reveal-delay-2{transition-delay:0.16s;}
+.reveal-delay-3{transition-delay:0.24s;}
 
 /* ── ANIMATIONS ── */
-@keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes up{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+/* out-expo for hero entrance — faster than ease, smoother settle */
+.hero-tags{animation-timing-function:cubic-bezier(0.22,1,0.36,1)!important;}
+.hero h1{animation-timing-function:cubic-bezier(0.22,1,0.36,1)!important;}
+.hero-sub{animation-timing-function:cubic-bezier(0.22,1,0.36,1)!important;}
+.meta-strip{animation-timing-function:cubic-bezier(0.22,1,0.36,1)!important;}
+.hero-vis{animation-timing-function:cubic-bezier(0.22,1,0.36,1)!important;}
 @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
 
 /* ── VIMALA CHAR ── */
@@ -251,4 +262,63 @@ footer{padding:2.5rem 4rem;display:flex;justify-content:space-between;align-item
   .tldr{padding:3rem 1.5rem;}
   .tldr-stats{gap:2rem;}
   .hero-vis{padding:2rem 1rem 0;}
+}
+
+/* ══ REACT HERO REPLACES CSS-ANIMATED HERO ══
+   The hero and hero-vis divs in the HTML string are hidden;
+   a React + Framer Motion hero is rendered above the HTML div. */
+.hero { display: none !important; }
+.hero-vis { display: none !important; }
+
+/* React NextProjectCTA + Footer replace HTML equivalents */
+.next-proj { display: none !important; }
+footer { display: none !important; }
+
+/* Key Decisions chapter (ch-07 accordion) replaced by React section */
+#ch-pain-points { display: none !important; }
+
+/* ══ EDITORIAL SPACING UPGRADE ══ */
+.chapter { padding: 6rem 0; }
+.ch-title {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  line-height: 1.1;
+  margin-bottom: 1.75rem;
+}
+
+/* ══ BETTER TLDR ══ */
+.tldr { padding: 5rem 4rem; }
+.tldr-ey { margin-bottom: 1.25rem; }
+.tldr h2 { margin-bottom: 0.75rem; }
+.tldr-body { font-size: 1rem; margin-bottom: 3.5rem; }
+
+/* ══ HMW UPGRADE ══ */
+.hmw { padding: 3.5rem; margin: 3.5rem 0; }
+.hmw-text { font-size: 1.85rem; line-height: 1.25; }
+
+/* ══ METRICS UPGRADE ══ */
+.metrics-hero { padding: 3.5rem; margin-bottom: 2rem; }
+.mh-num { font-size: 6rem; }
+
+/* ══ PULL QUOTE ══ */
+.pq { margin: 3rem 0; border-left-width: 3px; }
+.pq-text { font-size: 1.4rem; }
+
+/* ══ OPT ROWS (before/after) ══ */
+.opt { padding: 1rem 1.25rem; margin-bottom: 0.75rem; font-size: 0.84rem; }
+
+/* ══ KEY DECISIONS (React section) — layout helpers ══ */
+.cs-decisions-outer { border-top: 0.5px solid rgba(17,17,16,0.08); }
+.cs-dec-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin: 2rem 0 2.5rem;
+  align-items: start;
+}
+@media(max-width:860px){
+  .cs-dec-split { grid-template-columns: 1fr; gap: 2rem; }
+  .ch-wrap { padding: 0 1.5rem; }
+  .tldr { padding: 3rem 1.5rem; }
+  .hmw { padding: 2.5rem 1.5rem; }
+  .metrics-hero { padding: 2.5rem 1.5rem; }
 }

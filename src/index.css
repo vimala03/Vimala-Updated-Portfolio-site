@@ -1,79 +1,233 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Instrument+Sans:wght@400;500&family=Work+Sans:wght@400;600&family=Open+Sans:wght@400;600&display=swap');
-body { padding-top: 100px; }
-body { padding-top: 80px; }
-body { padding-top: 90px; }
-body { padding-top: 80px; }
-body { padding-top: 80px; }
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Instrument+Sans:wght@400;500;600&family=Work+Sans:wght@400;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ─── Smooth scroll (Lenis companion) ─── */
+html {
+  /* Lenis overrides this, but keeps native fallback when JS fails */
+  scroll-behavior: smooth;
 }
 
+/* ─── Base ─── */
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
   body {
-    font-family: "Inter", sans-serif;
+    padding-top: 72px;
+    font-family: "Instrument Sans", sans-serif;
     color: #18181b;
     background: #fafaf9;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  .heading-serif {
-    font-family: "Cormorant Garamond", serif;
+
+  /* Respect user preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-/* Base nav link */
+/* ─── Typography utilities ─── */
+@layer components {
+  /* Display — hero H1 only */
+  .type-display {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(28px, 3.8vw, 46px);
+    font-weight: 500;
+    line-height: 1.22;
+    letter-spacing: -0.024em;
+  }
+
+  /* Section header — Playfair, slightly smaller */
+  .type-section {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+  }
+
+  /* Card title — keep Fraunces for its warmth */
+  .type-card {
+    font-family: "Fraunces", serif;
+    font-size: clamp(17px, 1.5vw, 22px);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  /* Body — Instrument Sans is clean at all sizes */
+  .type-body {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: clamp(14px, 1.1vw, 16px);
+    font-weight: 400;
+    line-height: 1.65;
+  }
+
+  /* Meta / Caption */
+  .type-meta {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+/* ─── Nav links ─── */
 .nav-link {
   position: relative;
   font-family: 'Instrument Sans', sans-serif;
-  font-size: 14.513px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 21.77px;
-  letter-spacing: 1.0159px;
+  line-height: 1.5;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
-  font-variation-settings: 'wdth' 100;
   color: #5a5954;
-  transition: color 0.25s ease, transform 0.25s ease;
+  transition: color 0.22s ease;
 }
 
-/* Hover */
-.nav-link:hover {
-  color: #000;
-  transform: translateY(-1px);
-}
+.nav-link:hover { color: #111110; }
 
-/* Underline */
+/* Swap underline — exits center-out, enters center-in */
+.nav-link::before,
 .nav-link::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -4px;
-  width: 0;
+  bottom: -3px;
   height: 1px;
-  background: #000;
-  transition: width 0.25s ease;
-}
-
-.nav-link:hover::after {
+  background: #111110;
+  transition: transform 0.24s ease;
+  transform-origin: center;
   width: 100%;
 }
+.nav-link::before { transform: scaleX(0); }
+.nav-link::after  { transform: scaleX(0); opacity: 0.35; }
 
-/* Active (selected page) */
+.nav-link:hover::before { transform: scaleX(1); }
+
 .nav-active {
   font-weight: 600;
-  color: #000;
+  color: #111110;
+}
+.nav-active::before { transform: scaleX(1); }
+
+/* ─── Fill-sweep button ─── */
+@layer components {
+  .btn-sweep {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .btn-sweep::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transform: translateX(-101%);
+    transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: -1;
+  }
+
+  .btn-sweep:hover::after { transform: translateX(0); }
+
+  /* Variant: primary (black → rust sweep) */
+  .btn-sweep-primary {
+    background: #111110;
+    color: #fff;
+    padding: 12px 24px;
+  }
+  .btn-sweep-primary::after { background: #bf6853; }
+
+  /* Variant: outline (transparent → stone-ink fill) */
+  .btn-sweep-outline {
+    background: transparent;
+    color: #5a5954;
+    border: 1px solid rgba(17, 17, 16, 0.2);
+    padding: 11px 24px;
+  }
+  .btn-sweep-outline::after { background: #111110; }
+  .btn-sweep-outline:hover  { color: #fff; border-color: #111110; }
 }
 
+/* ─── Case study background themes ─── */
+/* Each theme defines: bg-primary, bg-card, accent, accent-muted */
+
+/* Cornerstone OnDemand · AI/Enterprise */
+.theme-ai {
+  --cs-bg:       #edf3fb;
+  --cs-card-bg:  #dce8f5;
+  --cs-accent:   #1a4f8a;
+  --cs-muted:    rgba(26,79,138,0.18);
+}
+
+/* Moonraft · Enterprise Systems */
+.theme-enterprise {
+  --cs-bg:       #f3f2ef;
+  --cs-card-bg:  #e8e6df;
+  --cs-accent:   #2d2d2b;
+  --cs-muted:    rgba(45,45,43,0.14);
+}
+
+/* Buildzar · PropTech */
+.theme-proptech {
+  --cs-bg:       #f5f1eb;
+  --cs-card-bg:  #ede5d8;
+  --cs-accent:   #7a5c3a;
+  --cs-muted:    rgba(122,92,58,0.16);
+}
+
+/* Flyin · Travel Tech */
+.theme-travel {
+  --cs-bg:       #edf5f1;
+  --cs-card-bg:  #d4ece3;
+  --cs-accent:   #1a6640;
+  --cs-muted:    rgba(26,102,64,0.16);
+}
+
+/* Aptia · Health Benefits */
+.theme-health {
+  --cs-bg:       #f2eef8;
+  --cs-card-bg:  #e3d8f2;
+  --cs-accent:   #5a2d8a;
+  --cs-muted:    rgba(90,45,138,0.14);
+}
+
+/* CivTech · Social Impact */
+.theme-civic {
+  --cs-bg:       #f7f2ec;
+  --cs-card-bg:  #ede1d0;
+  --cs-accent:   #8a5a1a;
+  --cs-muted:    rgba(138,90,26,0.15);
+}
+
+/* Vet & Rider · Health Mobility */
+.theme-mobility {
+  --cs-bg:       #edf4f8;
+  --cs-card-bg:  #d4e8f2;
+  --cs-accent:   #1a5a8a;
+  --cs-muted:    rgba(26,90,138,0.15);
+}
+
+/* Card image background utility (used inline via CSS var) */
+.cs-card-bg { background: var(--cs-card-bg, #f5f4f2); }

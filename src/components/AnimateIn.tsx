@@ -1,42 +1,58 @@
-import { useRef, useEffect, useState, ReactNode } from 'react'
+import { useRef, ReactNode } from 'react'
+import { motion, useInView, Variants } from 'framer-motion'
 
 interface AnimateInProps {
-  children: ReactNode
+  children:  ReactNode
   className?: string
-  delay?: number
+  delay?:    number
+  /** Direction the element enters from. Default: 'up' */
+  from?:     'up' | 'left' | 'right' | 'none'
+  /** Distance in px for the enter translation. Default: 18 */
+  distance?: number
 }
 
-export default function AnimateIn({ children, className = '', delay = 0 }: AnimateInProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
+const OFFSET: Record<NonNullable<AnimateInProps['from']>, { x?: number; y?: number }> = {
+  up:    { y: 18 },
+  left:  { x: -18 },
+  right: { x: 18 },
+  none:  {},
+}
 
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(el)
-        }
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -32px 0px' }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
+export default function AnimateIn({
+  children,
+  className = '',
+  delay = 0,
+  from = 'up',
+  distance = 18,
+}: AnimateInProps) {
+  const ref     = useRef<HTMLDivElement>(null)
+  const inView  = useInView(ref, { once: true, margin: '0px 0px -10% 0px' })
+
+  const offset = OFFSET[from]
+  const scaledOffset = from === 'up'    ? { y: distance }
+                     : from === 'left'  ? { x: -distance }
+                     : from === 'right' ? { x: distance }
+                     : {}
+
+  const variants: Variants = {
+    hidden:  { opacity: 0, ...scaledOffset },
+    visible: { opacity: 1, x: 0, y: 0 },
+  }
 
   return (
-    <div
+    <motion.div
       ref={ref}
       className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(14px)',
-        transition: `opacity 500ms ease-out ${delay}ms, transform 500ms ease-out ${delay}ms`,
+      variants={variants}
+      initial="hidden"
+      animate={inView ? 'visible' : 'hidden'}
+      transition={{
+        duration: 0.55,
+        delay:    delay / 1000,
+        ease:     [0.22, 1, 0.36, 1],
       }}
     >
       {children}
-    </div>
+    </motion.div>
   )
 }

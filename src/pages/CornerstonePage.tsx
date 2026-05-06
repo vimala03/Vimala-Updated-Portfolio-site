@@ -1,6 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+import { ProgressBar, NextProjectCTA } from '../components/case-study'
 import './cornerstone.css'
 
 /* ─── Case study order (used by next-proj click handler) ─── */
@@ -11,9 +14,6 @@ const caseStudyOrder = [
 ]
 
 const html = `
-<div id="progress"></div>
-
-
 <!-- ═══ HERO ═══ -->
 <div class="hero">
   <div class="hero-tags">
@@ -1089,7 +1089,7 @@ const html = `
 </div>
 
 <!-- ═══ PAIN POINTS ═══ -->
-<div class="chapter reveal">
+<div class="chapter reveal" id="ch-pain-points">
   <div class="ch-num">07</div>
   <div class="ch-label">Pain points</div>
   <div class="ch-title">Real friction. <em>Real people.<br>Real cost.</em></div>
@@ -1276,27 +1276,160 @@ const html = `
 </footer>
 `
 
+const decisions = [
+  {
+    number: '01',
+    label: 'AI Augmentation',
+    labelColor: '#1a4f8a',
+    labelBg: '#e8f0fa',
+    labelBorder: 'rgba(26,79,138,0.18)',
+    problem: 'Every Monday. Every course. From scratch.',
+    context: 'Priya manages learning content for 6 business units across 4 languages. Opening a new course creation form means blank fields — every time. The platform has zero understanding of the content she just uploaded. Title, description, keywords, subjects, skill tags: 25–60 minutes of manual typing, per course, per week.',
+    context2: 'For 10 admins doing this every month, the cost was invisible but catastrophic: 1,700 admin minutes wasted on metadata entry alone.',
+    stat: '1,700',
+    statLabel: 'admin min/month',
+    statSub: 'across 10 people — on metadata entry alone',
+    statColor: '#8a2a1a',
+    quote: '"I spend more time filling in forms than actually thinking about learning strategy. Same work, every week."',
+    quoteAttr: '— Enterprise L&D Admin, contextual inquiry',
+    decision: 'Build Apollo AI to read uploaded content and auto-generate every metadata field — title, description, keywords, subjects, and skill tags — presenting reviewable suggestions for one-click publish.',
+    outcome: '91%',
+    outcomeLabel: 'metadata time saved',
+    outcomeSub: '1,700 → 160 admin min/month',
+    outcomeColor: '#1e6640',
+    outcomeBg: '#e4f2ea',
+    outcomeBorder: 'rgba(30,102,64,0.15)',
+  },
+  {
+    number: '02',
+    label: 'Workflow Compression',
+    labelColor: '#7a4a10',
+    labelBg: '#fdf0dc',
+    labelBorder: 'rgba(122,74,16,0.18)',
+    problem: '8 courses. 5 steps each. Every. Single. Week.',
+    context: "Translating 8 EMEA courses for a Friday rollout meant: open course → select language → trigger translation → wait → close → repeat × 8. That's 40 mechanical clicks — 5 minutes of pure repetition — for something that should take under 30 seconds.",
+    context2: 'She had done this exact workflow every week for two years. The system never learned. It never batched. It just waited for her to click again.',
+    stat: '40',
+    statLabel: 'clicks per translation batch',
+    statSub: '5 min for 8 translations that should take under 1',
+    statColor: '#7a4a10',
+    quote: '"The translation part is the worst. I know what I need to do — the platform just makes me do it eight times instead of once."',
+    quoteAttr: '— L&D Administrator, Fortune 500 company',
+    decision: 'Design a multi-select translation panel with smart language prioritisation, automatic edge-case handling — completed languages hidden, partial fills clearly labelled — and a single "Translate All" CTA that processes every available language simultaneously.',
+    outcome: '90%',
+    outcomeLabel: 'translation time saved',
+    outcomeSub: '8 translations: 5 min → under 1 min',
+    outcomeColor: '#1a4f8a',
+    outcomeBg: '#e8f0fa',
+    outcomeBorder: 'rgba(26,79,138,0.15)',
+  },
+  {
+    number: '03',
+    label: 'Trust by Design',
+    labelColor: '#1e6640',
+    labelBg: '#e4f2ea',
+    labelBorder: 'rgba(30,102,64,0.18)',
+    problem: 'You close the panel. It forgets everything.',
+    context: "It's Friday at 3pm. Priya is halfway through editing a complex course when her manager pings her. She handles it, comes back 10 minutes later, reopens AI Assist. Blank. Every AI-generated suggestion: gone. The system has zero memory of what was happening when she left.",
+    context2: "This wasn't an edge case — it was the daily reality. Every interruption was an invisible restart. The rework was constant, demoralising, and never counted in any productivity metric.",
+    stat: '#1',
+    statLabel: 'post-launch admin feedback item',
+    statSub: 'No competing LMS had session continuity at launch',
+    statColor: '#1a4f8a',
+    quote: "\"Every time I close something and come back, it's like I never started. It doesn't remember me at all.\"",
+    quoteAttr: '— Admin user, diary study week 3',
+    decision: 'Persist the full AI session state across panel closures and surface "↩ Resume Smart Edit" as the primary CTA on re-entry. Designed as a trust signal — the platform communicating respect for user time — not merely a convenience feature.',
+    outcome: '#1',
+    outcomeLabel: 'most cited post-launch feature',
+    outcomeSub: 'Industry first — no competing LMS had this',
+    outcomeColor: '#7a4a10',
+    outcomeBg: '#fdf0dc',
+    outcomeBorder: 'rgba(122,74,16,0.15)',
+  },
+]
+
+const heroSvg = `<svg viewBox="0 0 960 300" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:860px;margin:0 auto;">
+  <rect x="20" y="0" width="920" height="290" rx="12" fill="white" fill-opacity="0.85"/>
+  <rect x="20" y="0" width="920" height="38" rx="12" fill="white" fill-opacity="0.96"/>
+  <rect x="20" y="26" width="920" height="12" fill="white" fill-opacity="0.96"/>
+  <circle cx="44" cy="19" r="5.5" fill="#f5c0b8"/><circle cx="61" cy="19" r="5.5" fill="#f5e0b8"/><circle cx="78" cy="19" r="5.5" fill="#c0f0d0"/>
+  <rect x="110" y="11" width="340" height="16" rx="8" fill="#f0ede8"/>
+  <rect x="122" y="16" width="10" height="6" rx="3" fill="#c8c4bc"/><rect x="137" y="17" width="90" height="4" rx="2" fill="#d8d4cc"/>
+  <rect x="30" y="42" width="900" height="34" fill="#faf9f7"/>
+  <rect x="44" y="50" width="88" height="18" rx="4" fill="#e85c23"/><rect x="50" y="55" width="76" height="8" rx="3" fill="white" fill-opacity="0.9"/>
+  <rect x="195" y="55" width="48" height="8" rx="3" fill="#c8c4bc"/>
+  <rect x="254" y="55" width="66" height="8" rx="3" fill="#c8c4bc"/>
+  <rect x="332" y="55" width="52" height="8" rx="3" fill="#c8c4bc"/>
+  <circle cx="878" cy="59" r="9" fill="#f0ede8"/><circle cx="902" cy="59" r="9" fill="#1a4f8a"/><circle cx="926" cy="59" r="14" fill="#e8b8a0"/>
+  <rect x="44" y="86" width="190" height="1" fill="#e8e4dc"/>
+  <rect x="44" y="94" width="160" height="16" rx="3" fill="#1a1a18"/>
+  <rect x="44" y="118" width="720" height="26" rx="13" fill="#f0ede8" stroke="#e0dcd8" stroke-width="0.5"/>
+  <circle cx="60" cy="131" r="6" fill="#b8b4ad"/>
+  <rect x="73" y="128" width="110" height="6" rx="3" fill="#d0ccc8"/>
+  <rect x="775" y="122" width="78" height="18" rx="9" fill="#f0ede8"/>
+  <rect x="781" y="127" width="50" height="6" rx="3" fill="#b8b4ad"/>
+  <rect x="44" y="154" width="74" height="20" rx="3" fill="#1a4f8a" fill-opacity="0.1"/>
+  <rect x="44" y="170" width="74" height="2" rx="1" fill="#1a4f8a"/>
+  <rect x="48" y="159" width="66" height="7" rx="2" fill="#1a4f8a" fill-opacity="0.6"/>
+  <rect x="128" y="159" width="58" height="7" rx="2" fill="#b8b4ad"/>
+  <rect x="196" y="159" width="52" height="7" rx="2" fill="#b8b4ad"/>
+  <rect x="258" y="159" width="76" height="7" rx="2" fill="#b8b4ad"/>
+  <rect x="344" y="159" width="80" height="7" rx="2" fill="#b8b4ad"/>
+  <rect x="44" y="182" width="810" height="1" fill="#e8e4dc"/>
+  <rect x="44" y="188" width="38" height="5" rx="2" fill="#b8b4ad"/>
+  <rect x="130" y="188" width="96" height="5" rx="2" fill="#b8b4ad"/>
+  <rect x="346" y="188" width="58" height="5" rx="2" fill="#b8b4ad"/>
+  <rect x="464" y="188" width="58" height="5" rx="2" fill="#b8b4ad"/>
+  <rect x="582" y="188" width="48" height="5" rx="2" fill="#b8b4ad"/>
+  <rect x="650" y="188" width="58" height="5" rx="2" fill="#b8b4ad"/>
+  <rect x="44" y="202" width="810" height="1" fill="#e8e4dc"/>
+  <rect x="44" y="208" width="22" height="12" rx="3" fill="#f0ede8"/>
+  <rect x="74" y="210" width="48" height="10" rx="5" fill="#e8f0fa"/><rect x="78" y="213" width="40" height="4" rx="2" fill="#378add" fill-opacity="0.6"/>
+  <rect x="130" y="210" width="192" height="5" rx="2" fill="#1a4f8a" fill-opacity="0.55"/>
+  <rect x="346" y="210" width="78" height="5" rx="2" fill="#d8d4cc"/>
+  <rect x="738" y="207" width="34" height="11" rx="4" fill="#e8f0fa"/><rect x="744" y="210" width="22" height="5" rx="2" fill="#378add" fill-opacity="0.6"/>
+  <rect x="44" y="224" width="810" height="1" fill="#e8e4dc"/>
+  <rect x="44" y="230" width="22" height="12" rx="3" fill="#f0ede8"/>
+  <rect x="74" y="232" width="62" height="10" rx="5" fill="#fdf0dc"/><rect x="78" y="235" width="54" height="4" rx="2" fill="#7a4a10" fill-opacity="0.5"/>
+  <rect x="130" y="232" width="172" height="5" rx="2" fill="#1a4f8a" fill-opacity="0.55"/>
+  <rect x="738" y="229" width="34" height="11" rx="4" fill="#e4f2ea"/><rect x="744" y="232" width="22" height="5" rx="2" fill="#1e6640" fill-opacity="0.6"/>
+  <rect x="44" y="246" width="810" height="1" fill="#e8e4dc"/>
+  <rect x="44" y="252" width="22" height="12" rx="3" fill="#f0ede8"/>
+  <rect x="74" y="254" width="48" height="10" rx="5" fill="#e8f0fa"/><rect x="78" y="257" width="40" height="4" rx="2" fill="#378add" fill-opacity="0.6"/>
+  <rect x="130" y="254" width="210" height="5" rx="2" fill="#1a4f8a" fill-opacity="0.55"/>
+  <rect x="738" y="251" width="34" height="11" rx="4" fill="#e8f0fa"/><rect x="744" y="254" width="22" height="5" rx="2" fill="#378add" fill-opacity="0.6"/>
+  <rect x="772" y="84" width="160" height="196" rx="10" fill="white" stroke="#e0dcd8" stroke-width="0.5"/>
+  <rect x="772" y="84" width="160" height="32" rx="10" fill="#1a4f8a"/>
+  <rect x="772" y="104" width="160" height="12" fill="#1a4f8a"/>
+  <circle cx="786" cy="100" r="6.5" fill="#378add" fill-opacity="0.5"/>
+  <rect x="796" y="96" width="56" height="6" rx="3" fill="white" fill-opacity="0.8"/>
+  <rect x="782" y="124" width="56" height="4" rx="2" fill="#378add" fill-opacity="0.4"/>
+  <rect x="782" y="132" width="136" height="3.5" rx="1.5" fill="#e0dcd8"/>
+  <rect x="782" y="139" width="116" height="3.5" rx="1.5" fill="#e0dcd8"/>
+  <rect x="782" y="146" width="128" height="3.5" rx="1.5" fill="#e0dcd8"/>
+  <rect x="782" y="156" width="46" height="5" rx="2" fill="#c8c4bc"/>
+  <rect x="836" y="154" width="38" height="9" rx="4.5" fill="#e4f2ea"/><rect x="840" y="157" width="30" height="3" rx="1.5" fill="#1e6640" fill-opacity="0.6"/>
+  <rect x="782" y="168" width="126" height="3.5" rx="1.5" fill="#e0dcd8"/>
+  <rect x="782" y="175" width="106" height="3.5" rx="1.5" fill="#e0dcd8"/>
+  <rect x="782" y="185" width="46" height="5" rx="2" fill="#c8c4bc"/>
+  <rect x="836" y="183" width="38" height="9" rx="4.5" fill="#e4f2ea"/><rect x="840" y="186" width="30" height="3" rx="1.5" fill="#1e6640" fill-opacity="0.6"/>
+  <rect x="782" y="197" width="118" height="3.5" rx="1.5" fill="#e0dcd8"/>
+  <rect x="782" y="204" width="96" height="3.5" rx="1.5" fill="#e0dcd8"/>
+  <rect x="776" y="220" width="152" height="20" rx="10" fill="#f0ede8"/>
+  <rect x="785" y="226" width="76" height="4" rx="2" fill="#c8c4bc"/>
+  <circle cx="920" cy="230" r="7" fill="#1a4f8a"/>
+  <rect x="917" y="227" width="6" height="6" rx="1" fill="white" fill-opacity="0.8"/>
+  <rect x="858" y="94" width="62" height="20" rx="5" fill="white" fill-opacity="0.2"/>
+  <rect x="862" y="99" width="54" height="8" rx="3" fill="white" fill-opacity="0.7"/>
+</svg>`
+
 export default function CornerstonePage() {
   const navigate = useNavigate()
+  const heroRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+  const heroVisY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
 
   useEffect(() => {
-    // Next case study click handler
-    const currentSlug = 'cornerstone'
-    const currentIdx = caseStudyOrder.findIndex((c) => c.slug === currentSlug)
-    const nextCase = caseStudyOrder[(currentIdx + 1) % caseStudyOrder.length]
-    const nextProjEl = document.querySelector('.next-proj') as HTMLElement | null
-    const handleNextClick = () => navigate(`/work/${nextCase.slug}`)
-    if (nextProjEl) nextProjEl.addEventListener('click', handleNextClick)
-
-    // Progress bar
-    const handleScroll = () => {
-      const h = document.documentElement
-      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100
-      const bar = document.getElementById('progress')
-      if (bar) bar.style.width = pct + '%'
-    }
-    window.addEventListener('scroll', handleScroll)
-
     // Scroll reveal
     const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible') }),
@@ -1329,12 +1462,6 @@ export default function CornerstonePage() {
       const panel = document.getElementById(id)
       if (panel) panel.classList.add('active')
       btn.classList.add('active')
-    }
-
-    // Pain points
-    ;(window as any).showPP = (i: number) => {
-      document.querySelectorAll('.pp-pnl').forEach((p, j) => p.classList.toggle('on', j === i))
-      document.querySelectorAll('.pp-ov-i').forEach((o, j) => o.classList.toggle('on', j === i))
     }
 
     // Compare slider
@@ -1385,22 +1512,321 @@ export default function CornerstonePage() {
     if (tldr) counterObs.observe(tldr)
 
     return () => {
-      if (nextProjEl) nextProjEl.removeEventListener('click', handleNextClick)
-      window.removeEventListener('scroll', handleScroll)
       obs.disconnect()
       counterObs.disconnect()
       delete (window as any).goScene
       delete (window as any).nextScene
       delete (window as any).prevScene
       delete (window as any).switchTab
-      delete (window as any).showPP
     }
-  }, [navigate])
+  }, [])
+
+  const heroTags = [
+    { text: 'Senior Product Designer', dark: true },
+    { text: 'AI Workflow · Apollo AI', blue: true },
+    { text: 'Enterprise SaaS' },
+    { text: 'Desktop' },
+    { text: '2024–2025' },
+  ]
+
+  const metaItems = [
+    { label: 'Company', value: 'Cornerstone OnDemand' },
+    { label: 'Product', value: 'CSX Platform' },
+    { label: 'My role', value: 'Sr. Product Designer' },
+    { label: 'Domain', value: 'Workforce Agility' },
+    { label: 'Timeline', value: 'Jul 2024 – Sep 2025' },
+  ]
 
   return (
     <>
+      <ProgressBar color="#1a4f8a" />
       <Navbar />
+
+      {/* ── REACT HERO (replaces .hero + .hero-vis hidden via CSS) ── */}
+      <section ref={heroRef} style={{ background: 'radial-gradient(ellipse at 60% 0%, rgba(26,79,138,0.08) 0%, transparent 60%), radial-gradient(ellipse at 5% 80%, rgba(26,79,138,0.04) 0%, transparent 45%), #faf8f5', overflow: 'hidden' }}>
+        <motion.div
+          style={{ padding: '5rem 4rem 3rem', maxWidth: '1040px', margin: '0 auto', textAlign: 'center' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Tags */}
+          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '2rem' }}>
+            {heroTags.map((tag, i) => (
+              <motion.span
+                key={tag.text}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.06 + 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                style={{
+                  fontFamily: '"Instrument Sans", sans-serif',
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  border: '0.5px solid rgba(17,17,16,0.09)',
+                  padding: '0.22rem 0.7rem',
+                  borderRadius: '100px',
+                  ...(tag.dark
+                    ? { background: '#111110', color: '#faf8f5', borderColor: '#111110' }
+                    : tag.blue
+                    ? { background: '#e8f0fa', color: '#1a4f8a', borderColor: 'rgba(26,79,138,0.2)' }
+                    : { background: '#f2efe9', color: '#5a5954' }),
+                }}
+              >
+                {tag.text}
+              </motion.span>
+            ))}
+          </div>
+
+          {/* H1 */}
+          <motion.h1
+            style={{
+              fontFamily: '"Playfair Display", serif',
+              fontSize: 'clamp(2.8rem, 5.5vw, 5rem)',
+              lineHeight: 1.04,
+              letterSpacing: '-0.025em',
+              marginBottom: '1.25rem',
+              color: '#111110',
+              fontWeight: 500,
+            }}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Goodbye admin fatigue,<br />
+            hello{' '}
+            <em style={{ fontStyle: 'italic', color: '#5a5954' }}>intelligent</em>{' '}
+            workflows.
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p
+            style={{
+              fontFamily: '"Instrument Sans", sans-serif',
+              fontSize: '0.92rem',
+              color: '#5a5954',
+              lineHeight: 1.8,
+              maxWidth: '60ch',
+              margin: '0 auto 2.5rem',
+            }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.28, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Redesigning Cornerstone OnDemand's Content Manager with AI-powered metadata,
+            seamless multilingual translation, and smart session continuity.
+          </motion.p>
+
+          {/* Meta strip */}
+          <motion.div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              border: '0.5px solid rgba(17,17,16,0.09)',
+              borderRadius: '14px',
+              overflow: 'hidden',
+              background: 'rgba(17,17,16,0.03)',
+              maxWidth: '820px',
+              margin: '0 auto',
+            }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.38, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {metaItems.map((item, i, arr) => (
+              <div
+                key={i}
+                style={{
+                  background: '#fff',
+                  padding: '1.1rem 1.5rem',
+                  textAlign: 'center',
+                  flex: 1,
+                  minWidth: '120px',
+                  borderRight: i < arr.length - 1 ? '0.5px solid rgba(17,17,16,0.07)' : 'none',
+                }}
+              >
+                <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.58rem', letterSpacing: '0.11em', textTransform: 'uppercase', color: '#a09d97', marginBottom: '0.3rem' }}>
+                  {item.label}
+                </div>
+                <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.82rem', fontWeight: 500, color: '#111110' }}>
+                  {item.value}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Hero visual — parallax on scroll */}
+        <motion.div
+          style={{
+            y: heroVisY,
+            background: 'linear-gradient(180deg,#dce8f5 0%,rgba(220,232,245,0.3) 100%)',
+            padding: '3rem 2rem 0',
+            overflow: 'hidden',
+            borderTop: '0.5px solid rgba(26,79,138,0.12)',
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          dangerouslySetInnerHTML={{ __html: heroSvg }}
+        />
+      </section>
+
+      {/* ── HTML CASE STUDY CONTENT ── */}
       <div dangerouslySetInnerHTML={{ __html: html }} />
+
+      {/* ── KEY DECISIONS (React — replaces hidden ch-07 accordion) ── */}
+      <div className="cs-decisions-outer">
+        {/* Section header */}
+        <div style={{ maxWidth: '1040px', margin: '0 auto', padding: '6rem 4rem 3.5rem' }}>
+          <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#d0cdc7', marginBottom: '0.4rem' }}>
+            05
+          </div>
+          <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.65rem', letterSpacing: '0.13em', textTransform: 'uppercase', color: '#a09d97', paddingBottom: '1.25rem', borderBottom: '0.5px solid rgba(17,17,16,0.08)', marginBottom: '2.5rem' }}>
+            Key decisions
+          </div>
+          <motion.h2
+            style={{
+              fontFamily: '"Playfair Display", serif',
+              fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.1,
+              color: '#111110',
+              fontWeight: 400,
+              maxWidth: '680px',
+            }}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '0px 0px -8% 0px' }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Three problems. Three decisions.{' '}
+            <em style={{ fontStyle: 'italic', color: '#5a5954' }}>Measured outcomes.</em>
+          </motion.h2>
+        </div>
+
+        {decisions.map((dec, i) => (
+          <motion.div
+            key={i}
+            style={{
+              maxWidth: '1040px',
+              margin: '0 auto',
+              padding: '0 4rem 5.5rem',
+              borderBottom: i < decisions.length - 1 ? '0.5px solid rgba(17,17,16,0.07)' : 'none',
+            }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '0px 0px -6% 0px' }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+          >
+            {/* Eyebrow */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+              <span style={{ fontFamily: '"Playfair Display", serif', fontSize: '1.1rem', color: '#d0cdc7' }}>
+                {dec.number}
+              </span>
+              <span style={{
+                fontFamily: '"Instrument Sans", sans-serif',
+                fontSize: '0.58rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                padding: '0.22rem 0.7rem',
+                borderRadius: '100px',
+                background: dec.labelBg,
+                color: dec.labelColor,
+                border: `0.5px solid ${dec.labelBorder}`,
+              }}>
+                {dec.label}
+              </span>
+            </div>
+
+            {/* Problem headline */}
+            <h3 style={{
+              fontFamily: '"Playfair Display", serif',
+              fontSize: 'clamp(1.65rem, 3vw, 2.3rem)',
+              lineHeight: 1.12,
+              letterSpacing: '-0.025em',
+              color: '#111110',
+              fontWeight: 500,
+              marginBottom: '2rem',
+              maxWidth: '680px',
+            }}>
+              {dec.problem}
+            </h3>
+
+            {/* Context + Evidence — 2-col */}
+            <div className="cs-dec-split">
+              <div>
+                <p style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.88rem', color: '#5a5954', lineHeight: 1.82, marginBottom: '1rem' }}>
+                  {dec.context}
+                </p>
+                <p style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.88rem', color: '#5a5954', lineHeight: 1.82 }}>
+                  {dec.context2}
+                </p>
+              </div>
+              <div style={{ background: '#f2efe9', borderRadius: '14px', padding: '1.75rem', border: '0.5px solid rgba(17,17,16,0.07)' }}>
+                <div style={{ fontFamily: '"Playfair Display", serif', fontSize: '2.6rem', lineHeight: 1, color: dec.statColor, marginBottom: '0.25rem' }}>
+                  {dec.stat}
+                </div>
+                <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.75rem', fontWeight: 500, color: '#111110', marginBottom: '0.2rem' }}>
+                  {dec.statLabel}
+                </div>
+                <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.7rem', color: '#a09d97', marginBottom: '1.5rem' }}>
+                  {dec.statSub}
+                </div>
+                <div style={{ borderLeft: '2px solid rgba(17,17,16,0.1)', paddingLeft: '1rem' }}>
+                  <div style={{ fontFamily: '"Playfair Display", serif', fontSize: '0.92rem', fontStyle: 'italic', lineHeight: 1.6, color: '#5a5954', marginBottom: '0.4rem' }}>
+                    {dec.quote}
+                  </div>
+                  <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.65rem', color: '#a09d97' }}>
+                    {dec.quoteAttr}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Decision + Outcome */}
+            <div style={{
+              background: dec.outcomeBg,
+              border: `0.5px solid ${dec.outcomeBorder}`,
+              borderRadius: '14px',
+              padding: '2rem 2.5rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '3rem',
+              flexWrap: 'wrap',
+            }}>
+              <div style={{ flex: 1, minWidth: '240px' }}>
+                <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.58rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: dec.outcomeColor, opacity: 0.7, marginBottom: '0.5rem' }}>
+                  The decision
+                </div>
+                <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.9rem', color: '#111110', lineHeight: 1.7, maxWidth: '52ch' }}>
+                  {dec.decision}
+                </div>
+              </div>
+              <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                <div style={{ fontFamily: '"Playfair Display", serif', fontSize: '3rem', lineHeight: 1, color: dec.outcomeColor, marginBottom: '0.2rem' }}>
+                  {dec.outcome}
+                </div>
+                <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.78rem', fontWeight: 500, color: dec.outcomeColor, marginBottom: '0.15rem' }}>
+                  {dec.outcomeLabel}
+                </div>
+                <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.65rem', color: dec.outcomeColor, opacity: 0.65 }}>
+                  {dec.outcomeSub}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <NextProjectCTA
+        label="Next case study →"
+        title="U&UST Intranet · Enterprise UX"
+        href="/work/ust"
+      />
+      <Footer />
     </>
   )
 }

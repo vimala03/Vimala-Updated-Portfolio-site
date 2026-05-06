@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // ── Figma assets ─────────────────────────────────────────────
 // removed unused IMG_EXP
@@ -429,7 +430,7 @@ export default function AboutJourney() {
                 <em style={{ fontStyle: 'italic', color: '#797979' }}>here.</em>
               </h2>
 
-              {/* Toggle */}
+              {/* Toggle — sliding pill */}
               <div
                 style={{
                   display: 'inline-flex',
@@ -439,6 +440,7 @@ export default function AboutJourney() {
                   padding: '4px',
                   border: '1px solid #e7e5e4',
                   gap: '2px',
+                  position: 'relative',
                 }}
               >
                 {(['experience', 'education'] as Tab[]).map((tab) => {
@@ -448,6 +450,7 @@ export default function AboutJourney() {
                       key={tab}
                       onClick={() => handleTabChange(tab)}
                       style={{
+                        position: 'relative',
                         padding: '8px 20px',
                         borderRadius: '50px',
                         fontSize: '13px',
@@ -455,12 +458,28 @@ export default function AboutJourney() {
                         fontWeight: 500,
                         border: 'none',
                         cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        background: isActive ? '#18181b' : 'transparent',
+                        background: 'transparent',
                         color: isActive ? '#ffffff' : '#78716c',
-                        boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
+                        zIndex: 1,
+                        transition: 'color 0.25s ease',
                       }}
+                      onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = '#18181b' }}
+                      onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = '#78716c' }}
                     >
+                      {isActive && (
+                        <motion.span
+                          layoutId="journey-pill"
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: '#18181b',
+                            borderRadius: '50px',
+                            zIndex: -1,
+                            boxShadow: '0 1px 4px rgba(0,0,0,0.18)',
+                          }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        />
+                      )}
                       {tab === 'experience' ? 'Experience' : 'Education'}
                     </button>
                   )
@@ -469,20 +488,29 @@ export default function AboutJourney() {
             </div>
 
             {/* Timeline entries — padded below sticky header */}
-            <div style={{ paddingTop: '24px' }}>
-              {entries.map((entry, i) => (
-                <TimelineEntry
-                  key={`${active}-${i}`}
-                  entry={entry}
-                  isLast={i === entries.length - 1}
-                  isActive={activeIndex === i}
-                  entryRef={(el) => {
-                    entryRefsRef.current[i] = el
-                    itemRefs.current[i] = el
-                  }}
-                />
-              ))}
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                style={{ paddingTop: '24px' }}
+              >
+                {entries.map((entry, i) => (
+                  <TimelineEntry
+                    key={`${active}-${i}`}
+                    entry={entry}
+                    isLast={i === entries.length - 1}
+                    isActive={activeIndex === i}
+                    entryRef={(el) => {
+                      entryRefsRef.current[i] = el
+                      itemRefs.current[i] = el
+                    }}
+                  />
+                ))}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* RIGHT COLUMN — image, sticky at top of viewport (hidden on mobile) */}
@@ -508,17 +536,25 @@ export default function AboutJourney() {
                 boxShadow: '0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)',
               }}
             >
-              <img
-                key={`${active}-${activeIndex}`}
-                src={entries[activeIndex]?.image}
-                alt={entries[activeIndex]?.company}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: getObjectPosition(entries[activeIndex]?.company),
-                }}
-              />
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={`${active}-${activeIndex}`}
+                  src={entries[activeIndex]?.image}
+                  alt={entries[activeIndex]?.company}
+                  initial={{ opacity: 0, scale: 1.04 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: getObjectPosition(entries[activeIndex]?.company),
+                    position: 'absolute',
+                    inset: 0,
+                  }}
+                />
+              </AnimatePresence>
               {/* Overlay label */}
               <div
                 style={{

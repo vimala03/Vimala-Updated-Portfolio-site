@@ -3,39 +3,39 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
-const tags = ['UX Designer', 'PropTech', 'Mobile & Web', 'Design System', '2021–2022']
+const tags = ['UX Designer', 'Social Impact', 'Health Tech', 'Design Sprint', '2023']
 
 const decisions = [
   {
     number: '01',
-    decision: 'Mapped the end-to-end property buyer journey before touching the UI',
-    why: 'First-time buyers and experienced investors had entirely different mental models of the purchase funnel. Journey mapping across both segments revealed 3 critical drop-off points that informed the IA overhaul.',
-    outcome: 'Reduced checkout abandonment by ~35% in post-launch analysis',
+    decision: 'Ran a dual-track sprint: story first, features second',
+    why: 'The CivTech brief required research, storytelling, and a working prototype within 72 hours. Most teams rushed to features. We invested the first 24 hours building a compelling narrative around the lived experience of menopause — which became the spine of the entire submission.',
+    outcome: 'Finalist recognition from CivTech Scotland judges',
+    tag: 'Strategic Framing',
+    tagColor: 'amber' as const,
+  },
+  {
+    number: '02',
+    decision: 'Designed for underserved voices, not average users',
+    why: 'Menopause UX is typically built for the clinical average. Research revealed that women in workplaces, women of colour, and women in perimenopause had radically different access needs. Designed personalisation flows that adapted to user-defined identity, not demographic assumptions.',
+    outcome: 'Community support feature rated highest in user testing',
     tag: 'Research-Led',
     tagColor: 'green' as const,
   },
   {
-    number: '02',
-    decision: 'Introduced a unified property listing component that scaled across web and mobile',
-    why: 'The existing web and app designs had diverged significantly. Designing a single responsive component with shared tokens eliminated duplication and allowed both surfaces to ship in tandem.',
-    outcome: 'Cut cross-platform QA effort by ~40%',
+    number: '03',
+    decision: 'Built a modular resource system that scales with the user\'s journey',
+    why: 'Menopause is a multi-year journey, not a single moment. Designed a content architecture that evolved with the user\'s stage — perimenopause, menopause, post-menopause — surfacing relevant resources contextually rather than dumping everything at onboarding.',
+    outcome: 'Prototype completed and validated within 72-hour sprint window',
     tag: 'Systems Thinking',
     tagColor: 'blue' as const,
   },
-  {
-    number: '03',
-    decision: 'Prioritised trust signals over feature density on the listing detail page',
-    why: 'Usability testing revealed that users hesitated not because of missing features but because of low confidence in listing authenticity. Reordered content hierarchy to surface verification badges, agent credentials, and neighbourhood context above the fold.',
-    outcome: 'Increased "Contact agent" tap rate by 22%',
-    tag: 'Strategic Framing',
-    tagColor: 'amber' as const,
-  },
 ]
 
-export default function BuildzarPage() {
+export default function CivtechPage() {
   return (
-    <div style={{ background: '#faf8f5', minHeight: '100vh' }}>
-      <ProgressBar color="#111110" />
+    <div style={{ background: 'radial-gradient(ellipse at 25% 0%, rgba(138,90,26,0.07) 0%, transparent 55%), radial-gradient(ellipse at 75% 80%, rgba(138,90,26,0.04) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
+      <ProgressBar color="#8a5a1a" />
       <Navbar />
 
       {/* Hero */}
@@ -84,9 +84,9 @@ export default function BuildzarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
         >
-          Designing the{' '}
-          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>property-buying experience</em>
-          {' '}from the ground up.
+          Designing{' '}
+          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>menopause care</em>
+          {' '}for the women the system forgets.
         </motion.h1>
 
         <motion.p
@@ -102,7 +102,7 @@ export default function BuildzarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.24, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          UX design for Buildzar, a PropTech platform connecting buyers, sellers, and agents across residential and commercial real estate. Full case study in preparation.
+          A 72-hour CivTech Scotland design sprint — building a personalised menopause support platform with community, resources, and adaptive content that evolves with the user's journey. Finalist-recognised.
         </motion.p>
 
         {/* Meta strip */}
@@ -123,10 +123,10 @@ export default function BuildzarPage() {
           transition={{ delay: 0.32, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           {[
-            { label: 'Company',  value: 'Buildzar' },
-            { label: 'My role',  value: 'UX Designer' },
-            { label: 'Timeline', value: '2021 – 2022' },
-            { label: 'Platform', value: 'Web & Mobile' },
+            { label: 'Client',    value: 'CivTech Scotland' },
+            { label: 'My role',   value: 'UX Designer' },
+            { label: 'Format',    value: '72-hr Sprint' },
+            { label: 'Outcome',   value: 'Finalist' },
           ].map((item, i, arr) => (
             <div key={i} style={{
               background: '#fff',
@@ -177,16 +177,12 @@ export default function BuildzarPage() {
         </div>
       </div>
 
-      {/* Coming soon note */}
+      {/* Figma CTA */}
       <ScrollReveal>
-        <div style={{
-          maxWidth: '1040px',
-          margin: '0 auto 5rem',
-          padding: '0 4rem',
-        }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto 5rem', padding: '0 4rem' }}>
           <div style={{
-            background: '#f2efe9',
-            border: '0.5px solid rgba(17,17,16,0.08)',
+            background: '#f7f2ec',
+            border: '0.5px solid rgba(138,90,26,0.12)',
             borderRadius: '14px',
             padding: '2.5rem 3rem',
             display: 'flex',
@@ -196,19 +192,21 @@ export default function BuildzarPage() {
             flexWrap: 'wrap',
           }}>
             <div>
-              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a09d97', marginBottom: '0.5rem' }}>
-                Full case study
+              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8a5a1a', opacity: 0.7, marginBottom: '0.5rem' }}>
+                Interactive prototype
               </div>
               <div style={{ fontFamily: '"Playfair Display", serif', fontSize: '1.3rem', color: '#111110', letterSpacing: '-0.02em' }}>
-                In preparation — available on request.
+                View the full Figma prototype.
               </div>
             </div>
             <a
-              href="mailto:vimalabanavath.design@gmail.com?subject=Buildzar Case Study Request"
+              href="https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2073&type=design&node-id=50-2077&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width&starting-point-node-id=50%3A2077"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >
-              Request access →
+              View prototype →
             </a>
           </div>
         </div>
@@ -216,10 +214,9 @@ export default function BuildzarPage() {
 
       <NextProjectCTA
         label="Next case study →"
-        title="Moonraft – UST Global · Enterprise SaaS"
-        href="/work/moonraft"
+        title="Vet & Rider · Health Mobility Platform"
+        href="/work/vet-rider"
       />
-
       <Footer />
     </div>
   )

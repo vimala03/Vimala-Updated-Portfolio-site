@@ -3,39 +3,39 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
-const tags = ['UX Designer', 'PropTech', 'Mobile & Web', 'Design System', '2021–2022']
+const tags = ['UX Lead', 'Travel Tech', 'Mobile & Web', 'AI Search', '2016–2018']
 
 const decisions = [
   {
     number: '01',
-    decision: 'Mapped the end-to-end property buyer journey before touching the UI',
-    why: 'First-time buyers and experienced investors had entirely different mental models of the purchase funnel. Journey mapping across both segments revealed 3 critical drop-off points that informed the IA overhaul.',
-    outcome: 'Reduced checkout abandonment by ~35% in post-launch analysis',
+    decision: 'Rebuilt search around intent, not keyword matching',
+    why: 'Users were abandoning search when results didn\'t match their mental model of a trip. Introduced AI-powered intent prediction that understood "beach trip for 4 in March" rather than waiting for exact destination input.',
+    outcome: 'Search abandonment reduced by 35%',
     tag: 'Research-Led',
     tagColor: 'green' as const,
   },
   {
     number: '02',
-    decision: 'Introduced a unified property listing component that scaled across web and mobile',
-    why: 'The existing web and app designs had diverged significantly. Designing a single responsive component with shared tokens eliminated duplication and allowed both surfaces to ship in tandem.',
-    outcome: 'Cut cross-platform QA effort by ~40%',
+    decision: 'Designed a unified trip-planning surface across web and app',
+    why: 'Users switched between platforms mid-journey — discovering on web, booking on mobile. Mapped cross-device session continuity so context (search, filters, saved trips) persisted across surfaces without requiring sign-in.',
+    outcome: 'Booking conversion increased by 28%',
     tag: 'Systems Thinking',
     tagColor: 'blue' as const,
   },
   {
     number: '03',
-    decision: 'Prioritised trust signals over feature density on the listing detail page',
-    why: 'Usability testing revealed that users hesitated not because of missing features but because of low confidence in listing authenticity. Reordered content hierarchy to surface verification badges, agent credentials, and neighbourhood context above the fold.',
-    outcome: 'Increased "Contact agent" tap rate by 22%',
+    decision: 'Prioritised personalisation signals over generic recommendations',
+    why: 'The existing recommendations engine surfaced popular destinations regardless of user history. Reoriented the discovery feed around behavioral signals — past searches, price sensitivity, travel party size — dramatically improving relevance.',
+    outcome: 'App Store rating: 3.2★ → 4.4★',
     tag: 'Strategic Framing',
     tagColor: 'amber' as const,
   },
 ]
 
-export default function BuildzarPage() {
+export default function FlyinPage() {
   return (
-    <div style={{ background: '#faf8f5', minHeight: '100vh' }}>
-      <ProgressBar color="#111110" />
+    <div style={{ background: 'radial-gradient(ellipse at 15% 0%, rgba(26,102,64,0.07) 0%, transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(26,102,64,0.04) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
+      <ProgressBar color="#1a6640" />
       <Navbar />
 
       {/* Hero */}
@@ -84,9 +84,9 @@ export default function BuildzarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
         >
-          Designing the{' '}
-          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>property-buying experience</em>
-          {' '}from the ground up.
+          Making travel feel{' '}
+          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>effortless,</em>
+          {' '}from first search to final booking.
         </motion.h1>
 
         <motion.p
@@ -102,7 +102,7 @@ export default function BuildzarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.24, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          UX design for Buildzar, a PropTech platform connecting buyers, sellers, and agents across residential and commercial real estate. Full case study in preparation.
+          Led UX redesign of Flyin's search and discovery with AI-powered intent prediction — reducing abandonment, increasing conversion, and lifting App Store rating from 3.2★ to 4.4★.
         </motion.p>
 
         {/* Meta strip */}
@@ -123,9 +123,9 @@ export default function BuildzarPage() {
           transition={{ delay: 0.32, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           {[
-            { label: 'Company',  value: 'Buildzar' },
-            { label: 'My role',  value: 'UX Designer' },
-            { label: 'Timeline', value: '2021 – 2022' },
+            { label: 'Company',  value: 'Flyin' },
+            { label: 'My role',  value: 'UX Lead' },
+            { label: 'Timeline', value: '2016 – 2018' },
             { label: 'Platform', value: 'Web & Mobile' },
           ].map((item, i, arr) => (
             <div key={i} style={{
@@ -177,16 +177,12 @@ export default function BuildzarPage() {
         </div>
       </div>
 
-      {/* Coming soon note */}
+      {/* Figma CTA */}
       <ScrollReveal>
-        <div style={{
-          maxWidth: '1040px',
-          margin: '0 auto 5rem',
-          padding: '0 4rem',
-        }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto 5rem', padding: '0 4rem' }}>
           <div style={{
-            background: '#f2efe9',
-            border: '0.5px solid rgba(17,17,16,0.08)',
+            background: '#edf5f1',
+            border: '0.5px solid rgba(26,102,64,0.12)',
             borderRadius: '14px',
             padding: '2.5rem 3rem',
             display: 'flex',
@@ -196,19 +192,21 @@ export default function BuildzarPage() {
             flexWrap: 'wrap',
           }}>
             <div>
-              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a09d97', marginBottom: '0.5rem' }}>
-                Full case study
+              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a6640', opacity: 0.7, marginBottom: '0.5rem' }}>
+                Interactive prototype
               </div>
               <div style={{ fontFamily: '"Playfair Display", serif', fontSize: '1.3rem', color: '#111110', letterSpacing: '-0.02em' }}>
-                In preparation — available on request.
+                View the full Figma prototype.
               </div>
             </div>
             <a
-              href="mailto:vimalabanavath.design@gmail.com?subject=Buildzar Case Study Request"
+              href="https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2075&type=design&node-id=83-29753&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >
-              Request access →
+              View prototype →
             </a>
           </div>
         </div>
@@ -216,10 +214,9 @@ export default function BuildzarPage() {
 
       <NextProjectCTA
         label="Next case study →"
-        title="Moonraft – UST Global · Enterprise SaaS"
-        href="/work/moonraft"
+        title="Aptia · Employee Benefits Platform"
+        href="/work/aptia"
       />
-
       <Footer />
     </div>
   )

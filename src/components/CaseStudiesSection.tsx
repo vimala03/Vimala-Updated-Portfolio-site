@@ -10,39 +10,51 @@ import PasswordModal from './PasswordModal'
 /* ─── Global password ─── */
 const GLOBAL_PASSWORD = 'designedbyvimala'
 
-/* ─── Contact info (used in NDA mailto / WhatsApp) ─── */
+/* ─── Contact info ─── */
 const CONTACT_EMAIL    = 'vimalabanavath.design@gmail.com'
 const CONTACT_WHATSAPP = '918886090063'
 
 /* ─── Types ─── */
-type InternalStudy = {
+type InternalLargeStudy = {
   type:      'internal'
   route:     string
-  figmaUrl?: string   // when set → password modal instead of Link
-  password?: string   // required when figmaUrl is set; defaults to GLOBAL_PASSWORD
-  nda?:      boolean  // when true → bypass modal, show request-access overlay
+  nda?:      boolean
   title:     string
   date:      string
   description: string
   image:     string
   imageAlt:  string
+  cardBg?:   string
 }
 
-type ExternalStudy = {
+type ExternalLargeStudy = {
   type:     'external'
   figmaUrl: string
   password: string
-  nda?:     boolean   // when true → bypass modal, show request-access overlay
+  nda?:     boolean
   title:    string
   date:     string
   description: string
   image:    string
   imageAlt: string
+  cardBg?:  string
 }
 
-type LargeStudy = InternalStudy | ExternalStudy
+type LargeStudy = InternalLargeStudy | ExternalLargeStudy
 
-type SmallExternalStudy = {
+type InternalSmallStudy = {
+  type:     'internal'
+  route:    string
+  nda?:     boolean
+  title:    string
+  category: string
+  description: string
+  image:    string
+  imageAlt: string
+  cardBg?:  string
+}
+
+type ExternalSmallStudy = {
   type:     'external'
   figmaUrl: string
   password: string
@@ -52,96 +64,96 @@ type SmallExternalStudy = {
   description: string
   image:    string
   imageAlt: string
+  cardBg?:  string
 }
 
-type SmallStudy = SmallExternalStudy
+type SmallStudy = InternalSmallStudy | ExternalSmallStudy
 
 /* ─── Large case study data ─── */
 const largeCaseStudies: LargeStudy[] = [
   {
     type:     'internal',
     route:    '/work/cornerstone',
-    figmaUrl: 'PASTE_CORNERSTONE_FIGMA_URL_HERE', // ← replace with real Figma prototype link
-    password: GLOBAL_PASSWORD,
-    nda:      true,
     title:    'AI-powered enterprise search redesign → enabling faster decision making at scale',
-    date:     'July 2022 - May 2023',
+    date:     'July 2024 – Sept 2025',
     description:
       'Improved task efficiency across 4000+ pages by redesigning navigation with AI-powered, persona-based search and contextual pinning, reducing friction and enabling faster, action-oriented workflows.',
-    image:    'https://www.figma.com/api/mcp/asset/ffba970a-d029-4636-8336-63e4042892cb',
+    image:    '/images/case-studies/aisearch.jpeg',
     imageAlt: 'AI-powered enterprise search redesign',
+    cardBg:   '#dce8f5',
   },
   {
-    type:     'external',
-    figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=187%3A16344&node-id=187-19899&viewport=552%2C1569%2C0.11&t=7p323AFE3PhinXty-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=187%3A19899',
-    password: GLOBAL_PASSWORD,
+    type:     'internal',
+    route:    '/work/ust',
     title:    'U&UST Intranet',
-    date:     'July 2022 - May 2023',
+    date:     'July 2022 – May 2023',
     description:
       "Unified UST's fragmented intranet into a single, intuitive platform, eliminating silos and improving employee efficiency through research-driven workflows and seamless tool access.",
-    image:    'https://www.figma.com/api/mcp/asset/ca0563c4-80b2-40b2-9d64-f7cdb7ae2ab2',
+    image:    '/images/case-studies/ust.jpeg',
     imageAlt: 'U&UST Intranet',
+    cardBg:   '#e8e6df',
   },
   {
     type:     'external',
     figmaUrl: 'PASTE_METADATA_FIGMA_LINK_HERE',
     password: GLOBAL_PASSWORD,
-    nda:      true,   // ← NDA: bypass modal, show request-access overlay
+    nda:      true,
     title:    'Content Manager Metadata Generation, Translation',
-    date:     'July 2022 - May 2023',
+    date:     'July 2024 – Sept 2025',
     description:
       'Improved search accuracy and content discoverability by introducing AI-powered metadata generation, strengthening taxonomy and information architecture across the platform.',
-    image:    'https://www.figma.com/api/mcp/asset/8fedfefe-ebcf-4f20-a4f4-35d8762f0d0a',
+    image:    '/images/case-studies/csx.jpeg',
     imageAlt: 'Content Manager Metadata Generation',
+    cardBg:   '#dce8f5',
   },
 ]
 
 /* ─── Small case study data ─── */
 const smallCaseStudies: SmallStudy[] = [
   {
-    type:     'external',
-    figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2072&node-id=69-909&viewport=1542%2C13%2C0.07&t=gKJll47Zv6TSyzbl-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=69%3A909',
-    password: GLOBAL_PASSWORD,
+    type:     'internal',
+    route:    '/work/aptia',
     title:    'Aptia Website',
     category: 'Employee Pension and Health Benefits Administration',
     description:
       "Designed Aptia Group's website to deliver a seamless, intuitive experience, improving navigation clarity and driving stronger user engagement.",
-    image:    'https://www.figma.com/api/mcp/asset/40770304-9e43-4dab-baf6-091bd0a588ae',
+    image:    '/images/case-studies/aptia.jpeg',
     imageAlt: 'Aptia Website',
+    cardBg:   '#e3d8f2',
   },
   {
-    type:     'external',
-    figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2075&type=design&node-id=83-29753&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width',
-    password: GLOBAL_PASSWORD,
+    type:     'internal',
+    route:    '/work/flyin',
     title:    'Flyin Travel & Tourism',
     category: 'Website & App',
     description:
       "Revamped Flyin Travel's platform into a unified, user-centric experience. Improved usability and streamlined key user flows. Enabled seamless, personalized trip planning.",
-    image:    'https://www.figma.com/api/mcp/asset/ca51e43b-bc71-4234-93b8-28e0ba08d1c5',
+    image:    '/images/case-studies/flyin.jpeg',
     imageAlt: 'Flyin Travel & Tourism',
+    cardBg:   '#d4ece3',
   },
   {
-    type:     'external',
-    figmaUrl: 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2073&type=design&node-id=50-2077&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width&starting-point-node-id=50%3A2077',
-    password: GLOBAL_PASSWORD,
+    type:     'internal',
+    route:    '/work/civtech',
     title:    'CivTech Menopause care',
     category: 'Concept Generation',
     description:
       'Built a comprehensive digital platform for menopause, offering personalized resources and community support for a more guided, user-centric experience.',
-    image:    'https://www.figma.com/api/mcp/asset/a5faf91a-c522-4a43-8894-4c9eb1d42a0a',
+    image:    '/images/case-studies/civtech.jpeg',
     imageAlt: 'CivTech Menopause care',
+    cardBg:   '#ede1d0',
   },
   {
-    type:     'external',
-    figmaUrl: 'PASTE_VET_FIGMA_LINK_HERE', // ← replace with real Figma prototype link
-    password: GLOBAL_PASSWORD,
+    type:     'internal',
+    route:    '/work/vet-rider',
     nda:      true,
     title:    'Vet & Rider Wellness Platform',
     category: 'Website and App design',
     description:
       'Built a platform connecting veterinarians and horse riders through data-driven insights and remote healthcare, enabling smarter, more accessible care.',
-    image:    'https://www.figma.com/api/mcp/asset/f81cf3d1-45c5-4800-be59-a1776457c47d',
+    image:    '/images/case-studies/consteed.jpeg',
     imageAlt: 'Vet & Rider Wellness Platform',
+    cardBg:   '#d4e8f2',
   },
 ]
 
@@ -158,67 +170,25 @@ function ndaUrls(title: string) {
   return { requestUrl, whatsappUrl }
 }
 
-/* ─── Mobile-only NDA strip (always visible, below card) ───────
-   Shown only on screens < md. Desktop gets the hover overlay.
-─────────────────────────────────────────────────────────────── */
+/* ─── Mobile NDA strip ─── */
 function MobileNdaStrip({ title }: { title: string }) {
   const { requestUrl, whatsappUrl } = ndaUrls(title)
   return (
     <div
       className="flex md:hidden items-center justify-between flex-wrap gap-3 mt-3 px-4 py-3 rounded-lg"
-      style={{
-        background: 'rgba(24,24,27,0.03)',
-        border: '1px solid rgba(24,24,27,0.07)',
-      }}
+      style={{ background: 'rgba(24,24,27,0.03)', border: '1px solid rgba(24,24,27,0.07)' }}
     >
       <div className="flex items-center gap-2 min-w-0">
         <span aria-hidden style={{ fontSize: '13px', flexShrink: 0 }}>🔒</span>
-        <span
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: '12px',
-            color: 'rgba(24,24,27,0.48)',
-            lineHeight: 1.4,
-          }}
-        >
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: 'rgba(24,24,27,0.48)', lineHeight: 1.4 }}>
           Case study available on request
         </span>
       </div>
       <div className="flex items-center gap-2 shrink-0">
-        <a
-          href={requestUrl}
-          style={{
-            fontFamily:     "'Inter', sans-serif",
-            fontSize:       '12px',
-            fontWeight:     500,
-            color:          '#ffffff',
-            textDecoration: 'none',
-            padding:        '6px 14px',
-            borderRadius:   '5px',
-            background:     '#18181b',
-            display:        'inline-block',
-            whiteSpace:     'nowrap',
-          }}
-        >
+        <a href={requestUrl} style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 500, color: '#ffffff', textDecoration: 'none', padding: '6px 14px', borderRadius: '5px', background: '#18181b', display: 'inline-block', whiteSpace: 'nowrap' }}>
           Request →
         </a>
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            fontFamily:     "'Inter', sans-serif",
-            fontSize:       '12px',
-            fontWeight:     500,
-            color:          'rgba(24,24,27,0.55)',
-            textDecoration: 'none',
-            padding:        '6px 14px',
-            borderRadius:   '5px',
-            border:         '1px solid rgba(24,24,27,0.14)',
-            display:        'inline-block',
-            whiteSpace:     'nowrap',
-          }}
-        >
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 500, color: 'rgba(24,24,27,0.55)', textDecoration: 'none', padding: '6px 14px', borderRadius: '5px', border: '1px solid rgba(24,24,27,0.14)', display: 'inline-block', whiteSpace: 'nowrap' }}>
           WhatsApp
         </a>
       </div>
@@ -226,104 +196,29 @@ function MobileNdaStrip({ title }: { title: string }) {
   )
 }
 
-/* ─── NDA hover overlay ────────────────────────────────────────
-   Rendered inside a `group relative` wrapper. Invisible by
-   default; fades in on hover while the card content fades out.
-   Only rendered on md+ (hidden on mobile via wrapper class).
-─────────────────────────────────────────────────────────────── */
+/* ─── NDA hover overlay ─── */
 function NdaHoverOverlay({ title }: { title: string }) {
   const { requestUrl, whatsappUrl } = ndaUrls(title)
-
   return (
-    <div
-      style={{
-        display:        'flex',
-        flexDirection:  'column',
-        alignItems:     'center',
-        justifyContent: 'center',
-        gap:            '14px',
-        padding:        '32px 24px',
-        textAlign:      'center',
-      }}
-    >
-      {/* Lock icon */}
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '14px', padding: '32px 24px', textAlign: 'center' }}>
       <span style={{ fontSize: '22px', lineHeight: 1 }} aria-hidden>🔒</span>
-
-      {/* NDA notice */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <p style={{
-          fontFamily:    "'Inter', sans-serif",
-          fontSize:      '14px',
-          fontWeight:    600,
-          color:         '#18181b',
-          margin:        0,
-          letterSpacing: '-0.01em',
-        }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '14px', fontWeight: 600, color: '#18181b', margin: 0, letterSpacing: '-0.01em' }}>
           Case study available on request
         </p>
-        <p style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize:   '12px',
-          color:      'rgba(24,24,27,0.48)',
-          margin:     0,
-        }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: 'rgba(24,24,27,0.48)', margin: 0 }}>
           Due to NDA, access is restricted
         </p>
       </div>
-
-      {/* CTAs */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '4px' }}>
-        <a
-          href={requestUrl}
-          style={{
-            padding:        '9px 18px',
-            borderRadius:   '6px',
-            background:     '#18181b',
-            color:          '#ffffff',
-            fontFamily:     "'Inter', sans-serif",
-            fontSize:       '12px',
-            fontWeight:     500,
-            cursor:         'pointer',
-            letterSpacing:  '-0.01em',
-            textDecoration: 'none',
-            display:        'inline-block',
-            transition:     'opacity 0.15s',
-            border:         'none',
-          }}
+        <a href={requestUrl} style={{ padding: '9px 18px', borderRadius: '6px', background: '#18181b', color: '#ffffff', fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 500, cursor: 'pointer', letterSpacing: '-0.01em', textDecoration: 'none', display: 'inline-block', transition: 'opacity 0.15s', border: 'none' }}
           onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-        >
+          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
           Request access →
         </a>
-
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            padding:        '9px 18px',
-            borderRadius:   '6px',
-            border:         '1px solid rgba(24,24,27,0.16)',
-            background:     'transparent',
-            color:          'rgba(24,24,27,0.58)',
-            fontFamily:     "'Inter', sans-serif",
-            fontSize:       '12px',
-            fontWeight:     500,
-            cursor:         'pointer',
-            letterSpacing:  '-0.01em',
-            textDecoration: 'none',
-            display:        'inline-block',
-            transition:     'all 0.15s',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.borderColor = 'rgba(24,24,27,0.30)'
-            e.currentTarget.style.color       = '#18181b'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.borderColor = 'rgba(24,24,27,0.16)'
-            e.currentTarget.style.color       = 'rgba(24,24,27,0.58)'
-          }}
-        >
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" style={{ padding: '9px 18px', borderRadius: '6px', border: '1px solid rgba(24,24,27,0.16)', background: 'transparent', color: 'rgba(24,24,27,0.58)', fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 500, cursor: 'pointer', letterSpacing: '-0.01em', textDecoration: 'none', display: 'inline-block', transition: 'all 0.15s' }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(24,24,27,0.30)'; e.currentTarget.style.color = '#18181b' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(24,24,27,0.16)'; e.currentTarget.style.color = 'rgba(24,24,27,0.58)' }}>
           WhatsApp
         </a>
       </div>
@@ -331,47 +226,26 @@ function NdaHoverOverlay({ title }: { title: string }) {
   )
 }
 
-/* ─── Click wrappers ─────────────────────────────────────────── */
+/* ─── Click wrappers ─── */
 type ModalPayload = { label: string; figmaUrl: string; password: string }
 type OpenModal    = (payload: ModalPayload) => void
 
-function LargeCardWrapper({
-  study, children, onOpenModal,
-}: { study: LargeStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
-  // NDA: mobile → always-visible strip below card; desktop → hover overlay
-  if (study.nda) {
+function LargeCardWrapper({ study, children, onOpenModal }: { study: LargeStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
+  // External NDA → hover overlay, no modal
+  if (study.nda && study.type === 'external') {
     return (
       <div>
         <div className="group relative" style={{ cursor: 'default' }}>
-          {/* Card fades on md+ hover only — stays full opacity on mobile */}
-          <div style={{ transition: 'opacity 300ms ease' }} className="md:group-hover:opacity-20">
-            {children}
-          </div>
-          {/* Overlay: hidden on mobile, hover-triggered on md+ */}
-          <div
-            className="hidden md:flex absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto items-center justify-center"
-            style={{ transition: 'opacity 300ms ease' }}
-          >
+          <div style={{ transition: 'opacity 300ms ease' }} className="md:group-hover:opacity-20">{children}</div>
+          <div className="hidden md:flex absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto items-center justify-center" style={{ transition: 'opacity 300ms ease' }}>
             <NdaHoverOverlay title={study.title} />
           </div>
         </div>
-        {/* Mobile-only always-visible CTA strip */}
         <MobileNdaStrip title={study.title} />
       </div>
     )
   }
-  // Internal + figmaUrl → password modal → Figma prototype
-  if (study.type === 'internal' && study.figmaUrl) {
-    return (
-      <div
-        onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl!, password: study.password ?? GLOBAL_PASSWORD })}
-        style={{ cursor: 'pointer' }}
-      >
-        {children}
-      </div>
-    )
-  }
-  // Internal, no figmaUrl → direct navigation (fallback)
+  // Internal → navigate directly to page (overview page has the CTA for Figma/password)
   if (study.type === 'internal') {
     return (
       <Link to={study.route} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
@@ -379,47 +253,40 @@ function LargeCardWrapper({
       </Link>
     )
   }
-  // External → password modal → Figma prototype
+  // External → password modal
   return (
-    <div
-      onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl, password: study.password })}
-      style={{ cursor: 'pointer' }}
-    >
+    <div onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl, password: study.password })} style={{ cursor: 'pointer' }}>
       {children}
     </div>
   )
 }
 
-function SmallCardWrapper({
-  study, children, onOpenModal,
-}: { study: SmallStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
-  // NDA: mobile → always-visible strip below card; desktop → hover overlay
+function SmallCardWrapper({ study, children, onOpenModal }: { study: SmallStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
+  // Internal → navigate to page directly
+  if (study.type === 'internal') {
+    return (
+      <Link to={study.route} style={{ display: 'block', height: '100%', textDecoration: 'none', color: 'inherit' }}>
+        {children}
+      </Link>
+    )
+  }
+  // External NDA → overlay
   if (study.nda) {
     return (
       <div className="h-full flex flex-col">
         <div className="group relative flex-1" style={{ cursor: 'default' }}>
-          {/* Card fades on md+ hover only */}
-          <div style={{ transition: 'opacity 300ms ease', height: '100%' }} className="md:group-hover:opacity-20">
-            {children}
-          </div>
-          {/* Overlay: hidden on mobile, hover-triggered on md+ */}
-          <div
-            className="hidden md:flex absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto items-center justify-center"
-            style={{ transition: 'opacity 300ms ease' }}
-          >
+          <div style={{ transition: 'opacity 300ms ease', height: '100%' }} className="md:group-hover:opacity-20">{children}</div>
+          <div className="hidden md:flex absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto items-center justify-center" style={{ transition: 'opacity 300ms ease' }}>
             <NdaHoverOverlay title={study.title} />
           </div>
         </div>
-        {/* Mobile-only always-visible CTA strip */}
         <MobileNdaStrip title={study.title} />
       </div>
     )
   }
+  // External → modal
   return (
-    <div
-      onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl, password: study.password })}
-      style={{ cursor: 'pointer', height: '100%' }}
-    >
+    <div onClick={() => onOpenModal({ label: study.title, figmaUrl: study.figmaUrl, password: study.password })} style={{ cursor: 'pointer', height: '100%' }}>
       {children}
     </div>
   )
@@ -469,6 +336,7 @@ export default function CaseStudiesSection() {
                   description={study.description}
                   image={study.image}
                   imageAlt={study.imageAlt}
+                  cardBg={study.cardBg}
                 />
               </LargeCardWrapper>
             </AnimateIn>
@@ -495,6 +363,7 @@ export default function CaseStudiesSection() {
                   description={study.description}
                   image={study.image}
                   imageAlt={study.imageAlt}
+                  cardBg={study.cardBg}
                 />
               </SmallCardWrapper>
             </AnimateIn>

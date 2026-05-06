@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const imgFeatured = 'https://www.figma.com/api/mcp/asset/7b36f9f5-d25e-440a-a793-d035d4f0d05d'
+const imgFeatured = "/images/case-studies/heroimage.jpeg"
 
 export default function HeroCard() {
   return (
