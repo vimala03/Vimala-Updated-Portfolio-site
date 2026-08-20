@@ -1,13 +1,15 @@
 import { useEffect } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion'
 
 interface ProgressBarProps {
   color?: string
 }
 
-export default function ProgressBar({ color = '#1a4f8a' }: ProgressBarProps) {
+export default function ProgressBar({ color = 'var(--cs-accent, #1a4f8a)' }: ProgressBarProps) {
+  const reduceMotion = useReducedMotion()
   const raw    = useMotionValue(0)
-  const smooth = useSpring(raw, { stiffness: 160, damping: 36 })
+  // Reduced motion: track scroll 1:1 instead of a bouncy spring
+  const smooth = useSpring(raw, reduceMotion ? { stiffness: 1000, damping: 100 } : { stiffness: 160, damping: 36 })
   const scaleX = useTransform(smooth, [0, 100], [0, 1])
 
   useEffect(() => {

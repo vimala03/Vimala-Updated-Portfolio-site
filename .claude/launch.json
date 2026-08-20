@@ -4,7 +4,7 @@
     {
       "name": "portfolio",
       "runtimeExecutable": "/usr/local/bin/node",
-      "runtimeArgs": ["/Users/vimala/Documents/Latest Portfolio Site Figma MCP/node_modules/.bin/vite", "--port", "5173"],
+      "runtimeArgs": ["/Users/vimala/Documents/Redesign of my portfolio/redesigning PF/node_modules/.bin/vite", "--port", "5173"],
       "port": 5173
     }
   ]

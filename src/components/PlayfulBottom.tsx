@@ -269,7 +269,7 @@ export default function PlayfulBottom() {
             </p>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-              <MagneticButton href="mailto:vimala.banavath@gmail.com" variant="dark">
+              <MagneticButton href="mailto:vimalamdes13@gmail.com" variant="dark">
                 Say hello →
               </MagneticButton>
               <MagneticButton href="/resume.pdf" variant="outline">

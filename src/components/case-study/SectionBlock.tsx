@@ -19,8 +19,8 @@ export default function SectionBlock({
       className={className}
       style={{
         padding: '5rem 0',
-        borderBottom: '0.5px solid rgba(17,17,16,0.08)',
-        background: alternate ? '#f2efe9' : 'transparent',
+        borderBottom: '0.5px solid var(--cs-hairline)',
+        background: alternate ? 'var(--cs-card-bg, #f2efe9)' : 'transparent',
       }}
     >
       <div className="max-w-[1040px] mx-auto px-6 lg:px-16">
@@ -32,9 +32,9 @@ export default function SectionBlock({
               fontSize: '0.58rem',
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              color: '#d0cdc7',
+              color: 'var(--cs-text-muted)',
               marginBottom: '0.3rem',
-              fontFamily: '"Instrument Sans", sans-serif',
+              fontFamily: 'var(--font-body)',
             }}>
               {index}
             </div>
@@ -42,10 +42,10 @@ export default function SectionBlock({
               fontSize: '0.65rem',
               letterSpacing: '0.13em',
               textTransform: 'uppercase',
-              color: '#a09d97',
+              color: 'var(--cs-text-muted)',
               paddingBottom: '1.25rem',
-              borderBottom: '0.5px solid rgba(17,17,16,0.08)',
-              fontFamily: '"Instrument Sans", sans-serif',
+              borderBottom: '0.5px solid var(--cs-hairline)',
+              fontFamily: 'var(--font-body)',
             }}>
               {label}
             </div>
@@ -55,12 +55,12 @@ export default function SectionBlock({
         {/* Section title */}
         <ScrollReveal delay={60}>
           <h2 style={{
-            fontFamily: '"Playfair Display", serif',
+            fontFamily: 'var(--font-display)',
             fontSize: 'clamp(1.7rem, 3vw, 2.2rem)',
             letterSpacing: '-0.022em',
             lineHeight: 1.12,
             marginBottom: '2.5rem',
-            color: '#111110',
+            color: 'var(--cs-ink)',
             fontWeight: 400,
           }}>
             {title}

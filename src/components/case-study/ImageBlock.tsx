@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import ScrollReveal from './ScrollReveal'
 
 interface ImageBlockProps {
@@ -15,9 +15,10 @@ interface ImageBlockProps {
 export default function ImageBlock({
   src, alt, caption, parallax = false, rounded = true, aspectRatio, className = '',
 }: ImageBlockProps) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref          = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', parallax ? '10%' : '0%'])
+  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', parallax && !reduceMotion ? '10%' : '0%'])
 
   return (
     <ScrollReveal className={className}>
@@ -25,8 +26,8 @@ export default function ImageBlock({
         ref={ref}
         style={{
           overflow: 'hidden',
-          borderRadius: rounded ? '12px' : 0,
-          border: '0.5px solid rgba(17,17,16,0.07)',
+          borderRadius: rounded ? 'var(--cs-radius-md)' : 0,
+          border: '0.5px solid var(--cs-hairline-soft)',
           aspectRatio: aspectRatio ?? 'auto',
         }}
       >
@@ -40,18 +41,18 @@ export default function ImageBlock({
             display: 'block',
             y: imgY,
           }}
-          initial={{ scale: 1.02 }}
+          initial={{ scale: reduceMotion ? 1 : 1.02 }}
           whileInView={{ scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduceMotion ? 0.2 : 0.8, ease: [0.22, 1, 0.36, 1] }}
           viewport={{ once: true, margin: '0px 0px -10% 0px' }}
         />
       </div>
       {caption && (
         <p style={{
-          fontFamily: '"Instrument Sans", sans-serif',
+          fontFamily: 'var(--font-body)',
           fontSize: '0.72rem',
           letterSpacing: '0.04em',
-          color: '#a09d97',
+          color: 'var(--cs-text-muted)',
           marginTop: '0.75rem',
           textAlign: 'center',
         }}>

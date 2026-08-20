@@ -1,5 +1,5 @@
 import { useRef, ReactNode } from 'react'
-import { motion, useInView, Variants } from 'framer-motion'
+import { motion, useInView, useReducedMotion, Variants } from 'framer-motion'
 
 interface ScrollRevealProps {
   children:   ReactNode
@@ -18,10 +18,14 @@ export default function ScrollReveal({
   distance = 24,
   once = true,
 }: ScrollRevealProps) {
-  const ref    = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once, margin: '0px 0px -8% 0px' })
+  const ref            = useRef<HTMLDivElement>(null)
+  const inView         = useInView(ref, { once, margin: '0px 0px -8% 0px' })
+  const reduceMotion   = useReducedMotion()
 
-  const offset = from === 'up'    ? { y: distance, x: 0 }
+  // Reduced motion: keep the fade (harmless), drop the travel distance that
+  // causes vestibular discomfort, and settle near-instantly.
+  const offset = reduceMotion ? { x: 0, y: 0 }
+               : from === 'up'    ? { y: distance, x: 0 }
                : from === 'left'  ? { x: -distance, y: 0 }
                : from === 'right' ? { x: distance, y: 0 }
                : { x: 0, y: 0 }
@@ -38,7 +42,11 @@ export default function ScrollReveal({
       variants={variants}
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
-      transition={{ duration: 0.6, delay: delay / 1000, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        duration: reduceMotion ? 0.2 : 0.6,
+        delay: reduceMotion ? 0 : delay / 1000,
+        ease: [0.22, 1, 0.36, 1],
+      }}
     >
       {children}
     </motion.div>

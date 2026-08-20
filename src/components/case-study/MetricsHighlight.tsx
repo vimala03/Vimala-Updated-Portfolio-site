@@ -49,7 +49,7 @@ export default function MetricsHighlight({ metrics, layout = 'row', headline }: 
     <ScrollReveal>
       {headline && (
         <p style={{
-          fontFamily: '"Instrument Sans", sans-serif',
+          fontFamily: 'var(--font-body)',
           fontSize: '0.72rem',
           letterSpacing: '0.14em',
           textTransform: 'uppercase',
@@ -78,7 +78,7 @@ export default function MetricsHighlight({ metrics, layout = 'row', headline }: 
             >
               {/* Value */}
               <div style={{
-                fontFamily: '"Playfair Display", serif',
+                fontFamily: 'var(--font-display)',
                 fontSize: layout === 'hero' ? '3.2rem' : '2.8rem',
                 lineHeight: 1,
                 color: m.color ?? '#fff',
@@ -91,7 +91,7 @@ export default function MetricsHighlight({ metrics, layout = 'row', headline }: 
 
               {/* Label */}
               <div style={{
-                fontFamily: '"Instrument Sans", sans-serif',
+                fontFamily: 'var(--font-body)',
                 fontSize: '0.72rem',
                 color: m.color ? `${m.color}99` : 'rgba(255,255,255,0.5)',
                 lineHeight: 1.5,
@@ -105,7 +105,7 @@ export default function MetricsHighlight({ metrics, layout = 'row', headline }: 
               {/* Optional detail */}
               {m.detail && (
                 <div style={{
-                  fontFamily: '"Instrument Sans", sans-serif',
+                  fontFamily: 'var(--font-body)',
                   fontSize: '0.65rem',
                   color: 'rgba(255,255,255,0.3)',
                   marginTop: '0.25rem',

@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 
 interface NextProjectCTAProps {
   label:      string          // "Next case study →"
@@ -14,12 +14,13 @@ export default function NextProjectCTA({
   label,
   title,
   href,
-  bgColor   = '#f2efe9',
-  textColor = '#111110',
+  bgColor   = 'var(--cs-card-bg, #f2efe9)',
+  textColor = 'var(--cs-ink)',
 }: NextProjectCTAProps) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref          = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], [20, -10])
+  const y = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [20, -10])
 
   return (
     <Link to={href} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
@@ -27,7 +28,7 @@ export default function NextProjectCTA({
         ref={ref}
         style={{
           background:  bgColor,
-          borderTop:   '0.5px solid rgba(17,17,16,0.09)',
+          borderTop:   '0.5px solid var(--cs-hairline)',
           padding:     '5rem 4rem',
           display:     'flex',
           justifyContent: 'space-between',
@@ -41,17 +42,17 @@ export default function NextProjectCTA({
       >
         <motion.div style={{ y }}>
           <div style={{
-            fontFamily:    '"Instrument Sans", sans-serif',
+            fontFamily:    'var(--font-body)',
             fontSize:      '0.62rem',
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            color:         `${textColor}70`,
+            color:         `color-mix(in srgb, ${textColor} 70%, transparent)`,
             marginBottom:  '0.6rem',
           }}>
             {label}
           </div>
           <div style={{
-            fontFamily:    '"Playfair Display", serif',
+            fontFamily:    'var(--font-display)',
             fontSize:      'clamp(1.4rem, 2.5vw, 2rem)',
             letterSpacing: '-0.02em',
             lineHeight:    1.15,
@@ -62,7 +63,7 @@ export default function NextProjectCTA({
         </motion.div>
 
         <motion.div
-          style={{ fontSize: '1.8rem', color: `${textColor}60` }}
+          style={{ fontSize: '1.8rem', color: `color-mix(in srgb, ${textColor} 60%, transparent)` }}
           whileHover={{ x: 6, color: textColor }}
           transition={{ duration: 0.2 }}
         >

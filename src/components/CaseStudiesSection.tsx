@@ -11,7 +11,7 @@ import PasswordModal from './PasswordModal'
 const GLOBAL_PASSWORD = 'designedbyvimala'
 
 /* ─── Contact info ─── */
-const CONTACT_EMAIL    = 'vimalabanavath.design@gmail.com'
+const CONTACT_EMAIL    = 'vimalamdes13@gmail.com'
 const CONTACT_WHATSAPP = '918886090063'
 
 /* ─── Types ─── */
@@ -71,6 +71,17 @@ type SmallStudy = InternalSmallStudy | ExternalSmallStudy
 
 /* ─── Large case study data ─── */
 const largeCaseStudies: LargeStudy[] = [
+  {
+    type:     'internal',
+    route:    '/work/youclean',
+    title:    'YouClean — designing the operating system a laundry business didn\'t know it needed',
+    date:     '2024 – 2026',
+    description:
+      'As the business I own outgrew WhatsApp threads and paper bills, I designed and built the internal platform that now runs its entire order lifecycle — as both the operator and the designer.',
+    image:    '/images/case-studies/youclean-hero.jpeg',
+    imageAlt: 'YouClean laundry operations platform',
+    cardBg:   '#dbe8e3',
+  },
   {
     type:     'internal',
     route:    '/work/cornerstone',

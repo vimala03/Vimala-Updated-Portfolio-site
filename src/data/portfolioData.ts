@@ -22,6 +22,48 @@ Available immediately for conversations.
 
 ## CASE STUDIES
 
+### YOUCLEAN — Laundry Operations Platform (Founder-Led)
+Domain: Internal Tools / Operations / Founder-Led Product
+Role: Founder, Product Designer & Builder
+
+PROBLEM:
+Vimala owns and operates YouClean, a laundry business in Hyderabad running on WhatsApp
+threads, handwritten bills, and a shared Google Sheet. As order volume grew, payment status,
+garment tracking, and delivery assignments lived in different places — causing delayed orders
+and staff spending more time searching for information than serving customers.
+
+APPROACH:
+- Recognized the point where the business had outgrown manual coordination — order volume
+  kept growing, but so did the hidden cost of just keeping information straight across
+  memory, WhatsApp, paper bills, and a spreadsheet
+- First instinct was to tighten the spreadsheet itself (templates, locked columns); the
+  coordination problem turned out to be structural, not a formatting one
+- Designed and built (not just designed) the operational platform now running the full
+  order lifecycle: Pending → In Progress → Ready → Delivered/Cancelled
+- Built a role model separating Staff (view/create) from Admin/Manager (full access including
+  delete) to protect the integrity of the operational record
+- Added a full audit log — every action attributable to an actor, with before/after state —
+  so disputes about what happened have an answer
+- Iterated the order-entry flow from a blank form (staff skipped fields, forgot payment
+  status) to a customer-first search flow that auto-fills history, cutting typing and errors
+
+OUTCOME:
+- Order entry: 3–5 minutes → under 1 minute
+- Finding customer history: 2–5 minutes → instant
+- Payment reconciliation: manual end-of-day checking → live status tracking
+- Customer lookup: searching WhatsApp + Sheets → phone number search
+- Runs the full operation for 1 store, 3–5 staff, 80–120 orders/month, 2,000+ garments/month
+
+KEY DESIGN DECISIONS:
+Treated visibility as the core design material — every decision (status states, audit log,
+role permissions) exists to make previously invisible operational facts visible and
+attributable. Chose a lightweight Google Sheets-backed data layer with live polling over
+heavier infrastructure the business didn't yet need.
+
+Internal route: /work/youclean
+
+---
+
 ### 1. CORNERSTONE ONDEMAND — AI-Powered Content Manager
 Domain: Enterprise SaaS / EdTech / Learning Management
 Role: Lead Product Designer
@@ -217,7 +259,7 @@ Psychology background — Cognitive load theory, behavioural patterns, mental mo
 ## CONTACT & AVAILABILITY
 
 WhatsApp: +91 888 609 0063
-Email: vimalabanavath.design@gmail.com
+Email: vimalamdes13@gmail.com
 Location: Hyderabad, India
 Availability: Immediately open to conversations
 Seeking: Senior product design roles, especially AI, enterprise SaaS, or B2B tools

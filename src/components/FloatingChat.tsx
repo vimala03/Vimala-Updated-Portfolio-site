@@ -4,7 +4,7 @@ import { matchQuery } from '../data/assistantData'
 
 /* ─── Constants ──────────────────────────────────────────────── */
 const WHATSAPP  = '918886090063'
-const EMAIL     = 'vimalabanavath.design@gmail.com'
+const EMAIL     = 'vimalamdes13@gmail.com'
 const BOT_DELAY = 420 // ms — simulated thinking pause
 const MAX_SNAPS = 6   // max Back steps
 

@@ -18,10 +18,10 @@ export default function CTASection() {
 
       {/* Email */}
       <a
-        href="mailto:Vimalabanavath.design@gmail.com"
+        href="mailto:Vimalamdes13@gmail.com"
         className="font-cormorant text-[15px] md:text-[18px] xl:text-[22px] text-[#faf8f5] border-b border-white/20 pb-0.5 hover:border-white/50 transition-colors mt-2 break-all md:break-normal"
       >
-        Vimalabanavath.design@gmail.com
+        Vimalamdes13@gmail.com
       </a>
 
       {/* Social links */}

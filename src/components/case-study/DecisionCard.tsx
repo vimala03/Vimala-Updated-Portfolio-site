@@ -15,7 +15,7 @@ const TAG_COLORS = {
   amber:   { bg: '#fdf0dc', text: '#7a4a10' },
   blue:    { bg: '#e8f0fa', text: '#1a4f8a' },
   green:   { bg: '#e4f2ea', text: '#1e6640' },
-  default: { bg: '#f2efe9', text: '#5a5954' },
+  default: { bg: 'var(--cs-card-bg, #f2efe9)', text: 'var(--cs-text-muted)' },
 }
 
 export default function DecisionCard({
@@ -28,8 +28,8 @@ export default function DecisionCard({
       <motion.div
         style={{
           background: '#fff',
-          border: '0.5px solid rgba(17,17,16,0.08)',
-          borderRadius: '14px',
+          border: '0.5px solid var(--cs-hairline)',
+          borderRadius: 'var(--cs-radius-lg)',
           padding: '1.75rem',
           height: '100%',
           display: 'flex',
@@ -42,10 +42,10 @@ export default function DecisionCard({
         {/* Number + optional tag */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
           <span style={{
-            fontFamily: '"Playfair Display", serif',
+            fontFamily: 'var(--font-display)',
             fontSize: '1.8rem',
             lineHeight: 1,
-            color: '#d0cdc7',
+            color: 'var(--cs-text-muted)',
           }}>
             {number}
           </span>
@@ -56,7 +56,7 @@ export default function DecisionCard({
               textTransform: 'uppercase',
               padding: '0.2rem 0.6rem',
               borderRadius: '999px',
-              fontFamily: '"Instrument Sans", sans-serif',
+              fontFamily: 'var(--font-body)',
               fontWeight: 500,
               ...tagStyle,
             }}>
@@ -67,10 +67,10 @@ export default function DecisionCard({
 
         {/* Decision */}
         <p style={{
-          fontFamily: '"Instrument Sans", sans-serif',
+          fontFamily: 'var(--font-body)',
           fontSize: '0.88rem',
           fontWeight: 500,
-          color: '#111110',
+          color: 'var(--cs-ink)',
           lineHeight: 1.45,
           margin: 0,
         }}>
@@ -79,9 +79,9 @@ export default function DecisionCard({
 
         {/* Why */}
         <p style={{
-          fontFamily: '"Instrument Sans", sans-serif',
+          fontFamily: 'var(--font-body)',
           fontSize: '0.78rem',
-          color: '#5a5954',
+          color: 'var(--cs-text-muted)',
           lineHeight: 1.65,
           flexGrow: 1,
           margin: 0,
@@ -92,9 +92,9 @@ export default function DecisionCard({
         {/* Outcome */}
         {outcome && (
           <div style={{
-            borderTop: '0.5px solid rgba(17,17,16,0.07)',
+            borderTop: '0.5px solid var(--cs-hairline-soft)',
             paddingTop: '0.85rem',
-            fontFamily: '"Instrument Sans", sans-serif',
+            fontFamily: 'var(--font-body)',
             fontSize: '0.72rem',
             color: '#1e6640',
             lineHeight: 1.5,
