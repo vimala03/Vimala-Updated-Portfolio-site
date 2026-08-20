@@ -19,12 +19,16 @@ type InternalLargeStudy = {
   type:      'internal'
   route:     string
   nda?:      boolean
+  /** Renders as an intentionally non-interactive "Coming Soon" card — no link, no CTA. */
+  comingSoon?: boolean
   title:     string
   date:      string
   description: string
   image:     string
   imageAlt:  string
   cardBg?:   string
+  /** Coming-soon only: second real product screenshot for the layered showcase. */
+  secondaryImage?: string
 }
 
 type ExternalLargeStudy = {
@@ -71,17 +75,6 @@ type SmallStudy = InternalSmallStudy | ExternalSmallStudy
 
 /* ─── Large case study data ─── */
 const largeCaseStudies: LargeStudy[] = [
-  {
-    type:     'internal',
-    route:    '/work/youclean',
-    title:    'YouClean — designing the operating system a laundry business didn\'t know it needed',
-    date:     '2024 – 2026',
-    description:
-      'As the business I own outgrew WhatsApp threads and paper bills, I designed and built the internal platform that now runs its entire order lifecycle — as both the operator and the designer.',
-    image:    '/images/case-studies/youclean-hero.jpeg',
-    imageAlt: 'YouClean laundry operations platform',
-    cardBg:   '#dbe8e3',
-  },
   {
     type:     'internal',
     route:    '/work/cornerstone',
@@ -168,6 +161,26 @@ const smallCaseStudies: SmallStudy[] = [
   },
 ]
 
+/* ─── Coming soon — not yet published as a live case study.
+   Kept out of largeCaseStudies so it never appears alongside completed work;
+   rendered in its own block at the bottom of the section instead. The route
+   stays live for internal development, but the card itself does not link to it. ─── */
+const comingSoonStudies: LargeStudy[] = [
+  {
+    type:       'internal',
+    route:      '/work/youclean',
+    comingSoon: true,
+    title:      'YouClean — designing the operating system a laundry business didn\'t know it needed',
+    date:       '2024 – 2026',
+    description:
+      'As the business I own outgrew WhatsApp threads and paper bills, I designed and built the internal platform that now runs its entire order lifecycle — as both the operator and the designer.',
+    image:    '/images/case-studies/youclean-hero.jpeg',
+    imageAlt: 'YouClean laundry operations platform',
+    cardBg:   '#dbe8e3',
+    secondaryImage: '/images/case-studies/youclean-secondary.jpeg',
+  },
+]
+
 /* ─── Shared URL builder ─── */
 function ndaUrls(title: string) {
   const requestUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
@@ -242,6 +255,11 @@ type ModalPayload = { label: string; figmaUrl: string; password: string }
 type OpenModal    = (payload: ModalPayload) => void
 
 function LargeCardWrapper({ study, children, onOpenModal }: { study: LargeStudy; children: React.ReactNode; onOpenModal: OpenModal }) {
+  // Coming soon → static, non-interactive. No Link, no onClick, no alternate
+  // click target — the card itself renders the disabled state.
+  if (study.type === 'internal' && study.comingSoon) {
+    return <div>{children}</div>
+  }
   // External NDA → hover overlay, no modal
   if (study.nda && study.type === 'external') {
     return (
@@ -377,6 +395,37 @@ export default function CaseStudiesSection() {
                   cardBg={study.cardBg}
                 />
               </SmallCardWrapper>
+            </AnimateIn>
+          ))}
+        </div>
+
+        {/* Coming soon divider */}
+        {comingSoonStudies.length > 0 && (
+          <AnimateIn>
+            <div className="border-t border-black/8 pt-6 md:pt-8">
+              <span className="font-instrument font-medium text-[12px] text-stone-mid tracking-[1px] uppercase">
+                Coming Soon
+              </span>
+            </div>
+          </AnimateIn>
+        )}
+
+        {/* Coming soon cards — intentionally upcoming, not yet published */}
+        <div className="flex flex-col gap-14 md:gap-16 xl:gap-20">
+          {comingSoonStudies.map((study, i) => (
+            <AnimateIn key={study.title} delay={i * 75}>
+              <LargeCardWrapper study={study} onOpenModal={openModal}>
+                <CaseStudyCard
+                  title={study.title}
+                  date={study.date}
+                  description={study.description}
+                  image={study.image}
+                  imageAlt={study.imageAlt}
+                  cardBg={study.cardBg}
+                  comingSoon={study.type === 'internal' ? study.comingSoon : undefined}
+                  secondaryImage={study.type === 'internal' ? study.secondaryImage : undefined}
+                />
+              </LargeCardWrapper>
             </AnimateIn>
           ))}
         </div>

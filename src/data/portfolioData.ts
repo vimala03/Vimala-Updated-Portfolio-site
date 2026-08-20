@@ -23,6 +23,9 @@ Available immediately for conversations.
 ## CASE STUDIES
 
 ### YOUCLEAN — Laundry Operations Platform (Founder-Led)
+STATUS: Coming Soon — the full case study write-up is still in progress and is not
+yet published as a live case study on the portfolio homepage. If asked, say it's an
+upcoming case study rather than presenting it as a finished, publicly viewable one.
 Domain: Internal Tools / Operations / Founder-Led Product
 Role: Founder, Product Designer & Builder
 
@@ -60,7 +63,7 @@ role permissions) exists to make previously invisible operational facts visible 
 attributable. Chose a lightweight Google Sheets-backed data layer with live polling over
 heavier infrastructure the business didn't yet need.
 
-Internal route: /work/youclean
+Internal route: /work/youclean (not yet linked from the homepage — case study is unpublished)
 
 ---
 

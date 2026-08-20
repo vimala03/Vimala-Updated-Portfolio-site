@@ -257,3 +257,60 @@ html {
 
 /* Card image background utility (used inline via CSS var) */
 .cs-card-bg { background: var(--cs-card-bg, #f5f4f2); }
+
+/* ─── "Coming Soon" homepage card — layered CRM product showcase ───
+   Plain CSS :hover, not Tailwind's composable filter/transform utilities:
+   multiple filter-family (or transform-family) utility classes combined with
+   a hover/group-hover variant on the same element don't cascade correctly —
+   each of these rules writes one literal, unambiguous value instead. Entrance
+   motion lives in CaseStudyCard.tsx (Framer, opacity-only) on separate
+   elements from these hover rules, so the two never fight over one property. */
+
+/* Full-bleed ambient layer — heavy blur/dim so it reads as depth, not a
+   second focal image. A faint hover-scale suggests parallax. */
+.cs-coming-soon-backdrop {
+  filter: blur(7px) brightness(0.42) grayscale(0.45) saturate(0.85);
+  transform: scale(1.1);
+  transition: transform 700ms var(--ease-premium);
+}
+.cs-coming-soon-visual:hover .cs-coming-soon-backdrop {
+  transform: scale(1.13);
+}
+
+/* Inset "product card" — untilted on mobile, a one-degree editorial tilt
+   from tablet up. Hover lifts it a couple of percent; never rotates further. */
+.cs-coming-soon-primary {
+  transform: rotate(0deg) scale(1);
+  transition: transform 700ms var(--ease-premium);
+}
+.cs-coming-soon-visual:hover .cs-coming-soon-primary {
+  transform: rotate(0deg) scale(1.02);
+}
+@media (min-width: 768px) {
+  .cs-coming-soon-primary {
+    transform: rotate(-1deg) scale(1);
+  }
+  .cs-coming-soon-visual:hover .cs-coming-soon-primary {
+    transform: rotate(-1deg) scale(1.03);
+  }
+}
+
+.cs-coming-soon-image {
+  filter: brightness(0.66) grayscale(0.22) saturate(0.95);
+  transition: filter 700ms var(--ease-premium);
+}
+.cs-coming-soon-visual:hover .cs-coming-soon-image {
+  filter: brightness(0.78) grayscale(0.1) saturate(1.05);
+}
+
+.cs-coming-soon-gradient {
+  transition: opacity 500ms ease-out;
+}
+.cs-coming-soon-visual:hover .cs-coming-soon-gradient {
+  opacity: 0.82;
+}
+
+/* Typography stays stable on hover — only the imagery reacts */
+.cs-coming-soon-hairline {
+  background: rgba(255, 255, 255, 0.35);
+}
