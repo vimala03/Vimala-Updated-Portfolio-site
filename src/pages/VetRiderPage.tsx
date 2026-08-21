@@ -200,7 +200,7 @@ export default function VetRiderPage() {
               </div>
             </div>
             <a
-              href="mailto:vimalabanavath.design@gmail.com?subject=Vet %26 Rider Case Study Request"
+              href="mailto:vimalabanavath.desig@gmail.com?subject=Vet %26 Rider Case Study Request"
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >

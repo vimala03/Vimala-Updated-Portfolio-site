@@ -204,7 +204,7 @@ export default function BuildzarPage() {
               </div>
             </div>
             <a
-              href="mailto:vimalabanavath.design@gmail.com?subject=Buildzar Case Study Request"
+              href="mailto:vimalamdes13@gmail.com?subject=Buildzar Case Study Request"
               className="btn-sweep btn-sweep-primary"
               style={{ padding: '11px 22px', fontSize: '11px' }}
             >

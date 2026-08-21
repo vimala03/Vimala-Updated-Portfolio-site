@@ -314,3 +314,30 @@ html {
 .cs-coming-soon-hairline {
   background: rgba(255, 255, 255, 0.35);
 }
+
+/* ─── YouClean CRM case study — scoped page-level rules ───
+   Ported from the Figma Make source. Deliberately scoped under
+   `.crm-case-study` (the page's root wrapper) rather than added globally,
+   so nothing here touches any other page's selection/focus/scrollbar/border
+   defaults. Tailwind utility classes on the ported components (bg-deep,
+   text-mist, font-fraunces, font-500 …) are handled via tailwind.config.ts
+   and need no CSS here — this block is only for the handful of things
+   Figma Make expressed as raw CSS rather than utilities. */
+.crm-case-study {
+  background: var(--color-paper, #fbfaf7);
+}
+.crm-case-study * {
+  border-color: var(--color-line, #e4e1d8);
+}
+.crm-case-study *:focus-visible {
+  outline: 2px solid #00b86e;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.crm-case-study ::selection {
+  background: #00d17c;
+  color: #003648;
+}
+.crm-case-study .tnum {
+  font-variant-numeric: tabular-nums;
+}
