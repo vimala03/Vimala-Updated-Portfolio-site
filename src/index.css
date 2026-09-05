@@ -8,10 +8,24 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ─── Case-study design tokens ───
-   Theme-independent — every case study shares these. Per-theme accent/bg
-   tokens (--cs-bg, --cs-card-bg, --cs-accent) live further down. */
+/* ─── Design tokens ───
+   Canonical token layer for the whole site (Phase 1 foundation). The
+   `--cs-*` names are kept exactly as-is — SectionBlock, NextProjectCTA,
+   ProgressBar and every existing case-study component already reference
+   them, and renaming would be a pure-risk, zero-benefit diff. The
+   `--color-*` / `--space-*` / `--radius-*` / `--shadow-*` / `--ease-*`
+   names below are additive aliases: same values, semantic names, meant
+   for every *new* shared component (CaseStudyPageShell, CaseStudyMedia,
+   the interactive primitives) going forward. Tailwind's `colors`/
+   `fontFamily` config extensions remain for the ~300 existing className
+   usages across the codebase — this file is the single place new tokens
+   get added, not a second competing system.
+
+   Per-case-study accent overrides (--cs-bg, --cs-card-bg, --cs-accent)
+   still live in the `.theme-*` classes further down and continue to work
+   unchanged — --color-accent below is the *portfolio-chrome* default. */
 :root {
+  /* Legacy case-study names — unchanged, do not remove */
   --cs-ink:         #111110;  /* headings, primary text */
   --cs-body:        #3a3a38;  /* paragraph copy */
   --cs-text-muted:  #5a5954;  /* labels, meta, eyebrows, captions — 6.9:1 on white, AA-safe */
@@ -21,18 +35,76 @@ html {
 
   --font-display: "Playfair Display", serif;
   --font-body:    "Instrument Sans", sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
 
   --cs-radius-lg: 14px;
   --cs-radius-md: 12px;
 
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ── Semantic color roles (same hex values as tailwind.config.ts) ── */
+  --color-bg:            #fafaf9;  /* tailwind: warm-white */
+  --color-surface:       #ffffff;
+  /* Sampled directly from vimala-hero.png's blank-wall region (204-point
+     grid average, see Phase 2 report) — used only behind the hero, so
+     the illustration's own background and the page read as one warm
+     surface instead of "cream image on a cooler white page." Not a
+     general-purpose token; deliberately scoped to Hero.tsx. */
+  --color-hero-bg:       #f7f1ea;
+  /* A quiet bridge tone between --color-hero-bg (#f7f1ea) and the page's
+     --color-bg (#fafaf9, near-neutral) — measured: the page background
+     carries almost no warmth (R−B of 1) next to the hero's full cream
+     (R−B of 13), so Selected Work sitting directly on --color-bg read as
+     a different site's palette rather than the next section of this
+     one. This sits about halfway (R−B of 8): distinct enough from the
+     hero to still register as a new section, warm enough that the
+     Hero → Selected Work handoff reads as one continuous surface.
+     Scoped to Selected Work only, same as --color-hero-bg is scoped to
+     the hero — not a general-purpose token. */
+  --color-section-warm:  #faf7f2;
+  --color-text:          #111110;  /* tailwind: stone-ink */
+  --color-text-muted:    #5a5954;  /* tailwind: stone-mid */
+  --color-text-faint:    #a09d97;  /* tailwind: stone-muted */
+  --color-border:        rgba(17, 17, 16, 0.08);
+  --color-accent:        #bf6853;  /* tailwind: rust */
+  --color-accent-muted:  rgba(191, 104, 83, 0.14);
+
+  /* ── Spacing — section rhythm (responsive, four steps) ──
+     Use for vertical section padding so no page invents its own rhythm. */
+  --space-section-compact:  clamp(2.5rem, 5vw, 3.5rem);
+  --space-section-standard: clamp(3.5rem, 7vw, 5.5rem);
+  --space-section-large:    clamp(5rem, 9vw, 8rem);
+  --space-section-hero:     clamp(6rem, 12vw, 10rem);
+
+  /* ── Container widths — the wrapper max-widths already in use, named ── */
+  --container-content: 1040px;  /* case-study prose measure */
+  --container-default: 1280px;  /* Container.tsx / homepage */
+  --container-wide:    1440px;
+  --container-bleed:   1720px;  /* full-bleed hero art */
+
+  /* ── Radius ── */
+  --radius-sm:   4px;
+  --radius-md:   var(--cs-radius-md);
+  --radius-lg:   var(--cs-radius-lg);
+  --radius-pill: 999px;
+
+  /* ── Shadow ── */
+  --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.10);
+  --shadow-md: 0 20px 50px -15px rgba(0, 0, 0, 0.30);
+  --shadow-lg: 0 32px 80px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  /* ── Motion ── */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);  /* alias of --ease-premium */
+  --duration-fast:     0.18s;
+  --duration-base:     0.28s;
+  --duration-slow:     0.55s;
 }
 
 /* ─── Base ─── */
 @layer base {
   body {
     padding-top: 72px;
-    font-family: "Instrument Sans", sans-serif;
+    font-family: var(--font-body);
     color: #18181b;
     background: #fafaf9;
     -webkit-font-smoothing: antialiased;
@@ -69,14 +141,15 @@ html {
     letter-spacing: -0.025em;
   }
 
-  /* Card title — keep Fraunces for its warmth */
-  .type-card {
-    font-family: "Fraunces", serif;
-    font-size: clamp(17px, 1.5vw, 22px);
-    font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
-  }
+  /* .type-card (Fraunces, a third serif family) removed here — zero
+     actual usage anywhere in the rendered site, found while
+     consolidating the type system down to one sans (Instrument Sans,
+     var(--font-body)) + one editorial serif (Playfair Display,
+     var(--font-display)). Fraunces also dropped from the Google Fonts
+     request in index.html. (A "Fraunces" string still appears in
+     youclean-crm/sections.tsx — that's real case-study content
+     describing a different product's own type system, unrelated to
+     this site's fonts, and untouched.) */
 
   /* Body — Instrument Sans is clean at all sizes */
   .type-body {
@@ -95,12 +168,146 @@ html {
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
+
+  /* ── New roles added for the Phase 1 typography system. Existing
+     .type-display/.type-section/.type-card/.type-body/.type-meta above
+     are untouched (still used across today's pages); these fill the
+     gaps in the Display / Heading / Subheading / Body / Small /
+     Metadata scale for new shared components going forward. ── */
+
+  /* Heading — section-level, one step below .type-section */
+  .type-heading {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.6vw, 32px);
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+  }
+
+  /* Subheading — sits between heading and body, sans not serif */
+  .type-subheading {
+    font-family: var(--font-body);
+    font-size: clamp(15px, 1.3vw, 18px);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  /* Small — secondary UI copy, smaller than .type-body but not shouting
+     like .type-meta (no uppercase/tracking) */
+  .type-small {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Mono / eyebrow — for IDs, indices, timestamps; never prose */
+  .type-mono {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* ── Phase 2 addition: the homepage hero needs a genuinely dominant
+     headline, larger than .type-display (which stays exactly as-is —
+     it's still About's H1 size and must not shift). New, separate role
+     rather than a bigger .type-display so nothing outside the homepage
+     hero is affected. ── */
+  .type-hero {
+    font-family: var(--font-display);
+    /* Floor lowered from 2.75rem → 2.55rem (~7% smaller) — mobile-only
+       effect: this clamp is governed by its floor below ~770px viewport
+       width and by the vw term above that, so nothing at desktop widths
+       (≥1024px) changes. */
+    font-size: clamp(2.55rem, 5.4vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  /* Mobile-only: slightly looser line-height so the 3-line composition
+     ("I design complex / products that feel / simple.") reads as
+     editorial spacing rather than cramped. Desktop's 2-line composition
+     keeps the tighter 1.05 above — this only applies below `md`. */
+  @media (max-width: 767px) {
+    .type-hero {
+      line-height: 1.15;
+    }
+  }
+
+  /* Hero headline, desktop only: the homepage hero forces an exact
+     3-line break (manual <br>s, lg+ only — see Hero.tsx) instead of
+     letting size dictate the wrap. That requires a size calibrated to
+     the wrap, not to a shared token: measured live against the hero's
+     actual column width at both 1024px (472px column) and 1280px+
+     (600px column) so all three lines fit without spilling to a 4th.
+     Recalibrated when the headline moved from Playfair Display to
+     Instrument Sans (sans renders wider at the same pixel size, so the
+     old Playfair-tuned 46–58px range started wrapping to 4 lines at
+     1024px) — re-measured against the live column width, not assumed.
+     Below `lg` the hero's own inline style keeps a smaller size with
+     natural (unbroken) wrapping. !important: overrides Hero.tsx's
+     inline base-size style, which covers <lg. */
+  @media (min-width: 1024px) {
+    .hero-headline-lg {
+      font-size: clamp(2.75rem, calc(4.6875vw - 4px), 3.5rem) !important;
+    }
+  }
+
+  /* Small identity/section label — sans, tracked, not uppercase-shouty
+     like .type-meta's 0.08em; used for "VIMALA BANAVATH — PRODUCT
+     DESIGNER", section eyebrows ("SELECTED WORK"), and editorial
+     metadata rows ("ENTERPRISE UX · SAAS · AI · DESIGN SYSTEMS"). */
+  .type-eyebrow {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+}
+
+/* ─── Accessibility: focus + skip link ───
+   No global focus-visible rule existed before this — only the
+   `.crm-case-study` scope had one. This is the site-wide default;
+   mouse/touch interaction is unaffected (:focus-visible only engages
+   for keyboard/programmatic focus in modern browsers). */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  transform: translateY(-120%);
+  background: var(--color-text);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 20px;
+  border-radius: 0 0 var(--radius-sm) 0;
+  text-decoration: none;
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 /* ─── Nav links ─── */
 .nav-link {
   position: relative;
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: var(--font-body);
   font-size: 13px;
   font-weight: 400;
   line-height: 1.5;
@@ -146,7 +353,7 @@ html {
     align-items: center;
     justify-content: center;
     border-radius: 999px;
-    font-family: "Instrument Sans", sans-serif;
+    font-family: var(--font-body);
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.07em;

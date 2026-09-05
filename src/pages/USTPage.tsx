@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PasswordModal from '../components/PasswordModal'
+import { MainContentAnchor } from '../components/SkipLink'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['Lead UX Designer', 'Enterprise Intranet', 'Web & Mobile', 'Information Architecture', '2022–2023']
@@ -51,6 +52,7 @@ export default function USTPage() {
       )}
       <ProgressBar color="#2d2d2b" />
       <Navbar />
+      <MainContentAnchor />
 
       {/* Hero */}
       <motion.div

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import { MainContentAnchor } from '../components/SkipLink'
 import { ProgressBar, NextProjectCTA } from '../components/case-study'
 import './cornerstone.css'
 
@@ -1534,6 +1535,7 @@ export default function CornerstonePage() {
     <>
       <ProgressBar color="#1a4f8a" />
       <Navbar />
+      <MainContentAnchor />
 
       {/* ── REACT HERO (replaces .hero + .hero-vis hidden via CSS) ── */}
       <section ref={heroRef} style={{ background: 'radial-gradient(ellipse at 60% 0%, rgba(26,79,138,0.08) 0%, transparent 60%), radial-gradient(ellipse at 5% 80%, rgba(26,79,138,0.04) 0%, transparent 45%), #faf8f5', overflow: 'hidden' }}>

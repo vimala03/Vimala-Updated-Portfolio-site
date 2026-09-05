@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import HomePage from "./pages/HomePage";
 import FloatingChat from "./components/FloatingChat";
+import { SkipLink } from "./components/SkipLink";
 import { useLenis, getLenis } from "./hooks/useLenis";
 
 // Client-side route changes don't reload the document, so the browser's
@@ -22,9 +23,10 @@ const MoonraftPage    = lazy(() => import("./pages/MoonraftPage"));
 const FlyinPage       = lazy(() => import("./pages/FlyinPage"));
 const AptiaPage       = lazy(() => import("./pages/AptiaPage"));
 const CivtechPage     = lazy(() => import("./pages/CivtechPage"));
-const VetRiderPage    = lazy(() => import("./pages/VetRiderPage"));
 const USTPage         = lazy(() => import("./pages/USTPage"));
 const YouCleanPage    = lazy(() => import("./pages/YouCleanPage"));
+const ContentManagerMetadataPage = lazy(() => import("./pages/ContentManagerMetadataPage"));
+const VetRiderConfidentialPage = lazy(() => import("./pages/VetRiderConfidentialPage"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -70,6 +72,7 @@ function App() {
 
   return (
     <>
+      <SkipLink />
       <ScrollToTop />
       <Suspense fallback={null}>
         <Routes>
@@ -80,9 +83,10 @@ function App() {
           <Route path="/work/flyin" element={<FlyinPage />} />
           <Route path="/work/aptia" element={<AptiaPage />} />
           <Route path="/work/civtech" element={<CivtechPage />} />
-          <Route path="/work/vet-rider" element={<VetRiderPage />} />
           <Route path="/work/ust" element={<USTPage />} />
           <Route path="/work/youclean" element={<YouCleanPage />} />
+          <Route path="/work/content-manager-metadata" element={<ContentManagerMetadataPage />} />
+          <Route path="/work/vet-rider" element={<VetRiderConfidentialPage />} />
         </Routes>
       </Suspense>
       <FloatingChat />

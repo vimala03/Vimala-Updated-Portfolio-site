@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useId } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface PasswordModalProps {
@@ -13,13 +13,41 @@ export default function PasswordModal({ label, figmaUrl, password, onClose }: Pa
   const [error,   setError]   = useState(false)
   const [loading, setLoading] = useState(false)
   const [show,    setShow]    = useState(true)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef  = useRef<HTMLInputElement>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const titleId   = useId()
 
   useEffect(() => {
+    // Focus trap + return: capture whatever had focus before the modal
+    // opened (the card/button that triggered it) so it gets focus back
+    // on close, and keep Tab cycling inside the dialog while it's open —
+    // previously Tab could escape into the page behind it.
+    const triggerEl = document.activeElement as HTMLElement | null
     inputRef.current?.focus()
-    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose() }
+
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') { handleClose(); return }
+      if (e.key !== 'Tab' || !dialogRef.current) return
+
+      const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )
+      if (focusables.length === 0) return
+      const first = focusables[0]
+      const last  = focusables[focusables.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus()
+      }
+    }
+
     window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
+    return () => {
+      window.removeEventListener('keydown', handleKey)
+      triggerEl?.focus?.()
+    }
   }, [])
 
   const handleClose = () => {
@@ -70,6 +98,10 @@ export default function PasswordModal({ label, figmaUrl, password, onClose }: Pa
         >
           <motion.div
             key="modal-card"
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
             initial={{ opacity: 0, scale: 0.94, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 8 }}
@@ -113,7 +145,7 @@ export default function PasswordModal({ label, figmaUrl, password, onClose }: Pa
             <p style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: '10px', fontWeight: 600, color: 'rgba(24,24,27,0.35)', letterSpacing: '1.4px', textTransform: 'uppercase', marginBottom: '8px' }}>
               Protected
             </p>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '24px', fontWeight: 500, color: '#18181b', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
+            <h2 id={titleId} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '24px', fontWeight: 500, color: '#18181b', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
               {label}
             </h2>
             <p style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: '13.5px', color: 'rgba(24,24,27,0.45)', margin: '0 0 26px', lineHeight: 1.5 }}>

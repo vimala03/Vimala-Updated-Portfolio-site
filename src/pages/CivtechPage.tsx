@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PasswordModal from '../components/PasswordModal'
+import { MainContentAnchor } from '../components/SkipLink'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['UX Designer', 'Social Impact', 'Health Tech', 'Design Sprint', '2023']
@@ -51,6 +52,7 @@ export default function CivtechPage() {
       )}
       <ProgressBar color="#8a5a1a" />
       <Navbar />
+      <MainContentAnchor />
 
       {/* Hero */}
       <motion.div
@@ -226,8 +228,8 @@ export default function CivtechPage() {
 
       <NextProjectCTA
         label="Next case study →"
-        title="Vet & Rider · Health Mobility Platform"
-        href="/work/vet-rider"
+        title="Cornerstone OnDemand · AI-Powered Content Manager"
+        href="/work/cornerstone"
       />
       <Footer />
     </div>

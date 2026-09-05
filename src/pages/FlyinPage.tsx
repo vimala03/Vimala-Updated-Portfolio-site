@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PasswordModal from '../components/PasswordModal'
+import { MainContentAnchor } from '../components/SkipLink'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['UX Lead', 'Travel Tech', 'Mobile & Web', 'AI Search', '2016–2018']
@@ -51,6 +52,7 @@ export default function FlyinPage() {
       )}
       <ProgressBar color="#1a6640" />
       <Navbar />
+      <MainContentAnchor />
 
       {/* Hero */}
       <motion.div

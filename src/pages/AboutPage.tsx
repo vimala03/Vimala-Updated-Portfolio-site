@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PlayfulBottom from "../components/PlayfulBottom";
+import { MainContentAnchor } from "../components/SkipLink";
 
 import AboutHero from "../components/about/AboutHero";
 import AboutMindset from "../components/about/AboutMindset";
@@ -16,6 +17,7 @@ export default function AboutPage() {
   return (
     <div>
       <Navbar />
+      <MainContentAnchor />
 
       <AboutHero />
       <AboutMindset />

@@ -1,5 +1,9 @@
 /**
- * Portfolio Assistant Knowledge Base
+ * Portfolio Assistant Knowledge Base (READ-ONLY)
+ *
+ * Consumed only by the personal bot (FloatingChat + local fallback matcher).
+ * Portfolio pages do not import this file. The bot may read these records to
+ * answer visitors; it must never write them back into page state or UI.
  *
  * Two layers:
  *   1. CASE_STUDIES — matched first (specific projects)
@@ -167,6 +171,17 @@ Available for calls across IST, GMT, and EST time zones.`,
 This combination lets me design for how people actually think, not just how they should think.`,
   },
 ]
+
+function freezeKnowledge<T>(value: T): T {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    Object.freeze(value)
+    Object.values(value as object).forEach(freezeKnowledge)
+  }
+  return value
+}
+
+freezeKnowledge(CASE_STUDIES)
+freezeKnowledge(TOPICS)
 
 /* ─── Matcher ────────────────────────────────────────────────── */
 /**

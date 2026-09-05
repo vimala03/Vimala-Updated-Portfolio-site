@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PasswordModal from '../components/PasswordModal'
+import { MainContentAnchor } from '../components/SkipLink'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['UX Designer', 'Employee Benefits', 'B2B Web', 'IA Redesign', '2022–2023']
@@ -51,6 +52,7 @@ export default function AptiaPage() {
       )}
       <ProgressBar color="#5a2d8a" />
       <Navbar />
+      <MainContentAnchor />
 
       {/* Hero */}
       <motion.div

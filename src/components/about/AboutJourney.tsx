@@ -30,16 +30,17 @@ const experienceEntries: Entry[] = [
     image: '/images/cornerstone.jpeg',
   },
   {
-    date: 'OCT 2022 – JULY 2024 · BANGALORE',
+    date: 'OCT 2022 — JULY 2024 · BANGALORE',
     company: 'Moonraft – UST Global',
     role: 'Lead UX Designer',
     bullets: [
-      'Led end-to-end UX for Vet & Rider apps in a product based project at Continental.',
-      'Handled social impact competition deliverables, including research and storytelling.',
-      'Aligned business strategy, research, and design to drive measurable outcomes.',
-      'Partnered with stakeholders on IA, interactions, and system-level patterns.',
+      'Contributed to enterprise UX initiatives across multiple products and domains.',
+      'Designed and refined end-to-end user journeys across complex product experiences.',
+      'Worked with product, engineering, and business stakeholders to validate concepts and design direction.',
+      'Contributed to AI-assisted workflows and emerging product experiences.',
+      'Supported UX across US and UK pensions products, translating complex requirements into clearer experiences.',
     ],
-    tags: ['ENTERPRISE SAAS', 'FINTECH', 'DESIGN OPS', 'DESIGN SYSTEMS', 'HEALTH TECH', 'AGILE', 'AI'],
+    tags: ['ENTERPRISE UX', 'FINTECH', 'PENSIONS', 'DESIGN SYSTEMS', 'AI', 'PRODUCT DESIGN'],
     image: '/images/moonraft.jpeg',
   },
   {

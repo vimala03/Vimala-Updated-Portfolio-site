@@ -1,10 +1,11 @@
 /**
  * portfolioData.ts
  *
- * Single source of truth injected into the LLM system prompt.
- * The API never invents content — it only rephrases what's here.
- *
- * Update this file when case study details change.
+ * READ-ONLY knowledge injected into the personal bot's LLM system prompt.
+ * The API reads this string; it never writes it, and portfolio pages must
+ * not import it to drive presentation. Update this file only when you
+ * intentionally change what the bot is allowed to say — never from visitor
+ * interaction.
  */
 
 export const PORTFOLIO_CONTEXT = `

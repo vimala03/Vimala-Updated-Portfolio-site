@@ -67,6 +67,34 @@ export default {
         'in-expo':   'cubic-bezier(0.64, 0, 0.78, 0)',
         'spring':    'cubic-bezier(0.34, 1.56, 0.64, 1)',
       },
+      // ─── Phase 1 foundation tokens — mirror the CSS custom properties in
+      // index.css (:root). Values are duplicated (Tailwind v3 can't read
+      // CSS vars at build time) but named identically so the two stay easy
+      // to keep in sync by hand. Additive only — nothing above this is
+      // renamed or removed, so no existing className breaks.
+      spacing: {
+        'section-compact':  'clamp(2.5rem, 5vw, 3.5rem)',
+        'section-standard': 'clamp(3.5rem, 7vw, 5.5rem)',
+        'section-large':    'clamp(5rem, 9vw, 8rem)',
+        'section-hero':     'clamp(6rem, 12vw, 10rem)',
+      },
+      maxWidth: {
+        'container-content': '1040px',
+        'container-default': '1280px',
+        'container-wide':    '1440px',
+        'container-bleed':   '1720px',
+      },
+      // NOTE: intentionally NOT extending `borderRadius`/`boxShadow` here.
+      // Tailwind's `extend` merges per-key, so reusing bare keys like
+      // `sm`/`md`/`lg` would silently override the *built-in* rounded-sm/
+      // shadow-md/etc. utilities already used ~90+ times across the
+      // codebase — a real regression, not an addition. The --radius-*/
+      // --shadow-* CSS custom properties in index.css cover this instead
+      // (consumed via inline `style`, matching how SectionBlock/
+      // NextProjectCTA/ProgressBar already reference --cs-* tokens).
+      borderRadius: {
+        pill: '999px',
+      },
       keyframes: {
         marquee: {
           '0%':   { transform: 'translateX(0%)' },

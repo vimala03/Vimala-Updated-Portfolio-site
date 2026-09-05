@@ -2,6 +2,28 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { matchQuery } from '../data/assistantData'
 
+/**
+ * Personal bot is READ-ONLY against the portfolio.
+ * All React state below is local to this overlay. It must never write into
+ * page content, shared presentation state, or knowledge-base files.
+ * Internal links may only open existing routes (see ALLOWED_INTERNAL_ROUTES).
+ */
+
+/** Existing portfolio routes the bot may navigate visitors to. */
+const ALLOWED_INTERNAL_ROUTES = new Set([
+  '/',
+  '/about',
+  '/work/cornerstone',
+  '/work/moonraft',
+  '/work/flyin',
+  '/work/aptia',
+  '/work/civtech',
+  '/work/ust',
+  '/work/youclean',
+  '/work/content-manager-metadata',
+  '/work/vet-rider',
+])
+
 /* ─── Constants ──────────────────────────────────────────────── */
 const WHATSAPP  = '918886090063'
 const EMAIL     = 'vimalamdes13@gmail.com'
@@ -565,11 +587,13 @@ export default function FloatingChat() {
     )
   }, [botReply, takeSnap])
 
-  /* ── Navigate helper (for bubble link buttons) ── */
+  /* ── Navigate helper (existing pages only; never mutates page content) ── */
   const handleNavigate = useCallback((to: string, isInternal: boolean) => {
     if (isInternal) {
-      navigate(to)
-    } else {
+      if (ALLOWED_INTERNAL_ROUTES.has(to)) navigate(to)
+      return
+    }
+    if (to.startsWith('https:') || to.startsWith('http:')) {
       window.open(to, '_blank', 'noopener,noreferrer')
     }
   }, [navigate])

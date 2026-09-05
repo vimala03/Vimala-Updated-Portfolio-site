@@ -46,7 +46,7 @@ export function Section({
   return (
     <section
       id={id}
-      className={`relative px-6 py-24 md:px-10 md:py-32 ${
+      className={`relative px-6 py-14 md:px-10 md:py-20 ${
         dark ? "bg-deep text-white" : "bg-paper text-ink"
       } ${className}`}
     >
@@ -75,7 +75,7 @@ export function ProblemSection() {
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <Eyebrow index="02">The problem</Eyebrow>
-          <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3.25rem)] font-600 leading-[1.05] tracking-tight text-deep">
+          <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             The problem wasn&rsquo;t a lack of data. It was that the data lived{" "}
             <span className="italic text-brand-600">everywhere</span>.
           </h2>
@@ -171,19 +171,19 @@ function HandOffCard({ index, icon: Icon, label, note }: { index: number; icon: 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-      className="flex w-[168px] shrink-0 flex-col gap-3 rounded-xl border border-white/10 bg-white/[0.04] p-4"
+      className="flex w-[168px] shrink-0 flex-col gap-3 rounded-xl border border-line bg-white p-4"
     >
       <div className="flex items-center justify-between">
-        <span className="grid h-8 w-8 place-items-center rounded-lg bg-white/[0.06] text-brand">
+        <span className="grid h-8 w-8 place-items-center rounded-lg bg-paper-100 text-brand-600">
           <Icon size={15} />
         </span>
-        <span className="font-mono text-[10px] text-white/30">
+        <span className="font-mono text-[10px] text-mist">
           {String(index + 1).padStart(2, "0")}
         </span>
       </div>
       <div>
-        <p className="text-[13px] font-500 text-white">{label}</p>
-        <p className="mt-1 text-[11px] leading-snug text-white/40">{note}</p>
+        <p className="text-[13px] font-500 text-deep">{label}</p>
+        <p className="mt-1 text-[11px] leading-snug text-mist">{note}</p>
       </div>
     </motion.div>
   );
@@ -193,23 +193,21 @@ function HandOffCard({ index, icon: Icon, label, note }: { index: number; icon: 
 function HandOffConnector() {
   return (
     <div className="flex shrink-0 items-center justify-center py-1 lg:py-0">
-      <IconArrow size={16} className="rotate-90 text-white/20 lg:rotate-0" />
+      <IconArrow size={16} className="rotate-90 text-mist lg:rotate-0" />
     </div>
   );
 }
 
 export function TransformationSection() {
   return (
-    <Section id="transformation" dark>
+    <Section id="transformation" className="bg-paper-100/40">
       <div className="max-w-2xl">
-        <Eyebrow index="03" dark>
-          The problem
-        </Eyebrow>
-        <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3.25rem)] font-600 leading-[1.05] tracking-tight">
+        <Eyebrow index="03">The problem</Eyebrow>
+        <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
           Six brittle hand-offs, locked into{" "}
-          <span className="italic text-brand">one cumbersome workflow</span>.
+          <span className="italic text-brand-600">one cumbersome workflow</span>.
         </h2>
-        <p className="mt-5 text-[15px] leading-relaxed text-white/55">
+        <p className="mt-5 text-[15px] leading-relaxed text-mist">
           Every order moved through multiple manual touchpoints before it reached
           the customer.
         </p>
@@ -241,12 +239,12 @@ export function TransformationSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10%" }}
         transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-12 border-t border-white/[0.08] pt-7 text-center"
+        className="mt-12 border-t border-line pt-7 text-center"
       >
-        <p className="mx-auto max-w-md font-fraunces text-[clamp(1rem,1.7vw,1.3rem)] font-500 leading-snug text-white/60">
+        <p className="mx-auto max-w-md text-[clamp(1rem,1.7vw,1.3rem)] font-500 leading-snug text-mist">
           Too many places to look. Too many places to update.
         </p>
-        <p className="mt-4 font-fraunces text-[clamp(1.15rem,2.1vw,1.7rem)] font-600 tracking-tight text-brand">
+        <p className="mt-4 text-[clamp(1.15rem,2.1vw,1.7rem)] font-600 tracking-tight text-brand-600">
           One connected system.
         </p>
       </motion.div>
@@ -374,10 +372,10 @@ export function WorkflowSection() {
 
   return (
     <Section id="workflow" className="!py-0">
-      <div ref={ref} className="relative py-24 md:py-32">
+      <div ref={ref} className="relative py-14 md:py-20">
         <div className="max-w-xl">
           <Eyebrow index="04">The complete customer journey</Eyebrow>
-          <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3.25rem)] font-600 leading-[1.05] tracking-tight text-deep">
+          <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             One thread runs from first contact to repeat order.
           </h2>
           <p className="mt-4 text-[13.5px] text-mist">
@@ -410,7 +408,7 @@ export function WorkflowSection() {
                         {s.n}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="font-fraunces text-lg font-600 text-deep">{s.t}</p>
+                        <p className="text-lg font-600 text-deep">{s.t}</p>
                         <motion.div
                           animate={{ height: on ? "auto" : 0, opacity: on ? 1 : 0 }}
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -491,7 +489,7 @@ export function CustomerSection() {
       <div className="grid items-center gap-14 lg:grid-cols-2">
         <div>
           <Eyebrow index="05">Customer</Eyebrow>
-          <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3rem)] font-600 leading-[1.05] tracking-tight text-deep">
+          <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             Every customer, finally a single record.
           </h2>
           <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mist">
@@ -591,16 +589,14 @@ export function OrderSection() {
   }, [inView, reduce]);
 
   return (
-    <Section id="order" dark>
+    <Section id="order">
       <div ref={ref} className="grid items-center gap-14 lg:grid-cols-2">
         <div>
-          <Eyebrow index="06" dark>
-            Order lifecycle
-          </Eyebrow>
-          <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3rem)] font-600 leading-[1.05] tracking-tight">
+          <Eyebrow index="06">Order lifecycle</Eyebrow>
+          <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             An order you can watch move.
           </h2>
-          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-white/60">
+          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mist">
             Each stage is a real state change — logged, timestamped and visible
             to the whole team. No more &ldquo;let me check and call you back.&rdquo;
           </p>
@@ -613,8 +609,8 @@ export function OrderSection() {
                 <div key={s} className="flex items-center gap-3 py-1.5">
                   <motion.span
                     animate={{
-                      backgroundColor: done || active ? "#00d17c" : "rgba(255,255,255,0.08)",
-                      color: done || active ? "#003648" : "rgba(255,255,255,0.4)",
+                      backgroundColor: done || active ? "#00d17c" : "#f4f2ec",
+                      color: done || active ? "#003648" : "#93a4a8",
                       scale: active ? 1.1 : 1,
                     }}
                     className="grid h-7 w-7 place-items-center rounded-full text-[12px]"
@@ -623,7 +619,7 @@ export function OrderSection() {
                   </motion.span>
                   <span
                     className={`text-[14px] transition-colors ${
-                      done || active ? "text-white" : "text-white/40"
+                      done || active ? "text-deep" : "text-mist"
                     }`}
                   >
                     {s}
@@ -631,7 +627,7 @@ export function OrderSection() {
                   {active && (
                     <motion.span
                       layoutId="order-live"
-                      className="ml-auto font-mono text-[11px] text-brand"
+                      className="ml-auto font-mono text-[11px] text-brand-600"
                     >
                       in progress…
                     </motion.span>
@@ -642,14 +638,14 @@ export function OrderSection() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-          <WindowChrome title="orders / YC1024" dark />
+        <div className="rounded-2xl border border-line bg-white p-6 shadow-[0_30px_80px_-40px_rgba(0,54,72,0.4)]">
+          <WindowChrome title="orders / YC1024" />
           <div className="pt-5">
             <div className="flex items-start justify-between">
               <div>
-                <p className="font-mono text-[11px] text-white/40">Order #YC1024</p>
-                <p className="font-fraunces text-xl font-600">Priya Sharma</p>
-                <p className="text-[13px] text-white/50">5 Shirts · 2 Pants · 1 Saree</p>
+                <p className="font-mono text-[11px] text-mist">Order #YC1024</p>
+                <p className="font-fraunces text-xl font-600 text-deep">Priya Sharma</p>
+                <p className="text-[13px] text-mist">5 Shirts · 2 Pants · 1 Saree</p>
               </div>
               <motion.div key={step}>
                 <StatusChip tone={step === LIFECYCLE.length - 1 ? "green" : "amber"}>
@@ -658,7 +654,7 @@ export function OrderSection() {
               </motion.div>
             </div>
 
-            <div className="mt-6 h-2 w-full overflow-hidden rounded-full bg-white/10">
+            <div className="mt-6 h-2 w-full overflow-hidden rounded-full bg-paper-100">
               <motion.div
                 className="h-full rounded-full bg-brand"
                 animate={{ width: `${(step / (LIFECYCLE.length - 1)) * 100}%` }}
@@ -673,9 +669,9 @@ export function OrderSection() {
                 ["Total", "₹1,240"],
                 ["Paid", "₹800 advance"],
               ].map(([k, v]) => (
-                <div key={k} className="rounded-lg bg-white/[0.05] px-3 py-3">
-                  <p className="text-[11px] text-white/40">{k}</p>
-                  <p className="mt-0.5 font-500">{v}</p>
+                <div key={k} className="rounded-lg bg-paper-100 px-3 py-3">
+                  <p className="text-[11px] text-mist">{k}</p>
+                  <p className="mt-0.5 font-500 text-deep">{v}</p>
                 </div>
               ))}
             </div>
@@ -703,11 +699,11 @@ export function PaymentSection() {
   }, [inView, reduce]);
 
   return (
-    <Section id="payments">
+    <Section id="payments" className="bg-paper-100/40">
       <div ref={ref} className="grid items-center gap-14 lg:grid-cols-2">
         <div>
           <Eyebrow index="07">Payments</Eyebrow>
-          <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3rem)] font-600 leading-[1.05] tracking-tight text-deep">
+          <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             Money stopped slipping through the cracks.
           </h2>
           <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mist">
@@ -1054,6 +1050,13 @@ export function DesignSystemSection() {
   // tab-click swap), so it's set both on click (instant feedback) and by
   // the IntersectionObserver below (as the reader scrolls manually).
   const [active, setActive] = useState<SystemLayerKey>("foundations");
+  // Collapsed by default: a portfolio case study shows one strong,
+  // representative fold of a design system (the architecture chain right
+  // below), not the whole documentation surface. Nothing here is removed —
+  // the five-layer scrollspy, tokens, patterns and everything else still
+  // renders in full, just behind an explicit "view full design system"
+  // action instead of being the page's default, dominant visual.
+  const [expanded, setExpanded] = useState(false);
   const reduce = useReducedMotion();
   const tabRefs = useRef<Partial<Record<SystemLayerKey, HTMLButtonElement | null>>>({});
   const sectionRefs = useRef<Partial<Record<SystemLayerKey, HTMLDivElement | null>>>({});
@@ -1143,7 +1146,7 @@ export function DesignSystemSection() {
     <Section id="system" className="bg-paper-100/40">
       <div className="max-w-2xl">
         <Eyebrow index="09">YouClean / Design system</Eyebrow>
-        <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3rem)] font-600 leading-[1.05] tracking-tight text-deep">
+        <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
           Design infrastructure for an operational product.
         </h2>
         <p className="mt-4 max-w-md text-[14px] leading-relaxed text-mist">
@@ -1154,34 +1157,50 @@ export function DesignSystemSection() {
       </div>
 
       {/* system architecture — the relationship, not decoration, comes first */}
-      <div className="mt-10 rounded-lg border border-line bg-deep p-6 text-white md:p-8">
-        <SubLabel>
-          <span className="text-white/40">System architecture</span>
-        </SubLabel>
+      <div className="mt-10 rounded-lg border border-line bg-paper-100/60 p-6 md:p-8">
+        <SubLabel>System architecture</SubLabel>
         <div className="flex flex-wrap items-center gap-2 text-[12px]">
           {["Foundations", "Primitive tokens", "Semantic tokens", "Components", "Patterns", "Product"].map(
             (s, i, arr) => (
               <div key={s} className="flex items-center gap-2">
-                <span className="rounded-md border border-white/15 bg-white/[0.04] px-2.5 py-1.5 text-white/75">
+                <span className="rounded-md border border-line bg-white px-2.5 py-1.5 text-deep">
                   {s}
                 </span>
-                {i < arr.length - 1 && <IconArrow size={12} className="text-white/25" />}
+                {i < arr.length - 1 && <IconArrow size={12} className="text-mist" />}
               </div>
             ),
           )}
         </div>
-        <div className="mt-6 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-5">
+        <div className="mt-6 grid gap-3 border-t border-line pt-6 sm:grid-cols-5">
           {ARCHITECTURE_CHAIN.map((step) => (
             <div key={step.layer} className="flex items-center gap-2 sm:flex-col sm:items-start sm:gap-1">
-              <span className="font-mono text-[9.5px] uppercase tracking-[0.15em] text-white/35">
+              <span className="font-mono text-[9.5px] uppercase tracking-[0.15em] text-mist">
                 {step.layer}
               </span>
-              <span className="font-mono text-[12px] text-brand">{step.example}</span>
+              <span className="font-mono text-[12px] text-brand-600">{step.example}</span>
             </div>
           ))}
         </div>
       </div>
 
+      {/* Everything below (the five-layer scrollspy, tokens, patterns,
+          responsive rules, decisions, design → code) is real, unedited
+          content — collapsed behind one action so the design system reads
+          as a portfolio showcase, not the page's dominant section. */}
+      <div className="mt-6">
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
+          className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-[13px] font-500 text-deep transition-colors hover:bg-deep hover:text-white"
+        >
+          {expanded ? "Hide full design system" : "View full design system"}
+          <IconArrow size={14} className={expanded ? "-rotate-90" : "rotate-90"} />
+        </button>
+      </div>
+
+      {expanded && (
+      <>
       {/* layer selector — numbered like a system's own layer stack, not a
           decorative pill nav: the number + role name the architecture.
           Sticky so a reader deep in one layer's content never has to
@@ -2135,6 +2154,8 @@ export function DesignSystemSection() {
           token and component name maps directly onto a build-time equivalent.
         </p>
       </div>
+      </>
+      )}
     </Section>
   );
 }
@@ -2146,14 +2167,12 @@ export function AISection() {
   const flow = ["Problem", "UX reasoning", "Figma", "Claude", "Cursor", "Prototype", "Testing", "Iteration"];
   const human = new Set([0, 1, 2, 6]);
   return (
-    <Section id="ai" dark>
+    <Section id="ai">
       <div className="max-w-2xl">
-        <Eyebrow index="10" dark>
-          AI-assisted design + development
-        </Eyebrow>
-        <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3rem)] font-600 leading-[1.05] tracking-tight">
+        <Eyebrow index="10">AI-assisted design + development</Eyebrow>
+        <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
           AI accelerated execution.{" "}
-          <span className="italic text-brand">Product judgment remained human.</span>
+          <span className="italic text-brand-600">Product judgment remained human.</span>
         </h2>
       </div>
 
@@ -2167,31 +2186,31 @@ export function AISection() {
               transition={{ delay: i * 0.07 }}
               className={`rounded-xl border px-4 py-3 text-[13px] font-500 ${
                 human.has(i)
-                  ? "border-brand/30 bg-brand/[0.08] text-white"
-                  : "border-white/10 bg-white/[0.03] text-white/70"
+                  ? "border-brand/30 bg-brand-050 text-deep"
+                  : "border-line bg-paper-100 text-mist"
               }`}
             >
-              <span className="font-mono text-[10px] text-white/30">
+              <span className="font-mono text-[10px] text-mist">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <p className="mt-1">{f}</p>
-              <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.15em] text-white/30">
+              <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.15em] text-mist">
                 {human.has(i) ? "human" : "AI-assisted"}
               </p>
             </motion.div>
             {i < flow.length - 1 && (
-              <IconArrow size={16} className="text-white/20" />
+              <IconArrow size={16} className="text-mist" />
             )}
           </div>
         ))}
       </div>
 
-      <div className="mt-8 flex items-center gap-6 font-mono text-[11px] text-white/40">
+      <div className="mt-8 flex items-center gap-6 font-mono text-[11px] text-mist">
         <span className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-sm bg-brand/70" /> Human judgment
+          <span className="h-2.5 w-2.5 rounded-sm bg-brand-600" /> Human judgment
         </span>
         <span className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-sm bg-white/15" /> AI execution
+          <span className="h-2.5 w-2.5 rounded-sm bg-line" /> AI execution
         </span>
       </div>
 
@@ -2205,7 +2224,7 @@ export function AISection() {
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className="h-8 rounded-md bg-white/[0.06] ring-1 ring-white/10"
+                    className="h-8 rounded-md bg-paper-100 ring-1 ring-line"
                   />
                 ))}
               </div>
@@ -2214,11 +2233,11 @@ export function AISection() {
           {
             k: "Claude prompt → code",
             body: (
-              <pre className="overflow-hidden rounded-md bg-black/30 p-3 font-mono text-[10.5px] leading-relaxed text-white/60">
-                <span className="text-brand">$</span> build OrderCard
+              <pre className="overflow-hidden rounded-md bg-paper-100 p-3 font-mono text-[10.5px] leading-relaxed text-ink">
+                <span className="text-brand-600">$</span> build OrderCard
                 {"\n"}with status → chip mapping
                 {"\n"}
-                <span className="text-white/30">// generating component…</span>
+                <span className="text-mist">// generating component…</span>
               </pre>
             ),
           },
@@ -2226,13 +2245,13 @@ export function AISection() {
             k: "Working CRM",
             body: (
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between rounded-md bg-white/[0.06] px-2.5 py-1.5 text-[11px]">
-                  <span className="text-white/60">YC1024</span>
+                <div className="flex items-center justify-between rounded-md bg-paper-100 px-2.5 py-1.5 text-[11px]">
+                  <span className="text-mist">YC1024</span>
                   <StatusChip tone="green" dot={false} className="px-1.5 py-0.5">
                     Ready
                   </StatusChip>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-line">
                   <div className="h-full w-3/4 rounded-full bg-brand" />
                 </div>
               </div>
@@ -2241,16 +2260,16 @@ export function AISection() {
         ].map((a, i, arr) => (
           <div
             key={a.k}
-            className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+            className="relative rounded-2xl border border-line bg-white p-5"
           >
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-mist">
               {a.k}
             </p>
             {a.body}
             {i < arr.length - 1 && (
               <IconArrow
                 size={16}
-                className="absolute -right-[13px] top-1/2 z-10 hidden -translate-y-1/2 text-brand md:block"
+                className="absolute -right-[13px] top-1/2 z-10 hidden -translate-y-1/2 text-brand-600 md:block"
               />
             )}
           </div>
@@ -2374,11 +2393,11 @@ export function IterationSection() {
   const [active, setActive] = useState(2);
   const cur = VERSIONS[active];
   return (
-    <Section id="iteration">
+    <Section id="iteration" className="bg-paper-100/40">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-xl">
           <Eyebrow index="11">Iteration & validation</Eyebrow>
-          <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3rem)] font-600 leading-[1.05] tracking-tight text-deep">
+          <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             The first version wasn&rsquo;t the answer. It was the question.
           </h2>
         </div>
@@ -2422,7 +2441,7 @@ export function IterationSection() {
         <div className="flex flex-col justify-center">
           <motion.div key={active} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <span className="font-mono text-[12px] text-brand-600">{cur.v}</span>
-            <p className="mt-2 font-fraunces text-2xl font-600 text-deep">
+            <p className="mt-2 text-2xl font-600 text-deep">
               {cur.tag}
             </p>
             <p className="mt-3 text-[15px] leading-relaxed text-mist">{cur.note}</p>
@@ -2430,7 +2449,7 @@ export function IterationSection() {
               <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-mist">
                 Fields on screen
               </span>
-              <span className="tnum font-fraunces text-xl font-600 text-deep">
+              <span className="tnum text-xl font-600 text-deep">
                 {cur.density}
               </span>
             </div>
@@ -2468,13 +2487,13 @@ const OUTCOMES: Outcome[] = [
     title: "One customer record",
     body: "Customer information is created once and stays connected to every order that follows.",
     evidence: () => (
-      <div className="flex items-center gap-3 rounded-lg bg-white/[0.05] px-3 py-2.5 text-[12px]">
-        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/10 font-fraunces text-[12px] font-600 text-brand">
+      <div className="flex items-center gap-3 rounded-lg bg-paper-100 px-3 py-2.5 text-[12px]">
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-deep font-fraunces text-[12px] font-600 text-brand">
           PS
         </span>
         <div className="min-w-0">
-          <p className="truncate font-500 text-white">Priya Sharma</p>
-          <p className="truncate text-white/40">12 orders · current: YC-1024</p>
+          <p className="truncate font-500 text-deep">Priya Sharma</p>
+          <p className="truncate text-mist">12 orders · current: YC-1024</p>
         </div>
       </div>
     ),
@@ -2488,7 +2507,7 @@ const OUTCOMES: Outcome[] = [
           <span
             key={s}
             className={`rounded-full px-2 py-1 ${
-              i === 1 ? "bg-brand text-deep" : "bg-white/[0.06] text-white/50"
+              i === 1 ? "bg-brand text-deep" : "bg-paper-100 text-mist"
             }`}
           >
             {s}
@@ -2501,9 +2520,9 @@ const OUTCOMES: Outcome[] = [
     title: "Visible payment status",
     body: "Paid, pending and outstanding amounts are visible directly within the order — not in a separate note or memory.",
     evidence: () => (
-      <div className="flex items-center justify-between rounded-lg bg-white/[0.05] px-3 py-2.5 text-[12px]">
-        <span className="text-white/50">₹1,240 total</span>
-        <span className="font-500 text-brand">₹800 paid · ₹440 pending</span>
+      <div className="flex items-center justify-between rounded-lg bg-paper-100 px-3 py-2.5 text-[12px]">
+        <span className="text-mist">₹1,240 total</span>
+        <span className="font-500 text-brand-600">₹800 paid · ₹440 pending</span>
       </div>
     ),
   },
@@ -2512,12 +2531,12 @@ const OUTCOMES: Outcome[] = [
     body: "The CRM brings customer, order and payment information into one operational surface — not re-typed across a shared sheet.",
     evidence: () => (
       <div className="space-y-1.5 font-mono text-[10.5px]">
-        <div className="flex gap-3 text-white/25 line-through decoration-rose-400/40">
+        <div className="flex gap-3 text-mist line-through decoration-rose-400/40">
           <span className="w-14">Priya</span>
           <span className="w-12">₹1,240</span>
           <span>status: —</span>
         </div>
-        <div className="flex gap-3 text-brand">
+        <div className="flex gap-3 text-brand-600">
           <span className="w-14">Priya</span>
           <span className="w-12">₹1,240</span>
           <span>Washing</span>
@@ -2531,12 +2550,12 @@ const OUTCOMES: Outcome[] = [
     evidence: () => (
       <div className="flex flex-wrap items-center gap-1.5 text-[10.5px]">
         {["Customer", "Order", "Payment"].map((s) => (
-          <span key={s} className="rounded-full bg-white/[0.06] px-2 py-1 text-white/60">
+          <span key={s} className="rounded-full bg-paper-100 px-2 py-1 text-mist">
             {s}
           </span>
         ))}
-        <IconArrow size={12} className="text-white/20" />
-        <span className="rounded-full border border-dashed border-white/20 px-2 py-1 text-white/30">
+        <IconArrow size={12} className="text-mist" />
+        <span className="rounded-full border border-dashed border-line px-2 py-1 text-mist">
           Automation →
         </span>
       </div>
@@ -2546,14 +2565,12 @@ const OUTCOMES: Outcome[] = [
 
 export function OutcomesSection() {
   return (
-    <Section id="outcomes" dark>
-      <Eyebrow index="12" dark>
-        Outcomes
-      </Eyebrow>
-      <h2 className="mt-6 max-w-2xl font-fraunces text-[clamp(2rem,4vw,3rem)] font-600 leading-[1.05] tracking-tight">
+    <Section id="outcomes">
+      <Eyebrow index="12">Outcomes</Eyebrow>
+      <h2 className="mt-6 max-w-2xl text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
         Built for the people running the business.
       </h2>
-      <p className="mt-4 max-w-md text-[13.5px] leading-relaxed text-white/50">
+      <p className="mt-4 max-w-md text-[13.5px] leading-relaxed text-mist">
         Not measured metrics — the concrete, verifiable state the system is now
         in, with the interface that backs each one up.
       </p>
@@ -2566,15 +2583,15 @@ export function OutcomesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl border border-white/10 bg-white/[0.03] p-6"
+            className="rounded-2xl border border-line bg-white p-6"
           >
-            <span className="font-mono text-[11px] text-brand">
+            <span className="font-mono text-[11px] text-brand-600">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <p className="mt-3 font-fraunces text-xl font-600 leading-snug tracking-tight">
+            <p className="mt-3 text-xl font-600 leading-snug tracking-tight text-deep">
               {o.title}
             </p>
-            <p className="mt-2 text-[13px] leading-relaxed text-white/50">{o.body}</p>
+            <p className="mt-2 text-[13px] leading-relaxed text-mist">{o.body}</p>
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}

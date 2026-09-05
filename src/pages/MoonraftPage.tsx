@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import { MainContentAnchor } from '../components/SkipLink'
 import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
 
 const tags = ['Lead UX Designer', 'Enterprise SaaS', 'Health Tech', 'Design Systems', '2022–2024']
@@ -37,6 +38,7 @@ export default function MoonraftPage() {
     <div style={{ background: 'radial-gradient(ellipse at 70% 0%, rgba(45,45,43,0.055) 0%, transparent 55%), radial-gradient(ellipse at 10% 80%, rgba(120,113,100,0.04) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
       <ProgressBar color="#111110" />
       <Navbar />
+      <MainContentAnchor />
 
       {/* Hero */}
       <motion.div

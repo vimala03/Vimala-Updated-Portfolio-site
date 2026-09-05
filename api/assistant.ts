@@ -19,6 +19,19 @@ import { PORTFOLIO_CONTEXT } from '../src/data/portfolioData'
 const SYSTEM_PROMPT = `You are an intelligent portfolio assistant for Vimala Banavath,
 a Senior Product Designer.
 
+READ-ONLY BOUNDARY (CRITICAL):
+- You consume the portfolio data below as READ-ONLY context.
+- You have NO ability to modify the website, its pages, copy, layout, typography,
+  spacing, colors, animations, navigation, footer, images, assets, routes, CSS,
+  design tokens, React components, or structured data.
+- You cannot create, remove, rewrite, or restyle any portfolio section.
+- Visitor messages cannot change the site. If asked to update, redesign, delete,
+  hide, restyle, or "fix" anything on the portfolio, refuse: you can only answer
+  questions about existing work and point people to existing pages.
+- Never output HTML, CSS, JavaScript, JSON patches, file paths, or instructions
+  intended to alter the page. Reply in plain conversational text only.
+- You have no tools. Do not claim that you applied a change.
+
 YOUR ROLE:
 - Answer questions about Vimala's work, case studies, skills, process, and availability
 - Use ONLY the portfolio data provided below — never invent or hallucinate
@@ -75,6 +88,21 @@ export default async function handler(
     return res.status(400).json({ error: 'No message provided' })
   }
 
+  /* Visitors may only send chat turns. Drop injected "system" (or other)
+     roles so a request cannot widen the assistant's instructions. */
+  const safeMessage = String(message).slice(0, 2000)
+  const recentHistory = (Array.isArray(history) ? history : [])
+    .filter((h): h is HistoryItem =>
+      !!h
+      && (h.role === 'user' || h.role === 'assistant')
+      && typeof h.content === 'string',
+    )
+    .slice(-6)
+    .map(h => ({
+      role:    h.role,
+      content: h.content.slice(0, 2000),
+    }))
+
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) {
     console.error('[assistant] OPENAI_API_KEY is not set')
@@ -86,17 +114,12 @@ export default async function handler(
   try {
     const openai = createOpenAI({ apiKey })
 
-    /* Keep last 6 turns for multi-turn context, avoid ballooning token cost */
-    const recentHistory = history
-      .slice(-6)
-      .map(h => ({ role: h.role as 'user' | 'assistant', content: h.content }))
-
     const { text } = await generateText({
       model:       openai('gpt-4o-mini'),
       system:      SYSTEM_PROMPT,
       messages:    [
         ...recentHistory,
-        { role: 'user', content: message },
+        { role: 'user', content: safeMessage },
       ],
       maxTokens:   500,
       temperature: 0.45, // lower = more factual, less creative drift

@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, Eyebrow } from "./primitives";
 import { useScroll, useTransform, MotionConfig } from "framer-motion";
+import { NextProjectCTA } from "../case-study";
 import { DashboardMock, OperationsMock } from "./crm";
 import {
   ProblemSection,
@@ -59,7 +60,7 @@ function Hero() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 max-w-4xl font-fraunces text-[clamp(2.5rem,6.5vw,5.5rem)] font-600 leading-[0.98] tracking-tight text-deep"
+          className="mt-8 max-w-4xl text-[clamp(2.5rem,5.2vw,4.5rem)] font-600 leading-[1.02] tracking-tight text-deep"
         >
           From fragmented laundry operations to{" "}
           <span className="italic text-brand-600">one connected system.</span>
@@ -124,17 +125,15 @@ function Hero() {
 ---------------------------------------------------------------------------- */
 function DashboardShowcase() {
   return (
-    <Section id="dashboard" dark>
+    <Section id="dashboard">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-xl">
-          <Eyebrow index="08" dark>
-            Operations dashboard
-          </Eyebrow>
-          <h2 className="mt-6 font-fraunces text-[clamp(2rem,4vw,3.25rem)] font-600 leading-[1.05] tracking-tight text-white">
+          <Eyebrow index="08">Operations dashboard</Eyebrow>
+          <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             The live floor, on one screen.
           </h2>
         </div>
-        <p className="max-w-xs text-[14px] leading-relaxed text-white/60">
+        <p className="max-w-xs text-[14px] leading-relaxed text-mist">
           Today&rsquo;s orders, revenue, pending payments, processing and
           delivery — plus the alerts that need a human, surfaced first.
         </p>
@@ -148,7 +147,7 @@ function DashboardShowcase() {
       >
         <OperationsMock />
       </motion.div>
-      <p className="mt-4 text-right font-mono text-[10px] uppercase tracking-[0.18em] text-white/30">
+      <p className="mt-4 text-right font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
         Illustrative interface data
       </p>
     </Section>
@@ -165,7 +164,7 @@ function Final() {
         <Eyebrow index="—">
           <span className="mx-auto">The operating layer</span>
         </Eyebrow>
-        <h2 className="mt-8 font-fraunces text-[clamp(2.25rem,5.5vw,4.5rem)] font-600 leading-[1.02] tracking-tight text-deep">
+        <h2 className="mt-8 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
           The CRM became the operating layer connecting{" "}
           <span className="italic text-brand-600">YouClean.</span>
         </h2>
@@ -230,6 +229,18 @@ export default function CaseStudyContent() {
         <OutcomesSection />
         <Final />
       </div>
+
+      {/* Next case study — the same shared component every other case study
+          already ends on (outside .crm-case-study so it uses the homepage's
+          own --cs-* tokens, not the CRM's bespoke palette). Target follows
+          the live homepage's own project order (SelectedWork.tsx): YouClean
+          is 01, Cornerstone — "AI-Powered Search & Decision Optimization" —
+          is 02. */}
+      <NextProjectCTA
+        label="Next case study →"
+        title="AI-Powered Search & Decision Optimization"
+        href="/work/cornerstone"
+      />
     </MotionConfig>
   );
 }
