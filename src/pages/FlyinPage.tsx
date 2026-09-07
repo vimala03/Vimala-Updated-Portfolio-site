@@ -1,236 +1,393 @@
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import PasswordModal from '../components/PasswordModal'
 import { MainContentAnchor } from '../components/SkipLink'
-import { ProgressBar, NextProjectCTA, DecisionCard, ScrollReveal } from '../components/case-study'
+import {
+  ProgressBar,
+  ScrollReveal,
+  PullQuote,
+} from '../components/case-study'
 
-const tags = ['UX Lead', 'Travel Tech', 'Mobile & Web', 'AI Search', '2016–2018']
+/* ============================================================================
+   Flyin — Travel & Tourism.
 
-const decisions = [
+   Restored to the earlier, restrained editorial version — Hero → Problem →
+   Design Response → Impact → Closing image → Next case study → Footer.
+   The Key Product Screens section and the prototype CTA that existed in a
+   later pass have been removed entirely (this version has no prototype
+   button and no product-screen gallery). Every fact is unchanged, existing
+   FlyIn content; nothing is invented.
+
+   Hero visual: flyin-hero-devices.jpg (the real Flyin desktop + mobile
+   product shots, on a desk with travel props — the same asset used in this
+   earlier version, cropped from flyin-desktop-home.jpg with the marketing
+   copy removed so it doesn't compete with this page's own headline).
+   Closing image: flyin-closing-banner.jpg (Flyin's own real in-app Burj Al
+   Arab / Dubai beach photo, cropped from flyin-mobile-home.jpg).
+============================================================================ */
+
+const ACCENT      = 'var(--color-accent)' // portfolio-wide terracotta — controlled emphasis only
+const FLYIN_BLUE  = '#1a4f8a'              // Flyin's own real product blue — used sparingly
+const INK         = '#111110'
+const INK_MUTED   = '#5a5954'
+const HAIRLINE    = 'rgba(17,17,16,0.09)'
+
+const HERO_KICKER = 'UX Lead  ·  Travel Tech  ·  Mobile & Web  ·  AI Search  ·  2016–2018'
+
+const HERO_META = [
+  { label: 'Company',  value: 'Flyin' },
+  { label: 'My Role',  value: 'UX Lead' },
+  { label: 'Platform', value: 'Web & Mobile' },
+  { label: 'Timeline', value: '2016 – 2018' },
+]
+
+const PROBLEMS = [
   {
-    number: '01',
-    decision: 'Rebuilt search around intent, not keyword matching',
-    why: 'Users were abandoning search when results didn\'t match their mental model of a trip. Introduced AI-powered intent prediction that understood "beach trip for 4 in March" rather than waiting for exact destination input.',
-    outcome: 'Search abandonment reduced by 35%',
-    tag: 'Research-Led',
-    tagColor: 'green' as const,
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={FLYIN_BLUE} strokeWidth="1.5">
+        <circle cx="11" cy="11" r="7" />
+        <path d="M21 21l-4.35-4.35" />
+      </svg>
+    ),
+    label: 'High search abandonment',
+    text: 'Users dropped off when results didn’t match their intent.',
   },
   {
-    number: '02',
-    decision: 'Designed a unified trip-planning surface across web and app',
-    why: 'Users switched between platforms mid-journey — discovering on web, booking on mobile. Mapped cross-device session continuity so context (search, filters, saved trips) persisted across surfaces without requiring sign-in.',
-    outcome: 'Booking conversion increased by 28%',
-    tag: 'Systems Thinking',
-    tagColor: 'blue' as const,
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={FLYIN_BLUE} strokeWidth="1.5">
+        <rect x="3" y="4" width="8" height="16" rx="1.5" />
+        <rect x="14" y="7" width="7" height="13" rx="1.5" />
+      </svg>
+    ),
+    label: 'Disconnected experience',
+    text: 'Web and app didn’t feel like the same journey.',
   },
   {
-    number: '03',
-    decision: 'Prioritised personalisation signals over generic recommendations',
-    why: 'The existing recommendations engine surfaced popular destinations regardless of user history. Reoriented the discovery feed around behavioral signals — past searches, price sensitivity, travel party size — dramatically improving relevance.',
-    outcome: 'App Store rating: 3.2★ → 4.4★',
-    tag: 'Strategic Framing',
-    tagColor: 'amber' as const,
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={FLYIN_BLUE} strokeWidth="1.5">
+        <path d="M4 19h16M7 15l3-4 3 3 4-6" />
+      </svg>
+    ),
+    label: 'Lost conversions',
+    text: 'Inconsistent patterns and drop-off points cost bookings.',
   },
 ]
 
-const FIGMA_URL = 'https://www.figma.com/proto/DxM23ZXWyKbUcrz0i5ef90/Vimala-Banavath-Portfolio?page-id=50%3A2075&type=design&node-id=83-29753&t=ca7sjBKI6iJvyMCt-0&scaling=scale-down-width'
-const PASSWORD = 'designedbyvimala'
+const SOLUTIONS = [
+  { title: 'Intent-based search', text: 'Understood requests like "beach trip for 4 in March," not just destinations.' },
+  { title: 'Unified trip planning', text: 'Flights and hotels bridged into a single planning layer.' },
+  { title: 'Personalised recommendations', text: 'Behavioural signals replaced generic popular-destination lists.' },
+  { title: 'Simplified booking flow', text: 'Search-to-checkout rebuilt to reduce friction at drop-off steps.' },
+]
+
+/** Page container — one consistent measure used throughout the page. */
+function Container({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return <div className={`max-w-[1280px] mx-auto px-4 sm:px-6 ${className}`}>{children}</div>
+}
+
+/** Numbered section eyebrow — matches the pattern used across the already-
+ *  redesigned case studies (Cornerstone, YouClean, CivTech). */
+function Eyebrow({ index, label }: { index: string; label: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+      <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.14em', color: ACCENT, fontWeight: 600 }}>
+        {index}
+      </span>
+      <span style={{ height: '0.5px', flex: 1, background: HAIRLINE }} />
+      <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.13em', textTransform: 'uppercase', color: INK_MUTED }}>
+        {label}
+      </span>
+    </div>
+  )
+}
 
 export default function FlyinPage() {
-  const [showModal, setShowModal] = useState(false)
   return (
-    <div style={{ background: 'radial-gradient(ellipse at 15% 0%, rgba(26,102,64,0.07) 0%, transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(26,102,64,0.04) 0%, transparent 50%), #faf8f5', minHeight: '100vh' }}>
-      {showModal && (
-        <PasswordModal
-          label="Flyin Travel & Tourism"
-          figmaUrl={FIGMA_URL}
-          password={PASSWORD}
-          onClose={() => setShowModal(false)}
-        />
-      )}
-      <ProgressBar color="#1a6640" />
+    <div style={{ background: '#faf8f5', minHeight: '100vh' }}>
+      <ProgressBar color="#bf6853" />
       <Navbar />
       <MainContentAnchor />
 
-      {/* Hero */}
-      <motion.div
-        style={{ padding: '6rem 4rem 4rem', maxWidth: '1040px', margin: '0 auto', textAlign: 'center' }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {/* Tags */}
-        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '2.5rem' }}>
-          {tags.map((t, i) => (
-            <motion.span
-              key={t}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.06 + 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                fontFamily: '"Instrument Sans", sans-serif',
-                fontSize: '0.6rem',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                border: '0.5px solid rgba(17,17,16,0.09)',
-                padding: '0.22rem 0.7rem',
-                borderRadius: '999px',
-                color: '#5a5954',
-                background: '#f2efe9',
-              }}
-            >
-              {t}
-            </motion.span>
-          ))}
-        </div>
-
-        <motion.h1
-          style={{
-            fontFamily: '"Playfair Display", serif',
-            fontSize: 'clamp(2.4rem, 5vw, 4rem)',
-            lineHeight: 1.06,
-            letterSpacing: '-0.025em',
-            color: '#111110',
-            marginBottom: '1.25rem',
-            fontWeight: 500,
-          }}
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Making travel feel{' '}
-          <em style={{ fontStyle: 'italic', color: '#5a5954' }}>effortless,</em>
-          {' '}from first search to final booking.
-        </motion.h1>
-
-        <motion.p
-          style={{
-            fontFamily: '"Instrument Sans", sans-serif',
-            fontSize: '0.92rem',
-            color: '#5a5954',
-            lineHeight: 1.8,
-            maxWidth: '58ch',
-            margin: '0 auto 2.5rem',
-          }}
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.24, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Led UX redesign of Flyin's search and discovery with AI-powered intent prediction — reducing abandonment, increasing conversion, and lifting App Store rating from 3.2★ to 4.4★.
-        </motion.p>
-
-        {/* Meta strip */}
-        <motion.div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            border: '0.5px solid rgba(17,17,16,0.09)',
-            borderRadius: '14px',
-            overflow: 'hidden',
-            background: 'rgba(17,17,16,0.03)',
-            maxWidth: '680px',
-            margin: '0 auto',
-          }}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.32, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {[
-            { label: 'Company',  value: 'Flyin' },
-            { label: 'My role',  value: 'UX Lead' },
-            { label: 'Timeline', value: '2016 – 2018' },
-            { label: 'Platform', value: 'Web & Mobile' },
-          ].map((item, i, arr) => (
-            <div key={i} style={{
-              background: '#fff',
-              padding: '1.1rem 1.5rem',
-              textAlign: 'center',
-              flex: 1,
-              minWidth: '120px',
-              borderRight: i < arr.length - 1 ? '0.5px solid rgba(17,17,16,0.07)' : 'none',
-            }}>
-              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.58rem', letterSpacing: '0.11em', textTransform: 'uppercase', color: '#a09d97', marginBottom: '0.3rem' }}>
-                {item.label}
-              </div>
-              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.82rem', fontWeight: 500, color: '#111110' }}>
-                {item.value}
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      {/* Divider */}
-      <div style={{ borderTop: '0.5px solid rgba(17,17,16,0.08)', margin: '0 4rem' }} />
-
-      {/* Key work section */}
-      <div style={{ maxWidth: '1040px', margin: '0 auto', padding: '5rem 4rem' }}>
+      {/* ====================================================================
+         HERO
+      ==================================================================== */}
+      <Container className="pt-12 sm:pt-16">
         <ScrollReveal>
-          <div style={{ marginBottom: '3rem' }}>
-            <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#d0cdc7', marginBottom: '0.4rem' }}>
-              01
-            </div>
-            <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.65rem', letterSpacing: '0.13em', textTransform: 'uppercase', color: '#a09d97', paddingBottom: '1.25rem', borderBottom: '0.5px solid rgba(17,17,16,0.08)' }}>
-              Key contributions
-            </div>
+          <div className="flex items-center gap-3 mb-6">
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.66rem', letterSpacing: '0.12em', color: INK_MUTED }}>00</span>
+            <span style={{ width: '1px', height: '0.7em', background: HAIRLINE, display: 'inline-block' }} />
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.68rem', letterSpacing: '0.13em', textTransform: 'uppercase', color: INK_MUTED }}>
+              {HERO_KICKER}
+            </span>
           </div>
         </ScrollReveal>
+
+        <div style={{ height: '1px', background: HAIRLINE, marginBottom: '2.75rem' }} />
 
         <ScrollReveal delay={60}>
-          <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: 'clamp(1.6rem, 3vw, 2rem)', letterSpacing: '-0.022em', lineHeight: 1.12, marginBottom: '3rem', color: '#111110', fontWeight: 400 }}>
-            Three decisions that{' '}
-            <em style={{ fontStyle: 'italic', color: '#5a5954' }}>shaped the work.</em>
-          </h2>
+          <h1
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontWeight: 500,
+              lineHeight: 1.04,
+              letterSpacing: '-0.03em',
+              margin: '0 0 1.5rem',
+              maxWidth: '18ch',
+              fontSize: 'clamp(2.1rem, 5.2vw, 3.5rem)',
+              color: INK,
+            }}
+          >
+            Making travel feel{' '}
+            <em style={{ fontStyle: 'italic', color: ACCENT }}>effortless,</em>{' '}
+            from first search to final booking.
+          </h1>
         </ScrollReveal>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-          {decisions.map((d, i) => (
-            <DecisionCard key={i} delay={i * 80} {...d} />
+        <ScrollReveal delay={110}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: INK_MUTED, lineHeight: 1.75, maxWidth: '58ch', marginBottom: '2.25rem' }}>
+            Led UX redesign of Flyin&rsquo;s search and discovery with AI-powered intent prediction, reducing abandonment and increasing conversion across web and mobile.
+          </p>
+        </ScrollReveal>
+
+        <ScrollReveal delay={150}>
+          <div className="flex flex-wrap gap-x-10 gap-y-4" style={{ borderTop: `0.5px solid ${HAIRLINE}`, paddingTop: '1.25rem', marginBottom: '2.5rem' }}>
+            {HERO_META.map((item) => (
+              <div key={item.label}>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.58rem', letterSpacing: '0.11em', textTransform: 'uppercase', color: INK_MUTED, marginBottom: '0.3rem' }}>
+                  {item.label}
+                </div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 500, color: INK }}>
+                  {item.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={190}>
+          <div style={{ overflow: 'hidden', borderRadius: '10px', border: `0.5px solid ${HAIRLINE}`, boxShadow: '0 20px 48px -24px rgba(17,17,16,0.18)' }}>
+            <img
+              src="/images/case-studies/flyin/flyin-hero-devices.jpg"
+              alt="The real Flyin desktop search homepage open on a laptop beside the real Flyin mobile app home screen on a phone, on a travel-themed desk."
+              style={{ width: '100%', display: 'block' }}
+            />
+          </div>
+        </ScrollReveal>
+      </Container>
+
+      {/* ====================================================================
+         01 — KEY CONTRIBUTION (the problem)
+      ==================================================================== */}
+      <Container className="mt-20 sm:mt-24">
+        <Eyebrow index="01" label="Key contribution" />
+        <ScrollReveal>
+          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.4rem, 2.4vw, 1.85rem)', letterSpacing: '-0.022em', lineHeight: 1.18, color: INK, fontWeight: 500, marginBottom: '1rem', maxWidth: '32ch' }}>
+            A fragmented booking experience{' '}
+            <em style={{ fontStyle: 'italic', color: ACCENT }}>was costing real bookings.</em>
+          </h2>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: INK_MUTED, lineHeight: 1.7, maxWidth: '58ch', marginBottom: '2.25rem' }}>
+            Search, flight selection, hotel booking and checkout had inconsistent patterns across mobile and desktop — users abandoned search when results didn&rsquo;t match their intent, and conversion was lost at multiple drop-off points.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6">
+          {PROBLEMS.map((p, i) => (
+            <ScrollReveal key={p.label} delay={i * 60}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
+                <span style={{ marginTop: '0.15rem', flexShrink: 0 }} aria-hidden="true">{p.icon}</span>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, color: INK, marginBottom: '0.2rem' }}>
+                    {p.label}
+                  </div>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.76rem', color: INK_MUTED, lineHeight: 1.5, margin: 0 }}>
+                    {p.text}
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
+      </Container>
+
+      <div style={{ padding: '4rem 0 0' }}>
+        <PullQuote size="md">
+          &ldquo;Users switched between platforms mid-journey: discovering on web, booking on mobile.&rdquo;
+        </PullQuote>
       </div>
 
-      {/* Figma CTA */}
-      <ScrollReveal>
-        <div style={{ maxWidth: '1040px', margin: '0 auto 5rem', padding: '0 4rem' }}>
-          <div style={{
-            background: '#edf5f1',
-            border: '0.5px solid rgba(26,102,64,0.12)',
-            borderRadius: '14px',
-            padding: '2.5rem 3rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '2rem',
-            flexWrap: 'wrap',
-          }}>
-            <div>
-              <div style={{ fontFamily: '"Instrument Sans", sans-serif', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a6640', opacity: 0.7, marginBottom: '0.5rem' }}>
-                Interactive prototype
+      {/* ====================================================================
+         02 — DESIGN RESPONSE
+      ==================================================================== */}
+      <Container className="mt-20 sm:mt-24">
+        <Eyebrow index="02" label="Design response" />
+        <ScrollReveal>
+          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.4rem, 2.4vw, 1.85rem)', letterSpacing: '-0.022em', lineHeight: 1.18, color: INK, fontWeight: 500, marginBottom: '1rem', maxWidth: '28ch' }}>
+            Redesigned around{' '}
+            <em style={{ fontStyle: 'italic', color: ACCENT }}>intent, not forms.</em>
+          </h2>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: INK_MUTED, lineHeight: 1.7, maxWidth: '58ch', marginBottom: '2.25rem' }}>
+            Rebuilt search and discovery with AI-powered intent prediction and a consistent experience across devices, so planning, comparing and booking took fewer steps.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
+          {SOLUTIONS.map((s, i) => (
+            <ScrollReveal key={s.title} delay={i * 60}>
+              <div style={{ borderTop: `0.5px solid ${HAIRLINE}`, paddingTop: '0.85rem' }}>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 500, color: INK, marginBottom: '0.3rem' }}>
+                  {s.title}
+                </div>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.76rem', color: INK_MUTED, lineHeight: 1.5, margin: 0 }}>
+                  {s.text}
+                </p>
               </div>
-              <div style={{ fontFamily: '"Playfair Display", serif', fontSize: '1.3rem', color: '#111110', letterSpacing: '-0.02em' }}>
-                View the full Figma prototype.
+            </ScrollReveal>
+          ))}
+        </div>
+      </Container>
+
+      {/* ====================================================================
+         03 — IMPACT
+      ==================================================================== */}
+      <Container className="mt-20 sm:mt-24">
+        <Eyebrow index="03" label="Impact" />
+        <ScrollReveal>
+          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.4rem, 2.4vw, 1.85rem)', letterSpacing: '-0.022em', lineHeight: 1.18, color: INK, fontWeight: 500, marginBottom: '1rem', maxWidth: '30ch' }}>
+            The redesign translated into{' '}
+            <em style={{ fontStyle: 'italic', color: ACCENT }}>measurable</em> product outcomes.
+          </h2>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: INK_MUTED, lineHeight: 1.7, maxWidth: '58ch', marginBottom: '2.5rem' }}>
+            By aligning the experience with how people actually plan and book travel, we improved satisfaction and drove higher conversion across key touchpoints.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-8 sm:gap-10">
+          <ScrollReveal>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(191,104,83,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }} aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 16l6-6 4 4 6-8" />
+                  <path d="M16 6h4v4" />
+                </svg>
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '1.7rem', fontWeight: 500, color: INK, letterSpacing: '-0.02em', marginBottom: '0.3rem' }}>
+                  3.2 to 4.4
+                </div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: INK_MUTED, fontWeight: 600, marginBottom: '0.5rem' }}>
+                  App Store Rating
+                </div>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: INK_MUTED, lineHeight: 1.5, margin: 0 }}>
+                  User rating improved significantly after launch.
+                </p>
               </div>
             </div>
-            <button
-              onClick={() => setShowModal(true)}
-              className="btn-sweep btn-sweep-primary"
-              style={{ padding: '11px 22px', fontSize: '11px' }}
-            >
-              View prototype →
-            </button>
-          </div>
+          </ScrollReveal>
+
+          <div className="hidden sm:block" style={{ width: '1px', background: HAIRLINE }} />
+
+          <ScrollReveal delay={80}>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(191,104,83,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }} aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 20v-6M12 20V8M18 20v-10" />
+                </svg>
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '1.7rem', fontWeight: 500, color: INK, letterSpacing: '-0.02em', marginBottom: '0.3rem' }}>
+                  28%
+                </div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: INK_MUTED, fontWeight: 600, marginBottom: '0.5rem' }}>
+                  Booking Conversion
+                </div>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: INK_MUTED, lineHeight: 1.5, margin: 0 }}>
+                  Increase in booking conversion across web and mobile.
+                </p>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
+      </Container>
+
+      <Container className="mt-16 sm:mt-20">
+        <div style={{ borderTop: `0.5px solid ${HAIRLINE}` }} />
+      </Container>
+
+      {/* ====================================================================
+         04 — REFLECTION
+      ==================================================================== */}
+      <Container className="mt-16 sm:mt-20">
+        <div style={{ position: 'relative' }}>
+          <Eyebrow index="04" label="Reflection" />
+
+          <ScrollReveal>
+            <h2 style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.4rem, 2.4vw, 1.85rem)', letterSpacing: '-0.022em', lineHeight: 1.18, color: INK, fontWeight: 500, marginBottom: '1rem', maxWidth: '32ch', position: 'relative', zIndex: 1 }}>
+              Designing for real travel behaviour creates{' '}
+              <em style={{ fontStyle: 'italic', color: ACCENT }}>lasting impact.</em>
+            </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: INK_MUTED, lineHeight: 1.7, maxWidth: '56ch', marginBottom: '1.25rem', position: 'relative', zIndex: 1 }}>
+              The biggest shift wasn&rsquo;t adding more features. It was listening to how people actually plan, discover and book travel — and designing an experience that adapts to their intent, context and journey.
+            </p>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: INK_MUTED, lineHeight: 1.7, maxWidth: '56ch', marginBottom: '2.25rem', position: 'relative', zIndex: 1 }}>
+              This project reinforced my belief that thoughtful, user-centred design can simplify complex journeys and make everyday experiences more meaningful.
+            </p>
+          </ScrollReveal>
+
+          {/* Decorative flight-path — extremely subtle, desktop only, purely
+             ornamental (aria-hidden) and never overlaps the reflection text
+             (positioned to the right, z-index below the copy above). */}
+          <svg
+            aria-hidden="true"
+            className="hidden lg:block"
+            style={{ position: 'absolute', right: '-2rem', top: '-1.5rem', width: '260px', height: '420px', pointerEvents: 'none', zIndex: 0 }}
+            viewBox="0 0 260 420"
+            fill="none"
+          >
+            <path d="M20 20 C 150 50, 30 170, 190 210" stroke={ACCENT} strokeWidth="1" opacity="0.08" />
+            <path d="M0 70 C 130 100, 10 240, 170 280" stroke={ACCENT} strokeWidth="1" opacity="0.06" />
+            <path d="M40 40 C 170 90, 60 270, 205 365" stroke={ACCENT} strokeWidth="1.25" strokeDasharray="3 6" opacity="0.4" />
+            <g transform="translate(197, 356) rotate(52)">
+              <path d="M0 -7 L2.5 -1 L8 0 L2.5 1 L0 7 L-1 2 L-7 1 L-1 -1 Z" fill={ACCENT} opacity="0.55" />
+            </g>
+          </svg>
+        </div>
+      </Container>
+
+      {/* ====================================================================
+         NEXT CASE STUDY — restrained editorial treatment matching the
+         reference: label, title, one descriptive line, circular arrow.
+         Route is unchanged (/work/civtech) — only the displayed title/
+         description reflect the Menopause Care framing requested here.
+      ==================================================================== */}
+      <ScrollReveal>
+        <Link to="/work/civtech" style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
+          <div style={{ background: '#f2efe9', borderTop: `0.5px solid ${HAIRLINE}`, marginTop: '5rem' }}>
+            <Container className="py-14">
+              <div className="flex items-center justify-between gap-8 flex-wrap">
+                <div>
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: INK_MUTED, marginBottom: '0.6rem' }}>
+                    Next case study →
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.2rem, 2.2vw, 1.5rem)', color: INK, letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>
+                    Menopause Care · Social Impact Design Sprint
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: INK_MUTED }}>
+                    Designing for stronger, more inclusive communities.
+                  </div>
+                </div>
+                <div
+                  aria-hidden="true"
+                  style={{ width: '52px', height: '52px', borderRadius: '50%', border: `1px solid ${HAIRLINE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: INK, fontSize: '1.1rem' }}
+                >
+                  →
+                </div>
+              </div>
+            </Container>
+          </div>
+        </Link>
       </ScrollReveal>
 
-      <NextProjectCTA
-        label="Next case study →"
-        title="Aptia · Employee Benefits Platform"
-        href="/work/aptia"
-      />
       <Footer />
     </div>
   )
