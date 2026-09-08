@@ -10,7 +10,6 @@ import {
   CustomerSection,
   OrderSection,
   PaymentSection,
-  DesignSystemSection,
   AISection,
   IterationSection,
   OutcomesSection,
@@ -111,9 +110,6 @@ function Hero() {
         >
           <DashboardMock />
         </motion.div>
-        <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
-          Illustrative interface data — not verified business results
-        </p>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-paper to-transparent" />
       </div>
     </section>
@@ -147,9 +143,6 @@ function DashboardShowcase() {
       >
         <OperationsMock />
       </motion.div>
-      <p className="mt-4 text-right font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
-        Illustrative interface data
-      </p>
     </Section>
   );
 }
@@ -178,12 +171,6 @@ function Final() {
             className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-[14px] font-600 text-deep transition-transform hover:-translate-y-0.5"
           >
             Explore the live CRM <IconArrow size={15} />
-          </a>
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 rounded-full border border-deep/20 px-6 py-3 text-[14px] font-500 text-deep transition-colors hover:bg-deep hover:text-white"
-          >
-            More work
           </a>
         </div>
       </div>
@@ -223,7 +210,6 @@ export default function CaseStudyContent() {
         <OrderSection />
         <PaymentSection />
         <DashboardShowcase />
-        <DesignSystemSection />
         <AISection />
         <IterationSection />
         <OutcomesSection />

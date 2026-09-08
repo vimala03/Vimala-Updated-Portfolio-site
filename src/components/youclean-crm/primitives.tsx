@@ -98,7 +98,11 @@ export function Eyebrow({
 }) {
   return (
     <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.28em]">
-      <span className={dark ? "text-brand" : "text-brand-600"}>{index}</span>
+      {/* Terracotta index — matches the portfolio-wide eyebrow accent used
+         on the Homepage and Cornerstone (restrained accent, not the
+         product's own brand green). The `dark` variant is unaffected —
+         no section currently renders this against a dark background. */}
+      <span className={dark ? "text-brand" : "text-rust"}>{index}</span>
       <span
         className={`h-px w-8 ${dark ? "bg-white/25" : "bg-line"}`}
         aria-hidden
@@ -159,6 +163,49 @@ export function useParallax(
   distance: number,
 ) {
   return useTransform(progress, [0, 1], [distance, -distance]);
+}
+
+/* ----------------------------------------------------------------------------
+   DecisionNote — Insight → Decision → Product response, in three short
+   labelled lines. Not a new UI system: same font-mono uppercase label
+   treatment as SubLabel/Eyebrow, same border-t + 3-col grid rhythm already
+   used by the hero's supporting points, ORDER_CALLOUTS and PROBLEM_POINTS —
+   reused here to make the product-thinking behind a section explicit
+   (what was wrong → what was decided → what got built) without introducing
+   a card, badge, icon or new section of its own. Copy passed in is always
+   drawn from what the section around it already states.
+---------------------------------------------------------------------------- */
+export function DecisionNote({
+  insight,
+  decision,
+  response,
+}: {
+  insight: string;
+  decision: string;
+  response: string;
+}) {
+  return (
+    <div className="mt-8 grid grid-cols-1 gap-5 border-t border-line pt-6 sm:grid-cols-3">
+      <div>
+        <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-mist">
+          Insight
+        </p>
+        <p className="mt-1.5 text-[13px] leading-relaxed text-mist">{insight}</p>
+      </div>
+      <div>
+        <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-rust">
+          Decision
+        </p>
+        <p className="mt-1.5 text-[13px] leading-relaxed text-deep">{decision}</p>
+      </div>
+      <div>
+        <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-brand-700">
+          Product response
+        </p>
+        <p className="mt-1.5 text-[13px] font-500 leading-relaxed text-ink">{response}</p>
+      </div>
+    </div>
+  );
 }
 
 /* ----------------------------------------------------------------------------

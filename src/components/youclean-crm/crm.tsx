@@ -65,7 +65,7 @@ export function DashboardMock({ compact = false }: { compact?: boolean }) {
             ))}
           </nav>
           <div className="mt-auto rounded-xl border border-brand/25 bg-brand-050 p-3">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-600">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-700">
               Ops health
             </p>
             <p className="mt-1 font-fraunces text-2xl font-600 text-deep">98%</p>
@@ -148,7 +148,7 @@ export function DashboardMock({ compact = false }: { compact?: boolean }) {
                 <div className="rounded-xl border border-line bg-white p-4">
                   <div className="flex items-center justify-between">
                     <p className="text-[13px] font-500 text-deep">Revenue · 12d</p>
-                    <span className="text-[11px] font-500 text-brand-600">▲ 21%</span>
+                    <span className="text-[11px] font-500 text-brand-700">▲ 21%</span>
                   </div>
                   <div className="mt-4 flex h-20 items-end gap-1.5">
                     {REV.map((v, i) => (
@@ -255,7 +255,7 @@ const ALERTS = [
 export function OperationsMock() {
   return (
     <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_40px_120px_-40px_rgba(0,54,72,0.45)]">
-      <WindowChrome title="app.youclean.crm / operations — live floor" />
+      <WindowChrome title="app.youclean.crm / operations · live floor" />
       <div className="p-5 text-ink md:p-6">
         {/* KPI strip */}
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -306,7 +306,7 @@ export function OperationsMock() {
             <div className="rounded-xl border border-brand/30 bg-brand-050 p-4">
               <div className="mb-3 flex items-center justify-between">
                 <p className="text-[13px] font-500 text-deep">Ready for delivery</p>
-                <span className="flex items-center gap-1 font-mono text-[11px] text-brand-600">
+                <span className="flex items-center gap-1 font-mono text-[11px] text-brand-700">
                   <IconTruck size={13} /> Dispatch all
                 </span>
               </div>
