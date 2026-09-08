@@ -35,11 +35,12 @@ export default function ContactSection() {
         >
           <span className="type-eyebrow">Contact</span>
           <h2 className="type-hero mt-6" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}>
-            Working on something <span style={{ color: 'var(--color-accent)' }}>complex?</span>
+            Building something complex?{' '}
+            <span style={{ color: 'var(--color-accent)' }}>Let&rsquo;s make it clearer.</span>
           </h2>
           <p className="type-body mt-5 max-w-[440px]" style={{ color: 'var(--color-text-muted)' }}>
             I&rsquo;m interested in products where thoughtful design can make a meaningful
-            difference — for users, teams, and the business.
+            difference for users, teams, and the business.
           </p>
           <a href="mailto:vimalamdes13@gmail.com" className="nav-link inline-block mt-8" style={{ fontSize: '13px' }}>
             Get in touch →

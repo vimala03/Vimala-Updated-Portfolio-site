@@ -3,16 +3,24 @@ import Container from '../Container'
 import Button from '../Button'
 import HeroCharacterSlot from './HeroCharacterSlot'
 
-const METADATA = ['Enterprise UX', 'SaaS', 'AI', 'Design Systems']
+// Specialization eyebrow, trimmed to two keywords (was Enterprise UX /
+// SaaS / AI / Design Systems) — reduces positioning density so the line
+// reads as two clear tiers: "Senior Product Designer" (identity,
+// prepended below with its own bold/ink treatment) then "Enterprise UX
+// · AI" (specialization), not a five-item list.
+const METADATA = ['Enterprise UX', 'AI']
 
 // From the old portfolio's credibility strip — real, not fabricated.
 // Ported as plain number/label pairs (no icons, no cards) so it reads as
 // an editorial detail sitting under the paragraph, not a dashboard
 // widget competing with the headline.
-const STATS = [
+//
+// Exactly three quantitative proof points — experience → shipped scale
+// → 0→1 ownership. No qualitative/category stat mixed in with these
+// (an earlier pass tried that, then explicitly reverted it).
+const STATS: { value: string; label: string }[] = [
   { value: '8+', label: 'Years experience' },
   { value: '40+', label: 'Products shipped' },
-  { value: '6+', label: 'Cross-industry solutions' },
   { value: '3', label: '0 → 1 builds' },
 ]
 
@@ -66,6 +74,8 @@ export default function Hero() {
                 stronger information order: what she does, then who she
                 is, then the headline. */}
             <motion.p {...fadeUp(0)} className="type-eyebrow">
+              <span style={{ color: 'var(--color-text)', fontWeight: 600 }}>Senior Product Designer</span>
+              {'   ·   '}
               {METADATA.join('   ·   ')}
             </motion.p>
 
@@ -98,7 +108,7 @@ export default function Hero() {
                 1024px and 1280px+ without spilling to a 4th line.
 
                 Font: Instrument Sans, not the shared .type-hero's
-                Playfair Display — the one deliberate exception to
+                serif default — the one deliberate exception to
                 "this is the hero, don't touch it," per an explicit,
                 separate typography-system pass consolidating the site
                 on one sans (body/nav/buttons/labels, all already
@@ -107,7 +117,7 @@ export default function Hero() {
                 Vimala."). `type-hero` is dropped from the className
                 since every property it would set is overridden here
                 anyway — weight 600 and tighter -0.02em tracking than
-                the serif's -0.03em (tuned for Playfair's proportions,
+                the serif's -0.03em (tuned for that serif's proportions,
                 not this font's).
                 line-height 1.05 (was 1.1): visually checked against the
                 audit's 0.98–1.05 range — 1.05 keeps clear separation
@@ -150,21 +160,24 @@ export default function Hero() {
               className="type-body mt-7 max-w-[480px]"
               style={{ color: 'var(--color-text-muted)', fontSize: 'clamp(15px, 1.18vw, 17px)' }}
             >
-              Product designer focused on enterprise UX, SaaS, AI-powered products, and
-              design systems—turning complex workflows, information, and constraints into
-              products people can understand and use with confidence.
+              I design complex enterprise and AI-powered products, from problem framing and
+              product strategy through systems, UX, and shipped experiences.
             </motion.p>
 
             {/* Credibility strip from the old portfolio, ported as plain
                 number/label pairs behind one top rule — no icons, no
                 per-stat cards, so it reads as one restrained editorial
                 detail rather than a stats dashboard competing with the
-                headline. A 2-col/4-col grid (not a flex row with
-                dividers) so it never produces a stray border on wrap at
-                narrower widths. */}
+                headline. A grid (not a flex row with dividers) so it
+                never produces a stray border on wrap at narrower
+                widths. Single grid-cols-3 (no responsive step-down) —
+                three short number/label pairs comfortably hold one row
+                at every width this hero supports, so there's no
+                2-col-then-orphan wrap to guard against the way the
+                previous 4-stat version needed. */}
             <motion.div
               {...fadeUp(0.3)}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5 mt-9 pt-6 border-t max-w-[520px]"
+              className="grid grid-cols-3 gap-x-6 gap-y-5 mt-9 pt-6 border-t max-w-[520px]"
               style={{ borderColor: 'var(--color-border)' }}
             >
               {STATS.map((stat) => (

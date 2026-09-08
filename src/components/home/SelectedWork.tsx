@@ -51,29 +51,14 @@ interface Project {
 // its own on-image marketing caption), only the underlying NDA work is.
 const PROJECTS: Project[] = [
   {
-    id: 'youclean',
-    number: '01',
-    name: 'YouClean',
-    route: '/work/youclean',
-    descriptor: 'Operational product experience',
-    description:
-      'Designing a connected system for managing laundry operations — from order intake to delivery status.',
-    scope: 'Product strategy · UX',
-    role: 'Founder / Product Designer',
-    status: '0 → 1 · Live',
-    image: '/images/case-studies/youclean-homepage-stage.png',
-    imageAlt:
-      'YouClean CRM operations dashboard, surrounded by supporting views: revenue trend, orders by type, order volume, a new-order form, recent activity, delayed pickups, and the mobile operations view.',
-  },
-  {
     id: 'cornerstone-search',
-    number: '02',
+    number: '01',
     name: 'AI-Powered Search & Decision Optimization',
     route: '/work/cornerstone',
-    descriptor: 'Enterprise AI assistant',
+    descriptor: 'Enterprise · AI · Product Strategy',
     description:
-      'An AI assistant surfacing smart search and personalised suggestions inside Cornerstone OnDemand’s Content Manager.',
-    scope: 'Product design · AI interaction',
+      'Making complex enterprise decisions faster through AI-assisted search and personalised recommendations.',
+    scope: 'Enterprise · AI · Product Strategy',
     role: 'Lead Product Designer',
     status: 'Shipped',
     image: '/images/case-studies/aisearch.jpeg',
@@ -87,16 +72,31 @@ const PROJECTS: Project[] = [
     imagePosition: 'left center',
   },
   {
+    id: 'youclean',
+    number: '02',
+    name: 'YouClean CRM',
+    route: '/work/youclean',
+    descriptor: '0 → 1 · Product · Operations',
+    description:
+      'Turning fragmented laundry operations into one connected system.',
+    scope: '0 → 1 · Product · Operations',
+    role: 'Founder · Product Designer',
+    status: 'Built',
+    image: '/images/case-studies/youclean-homepage-stage.png',
+    imageAlt:
+      'YouClean CRM operations dashboard, surrounded by supporting views: revenue trend, orders by type, order volume, a new-order form, recent activity, delayed pickups, and the mobile operations view.',
+  },
+  {
     id: 'content-manager-metadata',
     number: '03',
     name: 'Content Manager Metadata Generation',
     route: '/work/content-manager-metadata',
-    descriptor: 'Enterprise content metadata',
+    descriptor: 'Enterprise · AI · Workflow',
     description:
-      'Improved search accuracy and content discoverability by introducing AI-powered metadata generation, strengthening taxonomy and information architecture across the platform.',
-    scope: 'Metadata · Search · IA',
-    role: 'Product Designer',
-    status: 'Confidential · NDA',
+      'Using AI to reduce the complexity of enterprise content workflows.',
+    scope: 'Enterprise · AI · Workflow',
+    role: 'Lead Product Designer',
+    status: 'Confidential',
     image: '/images/contentmanager.jpeg',
     imageAlt: 'Content Manager metadata generation and translation interface',
     confidential: true,
@@ -106,11 +106,11 @@ const PROJECTS: Project[] = [
     number: '04',
     name: 'FlyIn Travel & Tourism',
     route: '/work/flyin',
-    descriptor: 'AI-powered travel search',
+    descriptor: 'Consumer · Travel · Product Design',
     description:
-      'Rebuilding travel search and trip planning around intent — from first search to final booking.',
-    scope: 'Search · Trip planning · Personalisation',
-    role: 'UX Lead',
+      'Redesigning the travel journey to make discovery and booking simpler.',
+    scope: 'Consumer · Travel · Product Design',
+    role: 'Product Designer',
     status: 'Shipped',
     // New high-res asset at public/images/flyincasestudy.jpeg — distinct
     // from the low-res one still at case-studies/flyin.jpeg, kept
@@ -119,19 +119,19 @@ const PROJECTS: Project[] = [
     // the shared 820:460 (1.783:1) container, so a centered cover-fit
     // crops under 2px total — no object-position override needed.
     image: '/images/flyincasestudy.jpeg',
-    imageAlt: 'Flyin.com editorial cover — "Travel made simpler," the website shown on a laptop and the app on a phone, styled with travel props on a desk',
+    imageAlt: 'Flyin.com editorial cover: "Travel made simpler," the website shown on a laptop and the app on a phone, styled with travel props on a desk',
   },
   {
     id: 'civtech',
     number: '05',
     name: 'Menopause Care',
     route: '/work/civtech',
-    descriptor: 'Health / social-impact design sprint',
+    descriptor: 'Healthcare · Social Impact · Service Design',
     description:
-      'A 72-hour design sprint building menopause-care resources for the women typical healthcare products overlook.',
-    scope: 'Research · UX · Prototype',
-    role: 'UX Designer',
-    status: 'Finalist · CivTech Scotland',
+      'Designing a more connected, inclusive approach to menopause support.',
+    scope: 'Healthcare · Social Impact · Service Design',
+    role: 'Design Lead',
+    status: 'Concept',
     // New high-res asset at public/images/civtech.jpeg (root — distinct
     // from the low-res one still at case-studies/civtech.jpeg, kept
     // untouched). A conceptual/editorial cover for a proposed solution,
@@ -140,7 +140,7 @@ const PROJECTS: Project[] = [
     // is already within 0.3% of the shared 820:460 (1.783:1) container,
     // so a centered cover-fit crops under 2px total.
     image: '/images/civtech.jpeg',
-    imageAlt: 'Editorial concept cover for Menopause Care — "Support through change": a proposed solution to help women understand, manage, and feel more in control during menopause',
+    imageAlt: 'Editorial concept cover for Menopause Care, "Support through change": a proposed solution to help women understand, manage, and feel more in control during menopause',
   },
 ]
 
@@ -400,7 +400,7 @@ export default function SelectedWork() {
                   <div className="grid" style={{ gridTemplateColumns: 'auto 1fr auto', columnGap: '12px', rowGap: '6px', alignItems: 'baseline' }}>
                     {/* .type-mono is JetBrains Mono — a third font
                         family outside the locked two-family system
-                        (Instrument Sans / Playfair Display). Same class
+                        (Instrument Sans / the shared display font). Same class
                         for its size/weight/tracking/uppercase,
                         fontFamily overridden inline to the shared sans
                         so the index numbers read as this site's

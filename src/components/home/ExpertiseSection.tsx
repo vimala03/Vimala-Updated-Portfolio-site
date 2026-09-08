@@ -1,35 +1,32 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import Container from '../Container'
 
-// Exactly three capabilities — explicit instruction not to replace the
-// removed fourth ("Design Systems") with anything else. #03 replaces
-// "AI Experiences" with "Product + Business", the one new claim this
-// pass adds: that the work spans product/business/engineering, not
-// only UX craft. Copy is exactly what was specified, not rewritten.
+// Three decision-oriented principles — deliberately not a generic
+// five-step design-thinking process (Understand → Frame → Explore →
+// Validate → Scale). These are meant to communicate product judgment —
+// the trade-offs a senior/lead designer actually owns — not a process
+// diagram. Copy is exactly what was specified, not rewritten.
 const CAPABILITIES = [
   {
     number: '01',
-    title: 'Product Design',
-    description:
-      'Framing the right problem before designing the solution — connecting user needs, business objectives, constraints, and measurable outcomes.',
+    title: 'Frame the right problem',
+    description: 'Not every request is the problem worth solving.',
   },
   {
     number: '02',
-    title: 'Enterprise UX',
-    description:
-      'Designing dense, permission-heavy, high-stakes workflows so people can move quickly without losing context or control.',
+    title: 'Make the trade-off',
+    description: 'Balance user needs, business goals, and technical constraints to make the right product decisions.',
   },
   {
     number: '03',
-    title: 'Product + Business',
-    description:
-      'Working across product, business, engineering, and design to align priorities, make trade-offs, and turn complex requirements into clear product decisions.',
+    title: 'Design for what’s next',
+    description: 'Create solutions that work today without making tomorrow harder.',
   },
 ]
 
 /**
- * "How I Work" — replaces the old 4-up Expertise grid. Editorial
- * two-column composition (headline left, capability index right)
+ * "How I Think" (formerly "How I Work") — same editorial two-column
+ * composition (headline + supporting copy left, principle index right)
  * rather than a card/tile grid: no icons, no boxes, no arrows — these
  * rows are informational, not links, so nothing here should read as
  * clickable. Lighter than Selected Work above it (no section
@@ -42,16 +39,25 @@ export default function ExpertiseSection() {
     <section style={{ paddingTop: 'var(--space-section-compact)', paddingBottom: 'var(--space-section-compact)' }}>
       <Container>
         <div className="border-t pt-6" style={{ borderColor: 'var(--color-border)' }}>
-          <span className="type-eyebrow">How I work</span>
+          <span className="type-eyebrow">How I think</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 lg:gap-x-8 mt-8 lg:mt-10">
-          {/* Left: eyebrow already sits above the grid; headline is the
-              only thing in this column, matching the reference's
-              "large statement, left" composition. lg:col-span-5 keeps
-              it from stretching to an uncomfortable measure. */}
+          {/* Left: eyebrow already sits above the grid; headline plus
+              one supporting paragraph, matching the reference's "large
+              statement, left" composition. lg:col-span-5 keeps it from
+              stretching to an uncomfortable measure. */}
           <div className="lg:col-span-5">
-            <h2 className="type-heading">I design for complexity — and make it easier to act.</h2>
+            <h2 className="type-heading">
+              I don&rsquo;t start with screens. I start{' '}
+              <span style={{ color: 'var(--color-accent)' }}>with the problem.</span>
+            </h2>
+            <p className="type-body mt-5 max-w-[440px]" style={{ color: 'var(--color-text-muted)' }}>
+              Complex products rarely have simple problems. I work across research, product
+              strategy, UX, systems, and interaction design to understand what&rsquo;s actually
+              getting in the way, then turn that complexity into experiences people can act on
+              with confidence.
+            </p>
           </div>
 
           {/* Right: the capability index. col-start-7 (not 6) leaves a
