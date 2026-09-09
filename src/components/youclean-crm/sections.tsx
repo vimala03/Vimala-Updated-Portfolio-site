@@ -364,6 +364,12 @@ function FragChip({ tone, children }: { tone: string; children: React.ReactNode 
   return <StatusChip tone={tone}>{children}</StatusChip>;
 }
 
+/* icon shown in each journey stage's marker circle — purely
+   illustrative of the stage's nature (contact, record, cart, payment,
+   processing, delivery, repeat), not a claim about the product's actual
+   iconography. */
+const JOURNEY_ICONS = [IconChat, IconUsers, IconBag, IconRupee, IconClock, IconTruck, IconCheck];
+
 export function WorkflowSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -381,104 +387,191 @@ export function WorkflowSection() {
   });
 
   return (
-    <Section id="workflow" className="!py-0">
-      <div ref={ref} className="relative py-14 md:py-20">
-        <div className="max-w-xl">
-          <Eyebrow index="04">The complete customer journey</Eyebrow>
-          <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
+    <Section id="workflow" className="relative overflow-hidden" maxWidth="1280">
+      {/* One restrained motif — top-left, not a repeat of other sections'
+         corner placement. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-16 -top-10 hidden h-72 w-72 rounded-[48%_52%_45%_55%/55%_45%_58%_42%] bg-[rgba(158,196,163,0.16)] lg:block"
+      />
+
+      <div ref={ref} className="relative">
+        <div className="relative max-w-2xl">
+          <div className="flex items-center gap-3">
+            <p className="shrink-0 text-[11px] font-500 uppercase tracking-[0.14em] text-rust">
+              04 · The complete customer journey
+            </p>
+            <span className="h-px flex-1 bg-line" aria-hidden="true" />
+          </div>
+          <h2 className="mt-4 text-[clamp(1.9rem,3.2vw,2.75rem)] font-600 leading-[1.12] tracking-tight text-ink">
             One thread runs from first contact to repeat order.
           </h2>
           {/* Makes explicit that this is a product architecture decision,
              not just a timeline widget — customer/order/payment/delivery
              are the same real stage names used throughout the rest of
              the case study, not new vocabulary. */}
-          <p className="mt-4 text-[13.5px] text-mist">
+          <p className="mt-4 text-[15px] leading-relaxed text-mist">
             Customer, order, payment and delivery, represented as one
             connected record instead of seven separate steps. Select any
             stage below to inspect it directly.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_1.05fr]">
-          {/* stage list — every stage is a real, keyboard-accessible button */}
-          <ol className="space-y-3">
+        {/* Desktop — a single continuous spine (not seven disconnected
+           dashes): a full-width base line with a real fill bar animating
+           to the active stage, so the seven stages read as one journey a
+           reader is moving along, not a row of separate decorations. A
+           small pointer beneath the spine tracks the active stage and
+           drops straight down toward the detail card below it, making
+           the stage↔record relationship visible rather than implied. */}
+        <div className="relative mt-9 hidden lg:block">
+          <div className="absolute inset-x-0 top-[22px] h-px bg-line" aria-hidden="true" />
+          <motion.div
+            className="absolute left-0 top-[22px] h-px bg-brand-700"
+            animate={{ width: `${((active + 0.5) / JOURNEY.length) * 100}%` }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            aria-hidden="true"
+          />
+          <div className="relative flex items-start">
             {JOURNEY.map((s, i) => {
-              const on = i === active;
+              const Icon = JOURNEY_ICONS[i];
+              const state = i < active ? "done" : i === active ? "active" : "upcoming";
               return (
-                <li key={s.n}>
-                  <button
-                    type="button"
-                    onClick={() => setActive(i)}
-                    aria-pressed={on}
-                    aria-label={`View ${s.t} stage`}
-                    className={`w-full rounded-xl border p-5 text-left transition-all duration-500 ${
-                      on
-                        ? "border-brand/30 bg-white shadow-[0_20px_50px_-30px_rgba(0,54,72,0.5)]"
-                        : "border-transparent opacity-45 hover:opacity-70"
+                <button
+                  key={s.n}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  aria-pressed={state === "active"}
+                  aria-label={`View ${s.t} stage`}
+                  className="flex min-w-0 flex-1 flex-col items-center gap-2 text-center"
+                >
+                  <span
+                    className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border bg-paper transition-colors ${
+                      state === "active"
+                        ? "border-brand-600 bg-brand-600 text-white"
+                        : state === "done"
+                          ? "border-brand/30 bg-brand-050 text-brand-700"
+                          : "border-line text-mist"
                     }`}
                   >
-                    <div className="flex items-baseline gap-4">
-                      <span
-                        className={`font-mono text-[12px] ${on ? "text-brand-700" : "text-mist"}`}
-                      >
-                        {s.n}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-lg font-600 text-deep">{s.t}</p>
-                        <motion.div
-                          animate={{ height: on ? "auto" : 0, opacity: on ? 1 : 0 }}
-                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                          className="overflow-hidden"
-                        >
-                          <p className="pt-2 text-[13.5px] leading-relaxed text-mist">{s.d}</p>
-
-                          {/* Mobile/tablet: the CRM state lives inline under the stage
-                              itself (no sticky panel below lg) — an accordion, not a
-                              scroll-linked surface, so it never traps the viewport. */}
-                          <div className="mt-4 overflow-hidden rounded-xl border border-line bg-paper-100/40 lg:hidden">
-                            <WindowChrome title={`crm / journey · ${s.t.toLowerCase().replace(/ /g, "-")}`} />
-                            <div className="p-4">
-                              <JourneyFragment i={i} />
-                            </div>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </div>
-                  </button>
-                </li>
+                    <Icon size={18} />
+                  </span>
+                  <span
+                    className={`font-mono text-[9.5px] uppercase tracking-[0.15em] ${
+                      state === "upcoming" ? "text-mist" : "text-brand-700"
+                    }`}
+                  >
+                    {s.n}
+                  </span>
+                  <p className={`text-[13.5px] font-600 ${state === "upcoming" ? "text-mist" : "text-ink"}`}>
+                    {s.t}
+                  </p>
+                  <p className="text-[11px] leading-snug text-mist">{s.d}</p>
+                </button>
               );
             })}
-          </ol>
+          </div>
+          <motion.div
+            className="pointer-events-none absolute top-[58px] h-3 w-px bg-brand-700"
+            animate={{ left: `${((active + 0.5) / JOURNEY.length) * 100}%` }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            aria-hidden="true"
+          />
+        </div>
 
-          {/* sticky fragment panel — desktop only, crossfades between stages */}
-          <div className="hidden lg:block">
-            <div className="sticky top-28">
-              <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,54,72,0.4)]">
-                <WindowChrome title={`crm / journey · ${JOURNEY[active].t.toLowerCase().replace(/ /g, "-")}`} />
-                <div className="p-6">
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-mist">
-                      Stage {JOURNEY[active].n}
-                    </span>
-                    <div className="flex gap-1">
-                      {JOURNEY.map((_, j) => (
-                        <button
-                          key={j}
-                          type="button"
-                          onClick={() => setActive(j)}
-                          aria-label={`View ${JOURNEY[j].t} stage`}
-                          aria-current={j === active}
-                          className={`h-1 w-4 rounded-full transition-colors ${
-                            j <= active ? "bg-brand" : "bg-line hover:bg-mist"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <AnimatePresence mode="popLayout">
-                    <JourneyFragment key={active} i={active} />
-                  </AnimatePresence>
+        {/* Mobile/tablet — the same seven stages as an intentional compact
+           vertical sequence (numbered circle + connector + label), not six
+           desktop cards squeezed narrower. Tapping a stage expands its
+           description inline, an accordion rather than a scroll-linked
+           surface, so it never traps the viewport. */}
+        <ol className="relative mt-10 space-y-0 lg:hidden">
+          {JOURNEY.map((s, i) => {
+            const Icon = JOURNEY_ICONS[i];
+            const on = i === active;
+            const done = i < active;
+            return (
+              <li key={s.n} className="flex gap-4">
+                <div className="flex flex-col items-center">
+                  <span
+                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border transition-colors ${
+                      on
+                        ? "border-brand-600 bg-brand-600 text-white"
+                        : done
+                          ? "border-brand/30 bg-brand-050 text-brand-700"
+                          : "border-line bg-white text-mist"
+                    }`}
+                  >
+                    <Icon size={15} />
+                  </span>
+                  {i < JOURNEY.length - 1 && (
+                    <div className={`w-px flex-1 border-l border-dashed ${done ? "border-brand/50" : "border-line"}`} />
+                  )}
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setActive(i)}
+                  aria-pressed={on}
+                  aria-label={`View ${s.t} stage`}
+                  className="flex-1 pb-6 text-left"
+                >
+                  <p className={`text-[14px] font-600 ${on ? "text-ink" : "text-deep"}`}>{s.t}</p>
+                  <motion.div
+                    animate={{ height: on ? "auto" : 0, opacity: on ? 1 : 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <p className="pt-1.5 text-[13px] leading-relaxed text-mist">{s.d}</p>
+                  </motion.div>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+
+        {/* Detail card — a single centred record, not a dominant side
+           panel: same 760px width scale already used for the Order and
+           Payment cards elsewhere in this case study, not a new size. A
+           short vertical rule above it, at the same left offset as the
+           spine's pointer, continues that line down onto the record —
+           the visible thread from "here's the stage" to "here's what it
+           looks like". */}
+        <div className="relative mt-2 lg:mt-0">
+          <motion.div
+            className="pointer-events-none absolute left-0 top-0 hidden h-8 w-px bg-brand-700/40 lg:block"
+            animate={{ left: `${((active + 0.5) / JOURNEY.length) * 100}%` }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            aria-hidden="true"
+          />
+          <div className="mx-auto max-w-[760px] pt-7 lg:pt-8">
+            <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,54,72,0.4)]">
+              <WindowChrome title={`crm / journey · ${JOURNEY[active].t.toLowerCase().replace(/ /g, "-")}`} />
+              <div className="p-7 sm:p-10">
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-mist">
+                    Stage {JOURNEY[active].n} · {JOURNEY[active].t}
+                  </span>
+                  <div className="flex gap-1">
+                    {JOURNEY.map((_, j) => (
+                      <button
+                        key={j}
+                        type="button"
+                        onClick={() => setActive(j)}
+                        aria-label={`View ${JOURNEY[j].t} stage`}
+                        aria-current={j === active}
+                        className={`h-1 w-4 rounded-full transition-colors ${
+                          j <= active ? "bg-brand" : "bg-line hover:bg-mist"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                {/* Direct keyed mount, no AnimatePresence: either "popLayout"
+                   or "wait" left the previous fragment's content stacked
+                   with or stalled behind the new one instead of being
+                   replaced. A plain key change swaps content immediately
+                   and reliably; the new fragment still fades and settles
+                   in via its own initial/animate. */}
+                <JourneyFragment key={active} i={active} />
               </div>
             </div>
           </div>
