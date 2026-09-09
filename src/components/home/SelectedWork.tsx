@@ -61,15 +61,15 @@ const PROJECTS: Project[] = [
     scope: 'Enterprise · AI · Product Strategy',
     role: 'Lead Product Designer',
     status: 'Shipped',
-    image: '/images/case-studies/aisearch.jpeg',
-    imageAlt: 'AI assistant offering streamlined navigation via smart search and personalised suggestions',
-    // Source is 1695×745 (2.28:1) — wider than the shared 820:460
-    // (1.78:1) display ratio. A center crop (the default) cuts ~110px
-    // from each side, slicing straight through the headline text
-    // sitting in the image's left third. Anchoring left instead crops
-    // only from the right, where the trailing edge of a UI screenshot
-    // is lost rather than a sentence.
-    imagePosition: 'left center',
+    image: '/images/case-studies/cornerstone-homepage-hero-real.png',
+    imageAlt: 'Laptop mockup of the Cornerstone Content Manager dashboard, showing Apollo AI recommendations and the all-content table, with the Cornerstone logo blurred for confidentiality',
+    // Source is 1536×1024 (1.5:1) — taller than the shared 820:460
+    // (1.78:1) display ratio, so object-fit: cover crops top/bottom,
+    // not left/right (width already matches exactly). Default centering
+    // only cuts into the laptop's bezel/hinge and desk surface above
+    // and below it — verified against the source, the Content Manager
+    // dashboard itself (nav bar down through the footer row) sits
+    // entirely inside the kept region. No override needed.
   },
   {
     id: 'youclean',
