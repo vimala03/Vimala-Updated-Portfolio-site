@@ -26,6 +26,16 @@ export default {
         brand: {
           DEFAULT: '#00d17c',
           600: '#00b86e',
+          // Accessible-text green — `brand-600` (#00b86e) only reaches
+          // ~2.4–2.5:1 against this page's paper backgrounds (#fbfaf7,
+          // #e6faf1, #f4f2ec), failing WCAG AA for text. `700` is the same
+          // hue (~156°, matching brand/brand-600) darkened until it clears
+          // AA with margin: verified 5.85–6.55:1 against every background
+          // this case study actually uses. Use `text-brand-700` for any
+          // readable green text (headline accents, labels, metrics);
+          // `brand`/`brand-600` stay as-is for decorative fills, borders
+          // and non-text UI accents, which aren't held to text contrast.
+          700: '#0e6b45',
           '050': '#e6faf1',
         },
         paper: {
@@ -45,7 +55,12 @@ export default {
         rose:  { ...colors.rose,  DEFAULT: '#e5484d' },
       },
       fontFamily: {
-        display:    ['"Playfair Display"', 'serif'],
+        // The former decorative display serif was removed portfolio-wide — `font-display` now
+        // resolves to the same Instrument Sans stack as the body font,
+        // matching src/index.css's --font-display. Kept as its own key
+        // (not deleted/aliased) so every existing `font-display` call site
+        // across every page keeps working unchanged.
+        display:    ['"Instrument Sans"', 'sans-serif'],
         cormorant:  ['"Cormorant Garamond"', 'serif'],
         fraunces:   ['Fraunces', 'serif'],
         instrument: ['"Instrument Sans"', 'sans-serif'],

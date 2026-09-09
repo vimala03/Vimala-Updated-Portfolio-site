@@ -6,6 +6,7 @@ import {
   StatusChip,
   WindowChrome,
   useTransform,
+  DecisionNote,
 } from "./primitives";
 import {
   useScroll,
@@ -34,11 +35,16 @@ export function Section({
   dark = false,
   className = "",
   children,
+  maxWidth = "1200",
 }: {
   id?: string;
   dark?: boolean;
   className?: string;
   children: React.ReactNode;
+  /* Optional override for the inner container width — every existing
+     section keeps the default 1200px unchanged; only DashboardShowcase
+     passes "1280" to match the hero's own container width. */
+  maxWidth?: "1200" | "1280";
 }) {
   return (
     <section
@@ -47,7 +53,7 @@ export function Section({
         dark ? "bg-deep text-white" : "bg-paper text-ink"
       } ${className}`}
     >
-      <div className="mx-auto w-full max-w-[1200px]">{children}</div>
+      <div className={`mx-auto w-full ${maxWidth === "1280" ? "max-w-[1280px]" : "max-w-[1200px]"}`}>{children}</div>
     </section>
   );
 }
@@ -74,7 +80,7 @@ export function ProblemSection() {
           <Eyebrow index="02">The problem</Eyebrow>
           <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             The problem wasn&rsquo;t a lack of data. It was that the data lived{" "}
-            <span className="italic text-brand-600">everywhere</span>.
+            <span className="italic text-brand-700">everywhere</span>.
           </h2>
           <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mist">
             Every part of the laundry operation worked — in isolation. A
@@ -119,7 +125,7 @@ export function ProblemSection() {
                 className="group absolute w-[160px] rounded-xl border border-line bg-white p-3.5 shadow-[0_12px_40px_-24px_rgba(0,54,72,0.5)]"
               >
                 <div className="flex items-center justify-between">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-paper-100 text-deep-600 transition-colors group-hover:bg-brand-050 group-hover:text-brand-600">
+                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-paper-100 text-deep-600 transition-colors group-hover:bg-brand-050 group-hover:text-brand-700">
                     <f.icon size={16} />
                   </span>
                   {f.flag && (
@@ -171,7 +177,7 @@ function HandOffCard({ index, icon: Icon, label, note }: { index: number; icon: 
       className="flex w-[168px] shrink-0 flex-col gap-3 rounded-xl border border-line bg-white p-4"
     >
       <div className="flex items-center justify-between">
-        <span className="grid h-8 w-8 place-items-center rounded-lg bg-paper-100 text-brand-600">
+        <span className="grid h-8 w-8 place-items-center rounded-lg bg-paper-100 text-brand-700">
           <Icon size={15} />
         </span>
         <span className="font-mono text-[10px] text-mist">
@@ -202,11 +208,18 @@ export function TransformationSection() {
         <Eyebrow index="03">The problem</Eyebrow>
         <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
           Six brittle hand-offs, locked into{" "}
-          <span className="italic text-brand-600">one cumbersome workflow</span>.
+          <span className="italic text-brand-700">one cumbersome workflow</span>.
         </h2>
         <p className="mt-5 text-[15px] leading-relaxed text-mist">
           Every order moved through multiple manual touchpoints before it reached
           the customer.
+        </p>
+        {/* Why it mattered — the same real line used again as this
+           section's own resolved-state callout, below, surfaced here
+           too so the reasoning lands before the chain, not only after
+           it. */}
+        <p className="mt-3 text-[13px] font-500 italic leading-snug text-brand-700">
+          Too many places to look. Too many places to update.
         </p>
       </div>
 
@@ -241,7 +254,7 @@ export function TransformationSection() {
         <p className="mx-auto max-w-md text-[clamp(1rem,1.7vw,1.3rem)] font-500 leading-snug text-mist">
           Too many places to look. Too many places to update.
         </p>
-        <p className="mt-4 text-[clamp(1.15rem,2.1vw,1.7rem)] font-600 tracking-tight text-brand-600">
+        <p className="mt-4 text-[clamp(1.15rem,2.1vw,1.7rem)] font-600 tracking-tight text-brand-700">
           One connected system.
         </p>
       </motion.div>
@@ -336,7 +349,7 @@ function FragRow({ label, value, tone, bold }: { label: string; value: string; t
       <span className="text-mist">{label}</span>
       <span
         className={`${bold ? "font-600" : "font-500"} ${
-          tone === "green" ? "text-brand-600" : tone === "teal" ? "text-deep" : "text-ink"
+          tone === "green" ? "text-brand-700" : tone === "teal" ? "text-deep" : "text-ink"
         }`}
       >
         {value}
@@ -375,8 +388,14 @@ export function WorkflowSection() {
           <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
             One thread runs from first contact to repeat order.
           </h2>
+          {/* Makes explicit that this is a product architecture decision,
+             not just a timeline widget — customer/order/payment/delivery
+             are the same real stage names used throughout the rest of
+             the case study, not new vocabulary. */}
           <p className="mt-4 text-[13.5px] text-mist">
-            Select any stage to inspect it directly.
+            Customer, order, payment and delivery, represented as one
+            connected record instead of seven separate steps. Select any
+            stage below to inspect it directly.
           </p>
         </div>
 
@@ -400,7 +419,7 @@ export function WorkflowSection() {
                   >
                     <div className="flex items-baseline gap-4">
                       <span
-                        className={`font-mono text-[12px] ${on ? "text-brand-600" : "text-mist"}`}
+                        className={`font-mono text-[12px] ${on ? "text-brand-700" : "text-mist"}`}
                       >
                         {s.n}
                       </span>
@@ -494,6 +513,17 @@ export function CustomerSection() {
             so anyone on the floor can pick up a conversation exactly where it
             was left.
           </p>
+
+          {/* Insight → Decision → Product response — the same real facts
+             already stated above (Section 02's "a customer detail in one
+             place, the order in another" / this section's own "single
+             record" and "one profile"), made explicit as the product
+             decision they are rather than left implicit in the paragraph. */}
+          <DecisionNote
+            insight="A customer detail in one place, the order in another, the payment remembered by whoever took the cash."
+            decision="Make the customer record the one thread every order and interaction connects back to."
+            response="Order history, payment standing and recent activity, in one profile."
+          />
         </div>
 
         <Reveal y={40}>
@@ -598,6 +628,15 @@ export function OrderSection() {
             to the whole team. No more &ldquo;let me check and call you back.&rdquo;
           </p>
 
+          {/* Insight → Decision → Product response — ties the six brittle
+             hand-offs from Section 03 directly to this section's own real
+             resolution, using that section's own words. */}
+          <DecisionNote
+            insight="Too many places to look. Too many places to update."
+            decision="Give every order one real state change, not six separate hand-offs."
+            response="Logged, timestamped and visible to the whole team — no more “let me check and call you back.”"
+          />
+
           <div className="mt-8 space-y-1">
             {LIFECYCLE.map((s, i) => {
               const done = i < step;
@@ -624,7 +663,7 @@ export function OrderSection() {
                   {active && (
                     <motion.span
                       layoutId="order-live"
-                      className="ml-auto font-mono text-[11px] text-brand-600"
+                      className="ml-auto font-mono text-[11px] text-brand-700"
                     >
                       in progress…
                     </motion.span>
@@ -708,6 +747,17 @@ export function PaymentSection() {
             update the moment cash or UPI lands, and outstanding amounts surface
             before they&rsquo;re forgotten.
           </p>
+
+          {/* Insight → Decision → Product response — connects the operational
+             problem (payments tracked separately, from Section 03's hand-off
+             chain) to the design decision and its business/operational
+             effect, using this section's own real copy throughout. */}
+          <DecisionNote
+            insight="Payments tracked separately, easy to lose."
+            decision="Every order carries its own ledger: total, paid, pending."
+            response="Balances update the moment cash or UPI lands, before outstanding amounts are forgotten."
+          />
+
           <button
             onClick={() => setPaid((p) => !p)}
             className="mt-8 inline-flex items-center gap-2 rounded-full border border-deep/20 px-5 py-2.5 text-[13px] font-500 text-deep transition-colors hover:bg-deep hover:text-white"
@@ -754,7 +804,7 @@ export function PaymentSection() {
             >
               {paid ? (
                 <>
-                  <IconCheck size={13} className="text-brand-600" /> ₹440 collected
+                  <IconCheck size={13} className="text-brand-700" /> ₹440 collected
                   via UPI · 21 Aug
                 </>
               ) : (
@@ -779,12 +829,98 @@ function Ledger({ label, value, tone, warn }: { label: string; value: string; to
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         className={`tnum font-fraunces text-lg font-600 ${
-          tone ? "text-brand-600" : warn ? "text-amber-600" : "text-deep"
+          tone ? "text-brand-700" : warn ? "text-amber-600" : "text-deep"
         }`}
       >
         {value}
       </motion.span>
     </div>
+  );
+}
+
+/* ============================================================================
+   08 — DESIGN SYSTEM
+============================================================================ */
+/* the one worked example, referenced by the architecture diagram */
+const ARCHITECTURE_CHAIN = [
+  { layer: "Foundations", example: "Brand / 500" },
+  { layer: "Semantic token", example: "color.action.primary" },
+  { layer: "Component", example: "Button / Primary" },
+  { layer: "Pattern", example: "Order workflow" },
+  { layer: "Product", example: "YouClean CRM" },
+];
+
+/* small uppercase mono label reused across every foundation/section block */
+function SubLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-mist">{children}</p>
+  );
+}
+
+export function DesignSystemSection() {
+  return (
+    <Section id="system" className="relative overflow-hidden bg-paper-100/40">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-16 -bottom-16 h-64 w-64 rounded-[48%_52%_44%_56%/56%_44%_58%_42%] bg-[rgba(158,196,163,0.16)]"
+      />
+      <div className="relative max-w-2xl">
+        <div className="flex items-center gap-3">
+          <p className="shrink-0 text-[11px] font-500 uppercase tracking-[0.14em] text-rust">
+            09 · YouClean / Design system
+          </p>
+          <span className="h-px flex-1 bg-line" aria-hidden="true" />
+        </div>
+        <h2 className="mt-4 text-[clamp(1.9rem,3.2vw,2.75rem)] font-600 leading-[1.12] tracking-tight text-ink">
+          Design infrastructure for{" "}
+          <em className="font-500 not-italic text-brand-700">an operational product.</em>
+        </h2>
+        <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-mist">
+          Foundations, tokens, components and interaction patterns built to
+          support a growing CRM without sacrificing clarity, accessibility or
+          consistency.
+        </p>
+        {/* One line making explicit what the architecture chain and the
+           patterns below it (role permissions, audit logging, status
+           states) already demonstrate — visibility as the design
+           material, not a new claim. */}
+        <p className="mt-2 max-w-lg text-[15px] leading-relaxed text-mist">
+          Visibility was the design material: every status, permission and
+          logged action exists to make an operational fact visible and
+          attributable, not just to fill a screen.
+        </p>
+      </div>
+
+      {/* System architecture — the relationship the whole section exists to
+         make legible (primitives → semantic tokens → components →
+         patterns → product), sized to feel like the section's own
+         substantial artifact rather than a small reference table. */}
+      <div className="relative mt-7 rounded-2xl border border-line/70 bg-white p-6 shadow-[0_20px_50px_-32px_rgba(10,26,31,0.2)] sm:p-7">
+        <SubLabel>System architecture</SubLabel>
+        <div className="flex flex-wrap items-center gap-2.5 text-[13px]">
+          {["Foundations", "Primitive tokens", "Semantic tokens", "Components", "Patterns", "Product"].map(
+            (s, i, arr) => (
+              <div key={s} className="flex items-center gap-2.5">
+                <span className="rounded-md border border-line bg-paper-100/60 px-3 py-2 text-deep">
+                  {s}
+                </span>
+                {i < arr.length - 1 && <IconArrow size={13} className="text-mist" />}
+              </div>
+            ),
+          )}
+        </div>
+        <div className="mt-5 grid gap-4 border-t border-line pt-5 sm:grid-cols-5">
+          {ARCHITECTURE_CHAIN.map((step) => (
+            <div key={step.layer} className="flex items-center gap-2 sm:flex-col sm:items-start sm:gap-1.5">
+              <span className="font-mono text-[9.5px] uppercase tracking-[0.15em] text-mist">
+                {step.layer}
+              </span>
+              <span className="font-mono text-[13px] text-brand-700">{step.example}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Section>
   );
 }
 
@@ -800,7 +936,7 @@ export function AISection() {
         <Eyebrow index="10">AI-assisted design + development</Eyebrow>
         <h2 className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] font-600 leading-[1.15] tracking-tight text-deep">
           AI accelerated execution.{" "}
-          <span className="italic text-brand-600">Product judgment remained human.</span>
+          <span className="italic text-brand-700">Product judgment remained human.</span>
         </h2>
       </div>
 
@@ -862,7 +998,7 @@ export function AISection() {
             k: "Claude prompt → code",
             body: (
               <pre className="overflow-hidden rounded-md bg-paper-100 p-3 font-mono text-[10.5px] leading-relaxed text-ink">
-                <span className="text-brand-600">$</span> build OrderCard
+                <span className="text-brand-700">$</span> build OrderCard
                 {"\n"}with status → chip mapping
                 {"\n"}
                 <span className="text-mist">// generating component…</span>
@@ -897,7 +1033,7 @@ export function AISection() {
             {i < arr.length - 1 && (
               <IconArrow
                 size={16}
-                className="absolute -right-[13px] top-1/2 z-10 hidden -translate-y-1/2 text-brand-600 md:block"
+                className="absolute -right-[13px] top-1/2 z-10 hidden -translate-y-1/2 text-brand-700 md:block"
               />
             )}
           </div>
@@ -910,25 +1046,32 @@ export function AISection() {
 /* ============================================================================
    10 — ITERATION · V1/V2/V3 comparison
 ============================================================================ */
+/* Each version's `note` from before is split at its own existing sentence
+   break into `assumption` (what V1/V2 started from) and `learned` (what
+   using it surfaced) — no new wording, just the same sentence labelled as
+   the two things it already was. */
 const VERSIONS = [
   {
     v: "V1",
     tag: "Information-heavy",
-    note: "Everything visible at once. Powerful, but overwhelming for a busy counter.",
+    assumption: "Everything visible at once.",
+    learned: "Powerful, but overwhelming for a busy counter.",
     density: 14,
     changed: ["Flat hierarchy", "All fields exposed", "Status hard to scan"],
   },
   {
     v: "V2",
     tag: "Simplified workflow",
-    note: "Grouped by task. Cleaner, but a step-count problem crept in.",
+    assumption: "Grouped by task.",
+    learned: "Cleaner, but a step-count problem crept in.",
     density: 4,
     changed: ["Task grouping", "Fewer fields", "Navigation added"],
   },
   {
     v: "V3",
     tag: "Operational system",
-    note: "Progressive disclosure — glanceable first, detail on demand. Customer, order and payment finally read as one.",
+    assumption: "Progressive disclosure — glanceable first, detail on demand.",
+    learned: "Customer, order and payment finally read as one.",
     density: 5,
     changed: ["Glanceable first", "Status-led layout", "Customer ↔ order linked"],
   },
@@ -1011,7 +1154,7 @@ function V3Screen() {
       </div>
       <div className="mt-4 flex items-center justify-between rounded-lg bg-paper-100/60 px-3 py-2.5 text-[12.5px]">
         <span className="text-mist">₹1,240 total</span>
-        <span className="font-500 text-brand-600">₹800 paid · ₹440 pending</span>
+        <span className="font-500 text-brand-700">₹800 paid · ₹440 pending</span>
       </div>
     </div>
   );
@@ -1068,11 +1211,24 @@ export function IterationSection() {
 
         <div className="flex flex-col justify-center">
           <motion.div key={active} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-            <span className="font-mono text-[12px] text-brand-600">{cur.v}</span>
+            <span className="font-mono text-[12px] text-brand-700">{cur.v}</span>
             <p className="mt-2 text-2xl font-600 text-deep">
               {cur.tag}
             </p>
-            <p className="mt-3 text-[15px] leading-relaxed text-mist">{cur.note}</p>
+
+            {/* V1 assumption → what I learned → what changed: the version
+               wasn't just an early visual draft, it was a hypothesis that
+               generated a specific, real piece of learning. */}
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-mist">
+              {cur.v} assumption
+            </p>
+            <p className="mt-1.5 text-[15px] leading-relaxed text-deep">{cur.assumption}</p>
+
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-mist">
+              What I learned
+            </p>
+            <p className="mt-1.5 text-[15px] leading-relaxed text-mist">{cur.learned}</p>
+
             <div className="mt-6 flex items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-mist">
                 Fields on screen
@@ -1088,7 +1244,7 @@ export function IterationSection() {
               <ul className="space-y-2">
                 {cur.changed.map((c) => (
                   <li key={c} className="flex items-center gap-2 text-[13.5px] text-deep">
-                    <IconCheck size={14} className="text-brand-600" />
+                    <IconCheck size={14} className="text-brand-700" />
                     {c}
                   </li>
                 ))}
@@ -1150,7 +1306,7 @@ const OUTCOMES: Outcome[] = [
     evidence: () => (
       <div className="flex items-center justify-between rounded-lg bg-paper-100 px-3 py-2.5 text-[12px]">
         <span className="text-mist">₹1,240 total</span>
-        <span className="font-500 text-brand-600">₹800 paid · ₹440 pending</span>
+        <span className="font-500 text-brand-700">₹800 paid · ₹440 pending</span>
       </div>
     ),
   },
@@ -1164,7 +1320,7 @@ const OUTCOMES: Outcome[] = [
           <span className="w-12">₹1,240</span>
           <span>status: —</span>
         </div>
-        <div className="flex gap-3 text-brand-600">
+        <div className="flex gap-3 text-brand-700">
           <span className="w-14">Priya</span>
           <span className="w-12">₹1,240</span>
           <span>Washing</span>
@@ -1213,7 +1369,7 @@ export function OutcomesSection() {
             transition={{ delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="rounded-2xl border border-line bg-white p-6"
           >
-            <span className="font-mono text-[11px] text-brand-600">
+            <span className="font-mono text-[11px] text-brand-700">
               {String(i + 1).padStart(2, "0")}
             </span>
             <p className="mt-3 text-xl font-600 leading-snug tracking-tight text-deep">
