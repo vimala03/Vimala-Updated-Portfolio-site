@@ -82,9 +82,9 @@ const PROJECTS: Project[] = [
     scope: '0 → 1 · Product · Operations',
     role: 'Founder · Product Designer',
     status: 'Built',
-    image: '/images/case-studies/youclean-homepage-stage.png',
+    image: '/images/case-studies/youclean-homepage-hero-real.png',
     imageAlt:
-      'YouClean CRM operations dashboard, surrounded by supporting views: revenue trend, orders by type, order volume, a new-order form, recent activity, delayed pickups, and the mobile operations view.',
+      'YouClean CRM desktop dashboard on a laptop, a "Track your order" card, and the mobile app on a phone, staged against a dark teal backdrop.',
   },
   {
     id: 'content-manager-metadata',

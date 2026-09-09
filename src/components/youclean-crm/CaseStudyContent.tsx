@@ -173,8 +173,8 @@ function Hero() {
               className="relative z-10 overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_30px_80px_-30px_rgba(10,26,31,0.3)]"
             >
               <img
-                src="/images/case-studies/youclean-hero-illustrative.png"
-                alt="Illustrative YouClean CRM dashboard concept: orders, revenue, pending pickups, active customers, revenue trend, order mix, pending payments, delayed pickups, and today's schedule."
+                src="/images/case-studies/youclean-dashboard-real.png"
+                alt="YouClean CRM Business Manager dashboard: today's total orders, revenue, in-progress and ready-for-pickup counts, monthly revenue trend, service distribution, today's schedule, low inventory and recent orders."
                 className="block w-full"
               />
             </motion.div>
