@@ -1,12 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --serif:'Playfair Display',serif;
+  /* Was the old decorative display serif — the case study now uses only the homepage's
+     one sans-serif (Instrument Sans) throughout, headings included. The
+     --serif variable name is kept so every var(--serif) usage below still
+     resolves correctly without touching each of those rules individually. */
+  --serif:'Instrument Sans',sans-serif;
   --sans:'Instrument Sans',sans-serif;
   --ink:#111110;--ink2:#5a5954;--ink3:#a09d97;--ink4:#d0cdc7;
   --bg:#faf8f5;--bg2:#f2efe9;--bg3:#e8e4dc;
   --line:rgba(17,17,16,0.09);
-  --blue:#1a4f8a;--blue-bg:#e8f0fa;--blue-light:#dce8f5;
+  --blue:#bf6853;--blue-bg:#f5e8e2;--blue-light:#efe0d7;
   --green:#1e6640;--green-bg:#e4f2ea;
   --amber:#7a4a10;--amber-bg:#fdf0dc;
 }
@@ -29,7 +32,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.1rem
 .hero-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:0.45rem;margin-bottom:2rem;opacity:0;animation:up 0.6s 0.1s ease forwards;}
 .htag{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;border:0.5px solid var(--line);padding:0.22rem 0.7rem;border-radius:100px;color:var(--ink2);background:var(--bg2);}
 .htag.dk{background:var(--ink);color:var(--bg);border-color:var(--ink);}
-.htag.bl{background:var(--blue-bg);color:var(--blue);border-color:rgba(26,79,138,0.2);}
+.htag.bl{background:var(--blue-bg);color:var(--blue);border-color:rgba(191,104,83,0.2);}
 .hero h1{font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5rem);line-height:1.04;letter-spacing:-0.025em;margin-bottom:1.25rem;opacity:0;animation:up 0.65s 0.18s ease forwards;}
 .hero h1 em{font-style:italic;color:var(--ink2);}
 .hero-sub{font-size:0.92rem;color:var(--ink2);line-height:1.8;max-width:60ch;margin:0 auto 2.5rem;opacity:0;animation:up 0.65s 0.28s ease forwards;}
@@ -39,20 +42,25 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.1rem
 .ms-v{font-size:0.85rem;font-weight:500;}
 
 /* hero visual */
-.hero-vis{background:linear-gradient(180deg,var(--blue-light) 0%,rgba(220,232,245,0.3) 100%);padding:3rem 2rem 0;overflow:hidden;border-top:0.5px solid rgba(26,79,138,0.12);opacity:0;animation:up 0.7s 0.45s ease forwards;}
+.hero-vis{background:linear-gradient(180deg,var(--blue-light) 0%,rgba(191,104,83,0.3) 100%);padding:3rem 2rem 0;overflow:hidden;border-top:0.5px solid rgba(191,104,83,0.12);opacity:0;animation:up 0.7s 0.45s ease forwards;}
 
-/* ── TLDR ── */
-.tldr{background:var(--ink);padding:4rem;text-align:center;}
-.tldr-ey{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.75rem;}
-.tldr h2{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.5rem);color:var(--bg);letter-spacing:-0.02em;margin-bottom:0.5rem;}
-.tldr-sub{font-size:0.8rem;color:rgba(255,255,255,0.4);margin-bottom:2.5rem;}
-.tldr-body{font-size:0.98rem;line-height:1.8;color:rgba(255,255,255,0.78);max-width:62ch;margin:0 auto 3rem;}
-.tldr-body strong{color:#fff;}
+/* ── TLDR ──
+   Was a full dark-ink section (background:var(--ink), white text) — the
+   one large dark block on the page. Converted to the same warm terracotta
+   panel tone used elsewhere for featured/supporting content (.hmw,
+   .metrics-hero), so the case study's own summary reads as a highlighted
+   moment without introducing a dark section. */
+.tldr{background:var(--blue-bg);padding:4rem;text-align:center;}
+.tldr-ey{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.75rem;}
+.tldr h2{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.5rem);color:var(--ink);letter-spacing:-0.02em;margin-bottom:0.5rem;}
+.tldr-sub{font-size:0.8rem;color:var(--ink3);margin-bottom:2.5rem;}
+.tldr-body{font-size:0.98rem;line-height:1.8;color:var(--ink2);max-width:62ch;margin:0 auto 3rem;}
+.tldr-body strong{color:var(--ink);}
 .tldr-stats{display:flex;justify-content:center;gap:4rem;flex-wrap:wrap;}
 .ts{text-align:center;cursor:default;}
-.ts-n{font-family:var(--serif);font-size:3.2rem;line-height:1;color:#fff;margin-bottom:0.3rem;transition:transform 0.2s;}
+.ts-n{font-family:var(--serif);font-size:3.2rem;line-height:1;color:var(--blue);margin-bottom:0.3rem;transition:transform 0.2s;}
 .ts:hover .ts-n{transform:scale(1.08);}
-.ts-l{font-size:0.7rem;color:rgba(255,255,255,0.45);letter-spacing:0.04em;}
+.ts-l{font-size:0.7rem;color:var(--ink3);letter-spacing:0.04em;}
 
 /* ── CHAPTERS ── */
 .ch-wrap{max-width:1040px;margin:0 auto;padding:0 4rem;}
@@ -72,8 +80,11 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.1rem
 .card-title{font-size:0.85rem;font-weight:500;margin-bottom:0.4rem;}
 .card-text{font-size:0.78rem;color:var(--ink2);line-height:1.6;}
 
-/* pull quote */
-.pq{border-left:2px solid var(--ink);padding:1.25rem 0 1.25rem 1.75rem;margin:2rem 0;}
+/* pull quote — the case study's one narrative turning point (context →
+   problem). A subtle muted-green tint (existing --green/--green-bg tokens,
+   otherwise used for positive outcomes) marks it as a distinct beat rather
+   than another plain paragraph, without introducing a new color. */
+.pq{border-left:2px solid var(--green);padding:1.5rem 1.75rem;margin:2rem 0;background:var(--green-bg);border-radius:0 12px 12px 0;}
 .pq-text{font-family:var(--serif);font-size:1.3rem;line-height:1.4;font-style:italic;margin-bottom:0.5rem;}
 .pq-attr{font-size:0.7rem;color:var(--ink3);letter-spacing:0.04em;}
 
@@ -125,7 +136,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.1rem
 .screen-container{background:var(--bg2);border-radius:0 0 16px 16px;border:0.5px solid var(--line);border-top:none;overflow:hidden;}
 
 /* ── HMW ── */
-.hmw{background:var(--blue-bg);border:0.5px solid rgba(26,79,138,0.13);border-radius:16px;padding:3rem;text-align:center;margin:2.5rem 0;}
+.hmw{background:var(--blue-bg);border:0.5px solid rgba(191,104,83,0.13);border-radius:16px;padding:3rem;text-align:center;margin:2.5rem 0;}
 .hmw-label{font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--blue);margin-bottom:0.85rem;opacity:0.65;}
 .hmw-text{font-family:var(--serif);font-size:1.75rem;line-height:1.3;letter-spacing:-0.02em;color:var(--blue);}
 
@@ -147,7 +158,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.1rem
 .team-card.me .team-avatar{border:2px solid var(--blue);}
 .team-name{font-size:0.88rem;font-weight:500;margin-bottom:0.2rem;}
 .team-role{font-size:0.72rem;color:var(--ink3);}
-.my-role{background:var(--blue-bg);border:0.5px solid rgba(26,79,138,0.15);border-radius:12px;padding:1.25rem 1.75rem;margin-top:1.5rem;}
+.my-role{background:var(--blue-bg);border:0.5px solid rgba(191,104,83,0.15);border-radius:12px;padding:1.25rem 1.75rem;margin-top:1.5rem;}
 .my-role-label{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.4rem;opacity:0.7;}
 .my-role-text{font-size:0.85rem;color:var(--blue);line-height:1.65;}
 
@@ -166,10 +177,10 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.1rem
 .ba-txt{font-size:0.8rem;color:var(--ink2);line-height:1.55;}
 
 /* ── METRICS ── */
-.metrics-hero{background:var(--blue-bg);border:0.5px solid rgba(26,79,138,0.14);border-radius:16px;padding:3rem;text-align:center;margin-bottom:1.5rem;}
+.metrics-hero{background:var(--blue-bg);border:0.5px solid rgba(191,104,83,0.14);border-radius:16px;padding:3rem;text-align:center;margin-bottom:1.5rem;}
 .mh-num{font-family:var(--serif);font-size:5.5rem;line-height:1;color:var(--blue);margin-bottom:0.4rem;}
 .mh-label{font-size:0.95rem;color:var(--blue);font-weight:500;margin-bottom:0.3rem;}
-.mh-sub{font-size:0.75rem;color:rgba(26,79,138,0.5);}
+.mh-sub{font-size:0.75rem;color:rgba(191,104,83,0.5);}
 .m3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:0.5px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
 .m3c{background:var(--bg);padding:1.75rem 1.5rem;transition:background 0.18s;}
 .m3c:hover{background:var(--bg2);}
@@ -199,19 +210,20 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.1rem
 .wf4{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
 .wf{border:0.5px solid var(--line);border-radius:14px;padding:1.75rem;transition:transform 0.2s;}
 .wf:hover{transform:translateY(-2px);}
-.wf.p{background:var(--ink);border-color:var(--ink);}
+/* .wf.p ("priority" card) was a dark-ink card in a field of light ones —
+   now a light, terracotta-bordered card with a solid terracotta tag,
+   distinct from the other three without introducing a dark block. */
+.wf.p{background:var(--bg2);border-color:rgba(191,104,83,0.35);}
 .wf-tag{font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.16rem 0.55rem;border-radius:100px;margin-bottom:1rem;display:inline-block;}
 .wf:not(.p) .wf-tag{background:var(--blue-bg);color:var(--blue);}
-.wf.p .wf-tag{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.55);}
+.wf.p .wf-tag{background:var(--blue);color:#fff;}
 .wf-t{font-family:var(--serif);font-size:1.1rem;letter-spacing:-0.01em;line-height:1.25;margin-bottom:0.55rem;}
-.wf:not(.p) .wf-t{color:var(--ink);}
-.wf.p .wf-t{color:var(--bg);}
+.wf-t{color:var(--ink);}
 .wf-d{font-size:0.77rem;line-height:1.65;}
-.wf:not(.p) .wf-d{color:var(--ink2);}
-.wf.p .wf-d{color:rgba(255,255,255,0.58);}
+.wf-d{color:var(--ink2);}
 .wf-hz{font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;margin-top:1rem;padding-top:0.8rem;border-top:0.5px solid var(--line);}
 .wf:not(.p) .wf-hz{color:var(--ink3);}
-.wf.p .wf-hz{color:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.1);}
+.wf.p .wf-hz{color:var(--blue);opacity:0.75;border-color:rgba(191,104,83,0.2);}
 
 /* ── SCROLL REVEAL ── */
 .reveal{
@@ -277,30 +289,35 @@ footer { display: none !important; }
 /* Key Decisions chapter (ch-07 accordion) replaced by React section */
 #ch-pain-points { display: none !important; }
 
-/* ══ EDITORIAL SPACING UPGRADE ══ */
-.chapter { padding: 6rem 0; }
+/* ══ EDITORIAL SPACING — tightened ══
+   Was 6rem (96px) top/bottom per chapter — a substantial cut to closer
+   match the homepage/YouClean section rhythm, without touching content.
+   Heading size capped to the same scale used across the rest of the
+   portfolio (homepage's own largest non-hero heading, ~40px). */
+.chapter { padding: 3.5rem 0; }
 .ch-title {
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
-  line-height: 1.1;
-  margin-bottom: 1.75rem;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
 }
 
-/* ══ BETTER TLDR ══ */
-.tldr { padding: 5rem 4rem; }
-.tldr-ey { margin-bottom: 1.25rem; }
+/* ══ TLDR ══ */
+.tldr { padding: 3.5rem 4rem; }
+.tldr-ey { margin-bottom: 1rem; }
 .tldr h2 { margin-bottom: 0.75rem; }
-.tldr-body { font-size: 1rem; margin-bottom: 3.5rem; }
+.tldr-body { font-size: 1rem; margin-bottom: 2.5rem; }
 
-/* ══ HMW UPGRADE ══ */
-.hmw { padding: 3.5rem; margin: 3.5rem 0; }
+/* ══ HMW ══ */
+.hmw { padding: 2.5rem; margin: 2.5rem 0; }
 .hmw-text { font-size: 1.85rem; line-height: 1.25; }
 
-/* ══ METRICS UPGRADE ══ */
-.metrics-hero { padding: 3.5rem; margin-bottom: 2rem; }
-.mh-num { font-size: 6rem; }
+/* ══ METRICS — number brought down from a 96px display size to a still-
+   confident but far more restrained 64px ══ */
+.metrics-hero { padding: 2.5rem; margin-bottom: 1.5rem; }
+.mh-num { font-size: 4rem; }
 
 /* ══ PULL QUOTE ══ */
-.pq { margin: 3rem 0; border-left-width: 3px; }
+.pq { margin: 2rem 0; border-left-width: 3px; }
 .pq-text { font-size: 1.4rem; }
 
 /* ══ OPT ROWS (before/after) ══ */
